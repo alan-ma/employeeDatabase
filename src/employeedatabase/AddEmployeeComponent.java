@@ -13,17 +13,35 @@ import java.awt.*;
  * @author alan
  */
 public class AddEmployeeComponent extends javax.swing.JFrame {
+    // <editor-fold defaultstate="collapsed" desc="variables">
+    
     /**
      * variables of a new employee template
      */
-    private int type; // 0 full time, 1 part time
+    protected int type; // 0 full time, 1 part time
     private boolean typeError;
-    private String firstName;
+    protected String firstName;
     private boolean firstNameError;
-    private String lastName;
+    protected String lastName;
     private boolean lastNameError;
-    private int gender; // 0 male, 1 female, 2 other
+    protected int gender; // 0 male, 1 female, 2 other
     private boolean genderError;
+    protected String employeeNumber;
+    private boolean employeeNumberError;
+    protected String deductionsRate;
+    private boolean deductionsRateError;
+    protected String workLocation;
+    private boolean workLocationError;
+    protected String yearlySalary;
+    private boolean yearlySalaryError;
+    protected String hourlyWage;
+    private boolean hourlyWageError;
+    protected String hoursPerWeek;
+    private boolean hoursPerWeekError;
+    protected String weeksPerYear;
+    private boolean weeksPerYearError;
+    
+    // </editor-fold>
 
     /**
      * Creates new form AddEmployeeForm
@@ -39,6 +57,8 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
      */
     private final ColorSelectorService colorSelector = new ColorSelectorService();
     
+    // <editor-fold defaultstate="collapsed" desc="reset">
+    
     /**
      * reset method
      * resets all the fields of the new employee
@@ -53,9 +73,27 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
         lastNameError = false;
         gender = -1;
         genderError = false;
-        
+        employeeNumber = "";
+        employeeNumberError = false;
+        deductionsRate = "";
+        deductionsRateError = false;
+        workLocation = "";
+        workLocationError = false;
+        yearlySalary = "";
+        yearlySalaryError = false;
+        hourlyWage = "";
+        hourlyWageError = false;
+        hoursPerWeek = "";
+        hoursPerWeekError = false;
+        weeksPerYear = "";
+        weeksPerYearError = false;
+
         firstNameField.requestFocus();
     }
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="error check general">
     
     /**
      * error check method
@@ -81,8 +119,40 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
             errorsExist = true;
         }
         
+        if (checkEmployeeNumber()) {
+            errorsExist = true;
+        }
+        
+        if (checkDeductionsRate()) {
+            errorsExist = true;
+        }
+        
+        if (checkWorkLocation()) {
+            errorsExist = true;
+        }
+        
+        if (checkYearlySalary() && type == 0) {
+            errorsExist = true;
+        }
+        
+        if (checkHourlyWage() && type == 1) {
+            errorsExist = true;
+        }
+        
+        if (checkHoursPerWeek() && type == 1) {
+            errorsExist = true;
+        }
+        
+        if (checkWeeksPerYear() && type == 1) {
+            errorsExist = true;
+        }
+        
         return errorsExist;
     }
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="custom error checking">
     
     /**
      * check employee type method
@@ -141,6 +211,155 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     }
     
     /**
+     * check employee number method
+     * @return false if employee number is not a 6 digit number
+     */
+    private boolean checkEmployeeNumber() {
+        if (employeeNumber.length() == 6) {
+            try {
+                int empNum = Integer.parseInt(employeeNumber);
+                if (empNum >= 0) {
+                    employeeNumberError = false;
+                    return false;
+                } else {
+                    employeeNumberError = true;
+                    return true;
+                }
+            }
+            catch (NumberFormatException nfe) {
+                employeeNumberError = true;
+                return true;
+            }
+        } else {
+            employeeNumberError = true;
+            return true;
+        }
+    }
+    
+    /**
+     * check deductions rate method
+     * @return false if deductions rate is not between 0 and 1
+     */
+    private boolean checkDeductionsRate() {
+        try {
+            double dedRate = Double.parseDouble(deductionsRate);
+            if (dedRate >= 0 && dedRate <= 1) {
+                deductionsRateError = false;
+                return false;
+            } else {
+                deductionsRateError = true;
+                return true;
+            }
+        }
+        catch (NumberFormatException nfe) {
+            deductionsRateError = true;
+            return true;
+        }
+    }
+    
+    /**
+     * check work location method
+     * @return false if work location is empty
+     */
+    private boolean checkWorkLocation() {
+        if (workLocation.length() > 0) {
+            workLocationError = false;
+            return false;
+        } else {
+            workLocationError = true;
+            return true;
+        }
+    }
+    
+    /**
+     * check yearly salary method
+     * @return false if yearly salary is invalid
+     */
+    private boolean checkYearlySalary() {
+        try {
+            double yearlySal = Double.parseDouble(yearlySalary);
+            if (yearlySal >= 0) {
+                yearlySalaryError = false;
+                return false;
+            } else {
+                yearlySalaryError = true;
+                return true;
+            }
+        }
+        catch (NumberFormatException nfe) {
+            yearlySalaryError = true;
+            return true;
+        }
+    }
+    
+    /**
+     * check hourly wage method
+     * @return false if hourly wage is invalid
+     */
+    private boolean checkHourlyWage() {
+        try {
+            double hourWage = Double.parseDouble(hourlyWage);
+            if (hourWage >= 0) {
+                hourlyWageError = false;
+                return false;
+            } else {
+                hourlyWageError = true;
+                return true;
+            }
+        }
+        catch (NumberFormatException nfe) {
+            hourlyWageError = true;
+            return true;
+        }
+    }
+    
+    /**
+     * check hours per week method
+     * @return false if hours per week is invalid
+     */
+    private boolean checkHoursPerWeek() {
+        try {
+            double hoursWeek = Double.parseDouble(hoursPerWeek);
+            if (hoursWeek >= 0) {
+                hoursPerWeekError = false;
+                return false;
+            } else {
+                hoursPerWeekError = true;
+                return true;
+            }
+        }
+        catch (NumberFormatException nfe) {
+            hoursPerWeekError = true;
+            return true;
+        }
+    }
+    
+    /**
+     * check weeks per year method
+     * @return false if weeks per year is invalid
+     */
+    private boolean checkWeeksPerYear() {
+        try {
+            double weeksYear = Double.parseDouble(weeksPerYear);
+            if (weeksYear > 0) {
+                weeksPerYearError = false;
+                return false;
+            } else {
+                weeksPerYearError = true;
+                return true;
+            }
+        }
+        catch (NumberFormatException nfe) {
+            weeksPerYearError = true;
+            return true;
+        }
+    }
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="update display">
+    
+    /**
      * update display method
      */
     public void updateDisplay() {
@@ -149,15 +368,27 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
                 // set to full-time
                 checkFullEmployeeTypeButton.setBackground(colorSelector.check_active_background);
                 checkPartEmployeeTypeButton.setBackground(colorSelector.check_inactive_background);
+                yearlySalaryFormatter.setVisible(true);
+                hourlyWageFormatter.setVisible(false);
+                hoursPerWeekFormatter.setVisible(false);
+                weeksPerYearFormatter.setVisible(false);
                 break;
             case 1:
                 // set to part-time
                 checkFullEmployeeTypeButton.setBackground(colorSelector.check_inactive_background);
                 checkPartEmployeeTypeButton.setBackground(colorSelector.check_active_background);
+                yearlySalaryFormatter.setVisible(false);
+                hourlyWageFormatter.setVisible(true);
+                hoursPerWeekFormatter.setVisible(true);
+                weeksPerYearFormatter.setVisible(true);
                 break;
             default:
                 checkPartEmployeeTypeButton.setBackground(colorSelector.check_inactive_background);
                 checkFullEmployeeTypeButton.setBackground(colorSelector.check_inactive_background);
+                yearlySalaryFormatter.setVisible(false);
+                hourlyWageFormatter.setVisible(false);
+                hoursPerWeekFormatter.setVisible(false);
+                weeksPerYearFormatter.setVisible(false);
                 break;
         }
         
@@ -189,6 +420,13 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
         
         firstNameField.setText(firstName);
         lastNameField.setText(lastName);
+        employeeNumberField.setText(employeeNumber);
+        deductionsRateField.setText(deductionsRate);
+        workLocationField.setText(workLocation);
+        yearlySalaryField.setText(yearlySalary);
+        hourlyWageField.setText(hourlyWage);
+        hoursPerWeekField.setText(hoursPerWeek);
+        weeksPerYearField.setText(weeksPerYear);
         
         if (typeError) {
             typeErrorLabel.setVisible(true);
@@ -213,7 +451,53 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
         } else {
             checkGenderErrorLabel.setVisible(false);
         }
+        
+        if (employeeNumberError) {
+            employeeNumberErrorLabel.setVisible(true);
+        } else {
+            employeeNumberErrorLabel.setVisible(false);
+        }
+        
+        if (deductionsRateError) {
+            deductionsRateErrorLabel.setVisible(true);
+        } else {
+            deductionsRateErrorLabel.setVisible(false);
+        }
+        
+        if (workLocationError) {
+            workLocationErrorLabel.setVisible(true);
+        } else {
+            workLocationErrorLabel.setVisible(false);
+        }
+        
+        if (yearlySalaryError) {
+            yearlySalaryErrorLabel.setVisible(true);
+        } else {
+            yearlySalaryErrorLabel.setVisible(false);
+        }
+        
+        if (hourlyWageError) {
+            hourlyWageErrorLabel.setVisible(true);
+        } else {
+            hourlyWageErrorLabel.setVisible(false);
+        }
+        
+        if (hoursPerWeekError) {
+            hoursPerWeekErrorLabel.setVisible(true);
+        } else {
+            hoursPerWeekErrorLabel.setVisible(false);
+        }
+        
+        if (weeksPerYearError) {
+            weeksPerYearErrorLabel.setVisible(true);
+        } else {
+            weeksPerYearErrorLabel.setVisible(false);
+        }
     }
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="traversal policy">
     
     public class MyFocusTraversalPolicy extends FocusTraversalPolicy {
         public Component getComponentAfter(Container focusCycleRoot, Component aComponent) {
@@ -223,13 +507,31 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
             else if (aComponent.equals(checkPartEmployeeTypeButton)) return checkGenderMale;
             else if (aComponent.equals(checkGenderMale)) return checkGenderFemale;
             else if (aComponent.equals(checkGenderFemale)) return checkGenderOther;
-            else if (aComponent.equals(checkGenderOther)) return confirmButton;
+            else if (aComponent.equals(checkGenderOther)) return employeeNumberField;
+            else if (aComponent.equals(employeeNumberField)) return deductionsRateField;
+            else if (aComponent.equals(deductionsRateField)) return workLocationField;
+            else if (aComponent.equals(workLocationField) && type == -1) return confirmButton;
+            else if (aComponent.equals(workLocationField) && type == 0) return yearlySalaryField;
+            else if (aComponent.equals(workLocationField) && type == 1) return hourlyWageField;
+            else if (aComponent.equals(hourlyWageField)) return hoursPerWeekField;
+            else if (aComponent.equals(hoursPerWeekField)) return weeksPerYearField;
+            else if (aComponent.equals(yearlySalaryField)) return confirmButton;
+            else if (aComponent.equals(weeksPerYearField)) return confirmButton;
             else return firstNameField;
         }
       
         public Component getComponentBefore(Container focusCycleRoot, Component aComponent) {
             if (aComponent.equals(resetButton)) return confirmButton;
-            else if (aComponent.equals(confirmButton)) return checkGenderOther;
+            else if (aComponent.equals(confirmButton) && type == -1) return workLocationField;
+            else if (aComponent.equals(confirmButton) && type == 0) return yearlySalaryField;
+            else if (aComponent.equals(confirmButton) && type == 1) return weeksPerYearField;
+            else if (aComponent.equals(weeksPerYearField)) return hoursPerWeekField;
+            else if (aComponent.equals(hoursPerWeekField)) return hourlyWageField;
+            else if (aComponent.equals(hourlyWageField)) return workLocationField;
+            else if (aComponent.equals(yearlySalaryField)) return workLocationField;
+            else if (aComponent.equals(workLocationField)) return deductionsRateField;
+            else if (aComponent.equals(deductionsRateField)) return employeeNumberField;
+            else if (aComponent.equals(employeeNumberField)) return checkGenderOther;
             else if (aComponent.equals(checkGenderOther)) return checkGenderFemale;
             else if (aComponent.equals(checkGenderFemale)) return checkGenderMale;
             else if (aComponent.equals(checkGenderMale)) return checkPartEmployeeTypeButton;
@@ -248,10 +550,11 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
         }
 
         public Component getLastComponent(Container focusCycleRoot) {
-            return checkGenderOther;
+            return resetButton;
         }
-   }
-
+    }
+    
+    // </editor-fold>
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -302,50 +605,51 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
         formatter10 = new javax.swing.JPanel();
         employeeNumberErrorLabel = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        lastNameWrapper1 = new javax.swing.JPanel();
+        employeeNumberWrapper = new javax.swing.JPanel();
         employeeNumberField = new javax.swing.JTextField();
         formatter15 = new javax.swing.JPanel();
         deductionsRateLabel = new javax.swing.JLabel();
         formatter16 = new javax.swing.JPanel();
         deductionsRateErrorLabel = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
-        lastNameWrapper2 = new javax.swing.JPanel();
+        deductionsRateWrapper = new javax.swing.JPanel();
         deductionsRateField = new javax.swing.JTextField();
         formatter17 = new javax.swing.JPanel();
         workLocationLabel = new javax.swing.JLabel();
         formatter18 = new javax.swing.JPanel();
         workLocationErrorLabel = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
-        lastNameWrapper3 = new javax.swing.JPanel();
+        workLocationWrapper = new javax.swing.JPanel();
         workLocationField = new javax.swing.JTextField();
-        formatter19 = new javax.swing.JPanel();
+        hoursPerWeekFormatter = new javax.swing.JPanel();
+        hoursPerWeekLabel = new javax.swing.JLabel();
+        formatter22 = new javax.swing.JPanel();
+        hoursPerWeekErrorLabel = new javax.swing.JLabel();
+        jPanel11 = new javax.swing.JPanel();
+        hoursPerWeekWrapper = new javax.swing.JPanel();
+        hoursPerWeekField = new javax.swing.JTextField();
+        jPanel6 = new javax.swing.JPanel();
+        yearlySalaryFormatter = new javax.swing.JPanel();
         yearlySalaryLabel = new javax.swing.JLabel();
         formatter20 = new javax.swing.JPanel();
         yearlySalaryErrorLabel = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
-        lastNameWrapper4 = new javax.swing.JPanel();
+        yearlySalaryWrapper = new javax.swing.JPanel();
         yearlySalaryField = new javax.swing.JTextField();
-        formatter21 = new javax.swing.JPanel();
-        lastNameLabel7 = new javax.swing.JLabel();
-        formatter22 = new javax.swing.JPanel();
-        lastNameErrorLabel7 = new javax.swing.JLabel();
-        jPanel11 = new javax.swing.JPanel();
-        lastNameWrapper5 = new javax.swing.JPanel();
-        lastNameField5 = new javax.swing.JTextField();
-        formatter23 = new javax.swing.JPanel();
+        hourlyWageFormatter = new javax.swing.JPanel();
         hourlyWageLabel = new javax.swing.JLabel();
         formatter24 = new javax.swing.JPanel();
-        lastNameErrorLabel8 = new javax.swing.JLabel();
+        hourlyWageErrorLabel = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
-        lastNameWrapper6 = new javax.swing.JPanel();
-        lastNameField6 = new javax.swing.JTextField();
-        formatter45 = new javax.swing.JPanel();
-        lastNameLabel19 = new javax.swing.JLabel();
+        hourlyWageWrapper = new javax.swing.JPanel();
+        hourlyWageField = new javax.swing.JTextField();
+        weeksPerYearFormatter = new javax.swing.JPanel();
+        weeksPerYearLabel = new javax.swing.JLabel();
         formatter46 = new javax.swing.JPanel();
-        lastNameErrorLabel19 = new javax.swing.JLabel();
+        weeksPerYearErrorLabel = new javax.swing.JLabel();
         jPanel23 = new javax.swing.JPanel();
-        lastNameWrapper7 = new javax.swing.JPanel();
-        lastNameField7 = new javax.swing.JTextField();
+        weeksPerYearWrapper = new javax.swing.JPanel();
+        weeksPerYearField = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(250, 250, 250));
         setBounds(new java.awt.Rectangle(720, 23, 0, 0));
@@ -709,6 +1013,9 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
             }
         });
         firstNameField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                firstNameFieldKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 firstNameFieldKeyReleased(evt);
             }
@@ -838,6 +1145,9 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
             }
         });
         lastNameField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                lastNameFieldKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 lastNameFieldKeyReleased(evt);
             }
@@ -1124,14 +1434,14 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
                 .addGap(2, 2, 2))
         );
 
-        lastNameWrapper1.setBackground(new java.awt.Color(255, 252, 219));
-        lastNameWrapper1.setForeground(new java.awt.Color(0, 0, 0));
-        lastNameWrapper1.addMouseListener(new java.awt.event.MouseAdapter() {
+        employeeNumberWrapper.setBackground(new java.awt.Color(255, 252, 219));
+        employeeNumberWrapper.setForeground(new java.awt.Color(0, 0, 0));
+        employeeNumberWrapper.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lastNameWrapper1MouseExited(evt);
+                employeeNumberWrapperMouseExited(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lastNameWrapper1MouseEntered(evt);
+                employeeNumberWrapperMouseEntered(evt);
             }
         });
 
@@ -1156,23 +1466,26 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
             }
         });
         employeeNumberField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                employeeNumberFieldKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 employeeNumberFieldKeyReleased(evt);
             }
         });
 
-        javax.swing.GroupLayout lastNameWrapper1Layout = new javax.swing.GroupLayout(lastNameWrapper1);
-        lastNameWrapper1.setLayout(lastNameWrapper1Layout);
-        lastNameWrapper1Layout.setHorizontalGroup(
-            lastNameWrapper1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lastNameWrapper1Layout.createSequentialGroup()
+        javax.swing.GroupLayout employeeNumberWrapperLayout = new javax.swing.GroupLayout(employeeNumberWrapper);
+        employeeNumberWrapper.setLayout(employeeNumberWrapperLayout);
+        employeeNumberWrapperLayout.setHorizontalGroup(
+            employeeNumberWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, employeeNumberWrapperLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addComponent(employeeNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5))
         );
-        lastNameWrapper1Layout.setVerticalGroup(
-            lastNameWrapper1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(lastNameWrapper1Layout.createSequentialGroup()
+        employeeNumberWrapperLayout.setVerticalGroup(
+            employeeNumberWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(employeeNumberWrapperLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addComponent(employeeNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5))
@@ -1186,7 +1499,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
                 .addGap(5, 5, 5)
                 .addComponent(employeeNumberLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21)
-                .addComponent(lastNameWrapper1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(employeeNumberWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(formatter10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
@@ -1196,7 +1509,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formatter9Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(formatter9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lastNameWrapper1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(employeeNumberWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(employeeNumberLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(formatter10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
@@ -1253,14 +1566,14 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
                 .addGap(2, 2, 2))
         );
 
-        lastNameWrapper2.setBackground(new java.awt.Color(255, 252, 219));
-        lastNameWrapper2.setForeground(new java.awt.Color(0, 0, 0));
-        lastNameWrapper2.addMouseListener(new java.awt.event.MouseAdapter() {
+        deductionsRateWrapper.setBackground(new java.awt.Color(255, 252, 219));
+        deductionsRateWrapper.setForeground(new java.awt.Color(0, 0, 0));
+        deductionsRateWrapper.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lastNameWrapper2MouseExited(evt);
+                deductionsRateWrapperMouseExited(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lastNameWrapper2MouseEntered(evt);
+                deductionsRateWrapperMouseEntered(evt);
             }
         });
 
@@ -1285,23 +1598,26 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
             }
         });
         deductionsRateField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                deductionsRateFieldKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 deductionsRateFieldKeyReleased(evt);
             }
         });
 
-        javax.swing.GroupLayout lastNameWrapper2Layout = new javax.swing.GroupLayout(lastNameWrapper2);
-        lastNameWrapper2.setLayout(lastNameWrapper2Layout);
-        lastNameWrapper2Layout.setHorizontalGroup(
-            lastNameWrapper2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lastNameWrapper2Layout.createSequentialGroup()
+        javax.swing.GroupLayout deductionsRateWrapperLayout = new javax.swing.GroupLayout(deductionsRateWrapper);
+        deductionsRateWrapper.setLayout(deductionsRateWrapperLayout);
+        deductionsRateWrapperLayout.setHorizontalGroup(
+            deductionsRateWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, deductionsRateWrapperLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addComponent(deductionsRateField, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5))
         );
-        lastNameWrapper2Layout.setVerticalGroup(
-            lastNameWrapper2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(lastNameWrapper2Layout.createSequentialGroup()
+        deductionsRateWrapperLayout.setVerticalGroup(
+            deductionsRateWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(deductionsRateWrapperLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addComponent(deductionsRateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5))
@@ -1315,7 +1631,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
                 .addGap(5, 5, 5)
                 .addComponent(deductionsRateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21)
-                .addComponent(lastNameWrapper2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(deductionsRateWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(formatter16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
@@ -1325,7 +1641,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formatter15Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(formatter15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lastNameWrapper2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deductionsRateWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(deductionsRateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(formatter16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
@@ -1382,14 +1698,14 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
                 .addGap(2, 2, 2))
         );
 
-        lastNameWrapper3.setBackground(new java.awt.Color(255, 252, 219));
-        lastNameWrapper3.setForeground(new java.awt.Color(0, 0, 0));
-        lastNameWrapper3.addMouseListener(new java.awt.event.MouseAdapter() {
+        workLocationWrapper.setBackground(new java.awt.Color(255, 252, 219));
+        workLocationWrapper.setForeground(new java.awt.Color(0, 0, 0));
+        workLocationWrapper.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lastNameWrapper3MouseExited(evt);
+                workLocationWrapperMouseExited(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lastNameWrapper3MouseEntered(evt);
+                workLocationWrapperMouseEntered(evt);
             }
         });
 
@@ -1414,23 +1730,26 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
             }
         });
         workLocationField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                workLocationFieldKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 workLocationFieldKeyReleased(evt);
             }
         });
 
-        javax.swing.GroupLayout lastNameWrapper3Layout = new javax.swing.GroupLayout(lastNameWrapper3);
-        lastNameWrapper3.setLayout(lastNameWrapper3Layout);
-        lastNameWrapper3Layout.setHorizontalGroup(
-            lastNameWrapper3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lastNameWrapper3Layout.createSequentialGroup()
+        javax.swing.GroupLayout workLocationWrapperLayout = new javax.swing.GroupLayout(workLocationWrapper);
+        workLocationWrapper.setLayout(workLocationWrapperLayout);
+        workLocationWrapperLayout.setHorizontalGroup(
+            workLocationWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workLocationWrapperLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addComponent(workLocationField, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5))
         );
-        lastNameWrapper3Layout.setVerticalGroup(
-            lastNameWrapper3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(lastNameWrapper3Layout.createSequentialGroup()
+        workLocationWrapperLayout.setVerticalGroup(
+            workLocationWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(workLocationWrapperLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addComponent(workLocationField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5))
@@ -1444,7 +1763,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
                 .addGap(5, 5, 5)
                 .addComponent(workLocationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21)
-                .addComponent(lastNameWrapper3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(workLocationWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(formatter18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
@@ -1454,14 +1773,149 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formatter17Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(formatter17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lastNameWrapper3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(workLocationWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(workLocationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(formatter18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
-        formatter19.setFocusTraversalPolicyProvider(true);
-        formatter19.setOpaque(false);
+        hoursPerWeekFormatter.setFocusTraversalPolicyProvider(true);
+        hoursPerWeekFormatter.setOpaque(false);
+
+        hoursPerWeekLabel.setBackground(new java.awt.Color(250, 250, 250));
+        hoursPerWeekLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        hoursPerWeekLabel.setForeground(new java.awt.Color(0, 0, 0));
+        hoursPerWeekLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        hoursPerWeekLabel.setText("hours:");
+        hoursPerWeekLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        hoursPerWeekLabel.setMaximumSize(new java.awt.Dimension(75, 30));
+        hoursPerWeekLabel.setMinimumSize(new java.awt.Dimension(75, 30));
+        hoursPerWeekLabel.setPreferredSize(new java.awt.Dimension(75, 30));
+
+        formatter22.setOpaque(false);
+
+        hoursPerWeekErrorLabel.setFont(new java.awt.Font("Open Sans", 0, 24)); // NOI18N
+        hoursPerWeekErrorLabel.setForeground(new java.awt.Color(244, 67, 54));
+        hoursPerWeekErrorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        hoursPerWeekErrorLabel.setText("⚠");
+
+        jPanel11.setOpaque(false);
+        jPanel11.setPreferredSize(new java.awt.Dimension(26, 2));
+        jPanel11.setSize(new java.awt.Dimension(26, 2));
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 26, Short.MAX_VALUE)
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 2, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout formatter22Layout = new javax.swing.GroupLayout(formatter22);
+        formatter22.setLayout(formatter22Layout);
+        formatter22Layout.setHorizontalGroup(
+            formatter22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(hoursPerWeekErrorLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        formatter22Layout.setVerticalGroup(
+            formatter22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(formatter22Layout.createSequentialGroup()
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(hoursPerWeekErrorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2))
+        );
+
+        hoursPerWeekWrapper.setBackground(new java.awt.Color(255, 252, 219));
+        hoursPerWeekWrapper.setForeground(new java.awt.Color(0, 0, 0));
+        hoursPerWeekWrapper.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                hoursPerWeekWrapperMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                hoursPerWeekWrapperMouseEntered(evt);
+            }
+        });
+
+        hoursPerWeekField.setBackground(new java.awt.Color(255, 252, 219));
+        hoursPerWeekField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        hoursPerWeekField.setForeground(new java.awt.Color(0, 0, 0));
+        hoursPerWeekField.setBorder(null);
+        hoursPerWeekField.setOpaque(false);
+        hoursPerWeekField.setSelectedTextColor(new java.awt.Color(0, 0, 0));
+        hoursPerWeekField.setSelectionColor(new java.awt.Color(0, 0, 0));
+        hoursPerWeekField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                hoursPerWeekFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                hoursPerWeekFieldFocusLost(evt);
+            }
+        });
+        hoursPerWeekField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                hoursPerWeekFieldMouseEntered(evt);
+            }
+        });
+        hoursPerWeekField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                hoursPerWeekFieldKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                hoursPerWeekFieldKeyReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout hoursPerWeekWrapperLayout = new javax.swing.GroupLayout(hoursPerWeekWrapper);
+        hoursPerWeekWrapper.setLayout(hoursPerWeekWrapperLayout);
+        hoursPerWeekWrapperLayout.setHorizontalGroup(
+            hoursPerWeekWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, hoursPerWeekWrapperLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(hoursPerWeekField, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5))
+        );
+        hoursPerWeekWrapperLayout.setVerticalGroup(
+            hoursPerWeekWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(hoursPerWeekWrapperLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(hoursPerWeekField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5))
+        );
+
+        javax.swing.GroupLayout hoursPerWeekFormatterLayout = new javax.swing.GroupLayout(hoursPerWeekFormatter);
+        hoursPerWeekFormatter.setLayout(hoursPerWeekFormatterLayout);
+        hoursPerWeekFormatterLayout.setHorizontalGroup(
+            hoursPerWeekFormatterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(hoursPerWeekFormatterLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(hoursPerWeekLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21)
+                .addComponent(hoursPerWeekWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(formatter22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
+        );
+        hoursPerWeekFormatterLayout.setVerticalGroup(
+            hoursPerWeekFormatterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, hoursPerWeekFormatterLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(hoursPerWeekFormatterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(hoursPerWeekWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(hoursPerWeekLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(formatter22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        jPanel6.setBackground(new java.awt.Color(250, 250, 250));
+        jPanel6.setOpaque(false);
+
+        yearlySalaryFormatter.setFocusTraversalPolicyProvider(true);
+        yearlySalaryFormatter.setOpaque(false);
 
         yearlySalaryLabel.setBackground(new java.awt.Color(250, 250, 250));
         yearlySalaryLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
@@ -1511,14 +1965,14 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
                 .addGap(2, 2, 2))
         );
 
-        lastNameWrapper4.setBackground(new java.awt.Color(255, 252, 219));
-        lastNameWrapper4.setForeground(new java.awt.Color(0, 0, 0));
-        lastNameWrapper4.addMouseListener(new java.awt.event.MouseAdapter() {
+        yearlySalaryWrapper.setBackground(new java.awt.Color(255, 252, 219));
+        yearlySalaryWrapper.setForeground(new java.awt.Color(0, 0, 0));
+        yearlySalaryWrapper.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lastNameWrapper4MouseExited(evt);
+                yearlySalaryWrapperMouseExited(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lastNameWrapper4MouseEntered(evt);
+                yearlySalaryWrapperMouseEntered(evt);
             }
         });
 
@@ -1543,189 +1997,63 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
             }
         });
         yearlySalaryField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                yearlySalaryFieldKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 yearlySalaryFieldKeyReleased(evt);
             }
         });
 
-        javax.swing.GroupLayout lastNameWrapper4Layout = new javax.swing.GroupLayout(lastNameWrapper4);
-        lastNameWrapper4.setLayout(lastNameWrapper4Layout);
-        lastNameWrapper4Layout.setHorizontalGroup(
-            lastNameWrapper4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lastNameWrapper4Layout.createSequentialGroup()
+        javax.swing.GroupLayout yearlySalaryWrapperLayout = new javax.swing.GroupLayout(yearlySalaryWrapper);
+        yearlySalaryWrapper.setLayout(yearlySalaryWrapperLayout);
+        yearlySalaryWrapperLayout.setHorizontalGroup(
+            yearlySalaryWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, yearlySalaryWrapperLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addComponent(yearlySalaryField, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5))
         );
-        lastNameWrapper4Layout.setVerticalGroup(
-            lastNameWrapper4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(lastNameWrapper4Layout.createSequentialGroup()
+        yearlySalaryWrapperLayout.setVerticalGroup(
+            yearlySalaryWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(yearlySalaryWrapperLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addComponent(yearlySalaryField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5))
         );
 
-        javax.swing.GroupLayout formatter19Layout = new javax.swing.GroupLayout(formatter19);
-        formatter19.setLayout(formatter19Layout);
-        formatter19Layout.setHorizontalGroup(
-            formatter19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(formatter19Layout.createSequentialGroup()
+        javax.swing.GroupLayout yearlySalaryFormatterLayout = new javax.swing.GroupLayout(yearlySalaryFormatter);
+        yearlySalaryFormatter.setLayout(yearlySalaryFormatterLayout);
+        yearlySalaryFormatterLayout.setHorizontalGroup(
+            yearlySalaryFormatterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(yearlySalaryFormatterLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addComponent(yearlySalaryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21)
-                .addComponent(lastNameWrapper4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(yearlySalaryWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(formatter20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
         );
-        formatter19Layout.setVerticalGroup(
-            formatter19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formatter19Layout.createSequentialGroup()
+        yearlySalaryFormatterLayout.setVerticalGroup(
+            yearlySalaryFormatterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, yearlySalaryFormatterLayout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addGroup(formatter19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lastNameWrapper4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(yearlySalaryFormatterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(yearlySalaryWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(yearlySalaryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(formatter20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
-        formatter21.setFocusTraversalPolicyProvider(true);
-        formatter21.setOpaque(false);
-
-        lastNameLabel7.setBackground(new java.awt.Color(250, 250, 250));
-        lastNameLabel7.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        lastNameLabel7.setForeground(new java.awt.Color(0, 0, 0));
-        lastNameLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lastNameLabel7.setText("last:");
-        lastNameLabel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lastNameLabel7.setMaximumSize(new java.awt.Dimension(75, 30));
-        lastNameLabel7.setMinimumSize(new java.awt.Dimension(75, 30));
-        lastNameLabel7.setPreferredSize(new java.awt.Dimension(75, 30));
-
-        formatter22.setOpaque(false);
-
-        lastNameErrorLabel7.setFont(new java.awt.Font("Open Sans", 0, 24)); // NOI18N
-        lastNameErrorLabel7.setForeground(new java.awt.Color(244, 67, 54));
-        lastNameErrorLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lastNameErrorLabel7.setText("⚠");
-
-        jPanel11.setOpaque(false);
-        jPanel11.setPreferredSize(new java.awt.Dimension(26, 2));
-        jPanel11.setSize(new java.awt.Dimension(26, 2));
-
-        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
-        jPanel11.setLayout(jPanel11Layout);
-        jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 26, Short.MAX_VALUE)
-        );
-        jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 2, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout formatter22Layout = new javax.swing.GroupLayout(formatter22);
-        formatter22.setLayout(formatter22Layout);
-        formatter22Layout.setHorizontalGroup(
-            formatter22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lastNameErrorLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        formatter22Layout.setVerticalGroup(
-            formatter22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(formatter22Layout.createSequentialGroup()
-                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(lastNameErrorLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2))
-        );
-
-        lastNameWrapper5.setBackground(new java.awt.Color(255, 252, 219));
-        lastNameWrapper5.setForeground(new java.awt.Color(0, 0, 0));
-        lastNameWrapper5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lastNameWrapper5MouseExited(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lastNameWrapper5MouseEntered(evt);
-            }
-        });
-
-        lastNameField5.setBackground(new java.awt.Color(255, 252, 219));
-        lastNameField5.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        lastNameField5.setForeground(new java.awt.Color(0, 0, 0));
-        lastNameField5.setBorder(null);
-        lastNameField5.setOpaque(false);
-        lastNameField5.setSelectedTextColor(new java.awt.Color(0, 0, 0));
-        lastNameField5.setSelectionColor(new java.awt.Color(0, 0, 0));
-        lastNameField5.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                lastNameField5FocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                lastNameField5FocusLost(evt);
-            }
-        });
-        lastNameField5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lastNameField5MouseEntered(evt);
-            }
-        });
-        lastNameField5.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                lastNameField5KeyReleased(evt);
-            }
-        });
-
-        javax.swing.GroupLayout lastNameWrapper5Layout = new javax.swing.GroupLayout(lastNameWrapper5);
-        lastNameWrapper5.setLayout(lastNameWrapper5Layout);
-        lastNameWrapper5Layout.setHorizontalGroup(
-            lastNameWrapper5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lastNameWrapper5Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(lastNameField5, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5))
-        );
-        lastNameWrapper5Layout.setVerticalGroup(
-            lastNameWrapper5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(lastNameWrapper5Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(lastNameField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5))
-        );
-
-        javax.swing.GroupLayout formatter21Layout = new javax.swing.GroupLayout(formatter21);
-        formatter21.setLayout(formatter21Layout);
-        formatter21Layout.setHorizontalGroup(
-            formatter21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(formatter21Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(lastNameLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21)
-                .addComponent(lastNameWrapper5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(formatter22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
-        );
-        formatter21Layout.setVerticalGroup(
-            formatter21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formatter21Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addGroup(formatter21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lastNameWrapper5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lastNameLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(formatter22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-
-        formatter23.setFocusTraversalPolicyProvider(true);
-        formatter23.setOpaque(false);
+        hourlyWageFormatter.setFocusTraversalPolicyProvider(true);
+        hourlyWageFormatter.setOpaque(false);
 
         hourlyWageLabel.setBackground(new java.awt.Color(250, 250, 250));
         hourlyWageLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         hourlyWageLabel.setForeground(new java.awt.Color(0, 0, 0));
         hourlyWageLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        hourlyWageLabel.setText("last:");
+        hourlyWageLabel.setText("wage:");
         hourlyWageLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         hourlyWageLabel.setMaximumSize(new java.awt.Dimension(75, 30));
         hourlyWageLabel.setMinimumSize(new java.awt.Dimension(75, 30));
@@ -1733,10 +2061,10 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
 
         formatter24.setOpaque(false);
 
-        lastNameErrorLabel8.setFont(new java.awt.Font("Open Sans", 0, 24)); // NOI18N
-        lastNameErrorLabel8.setForeground(new java.awt.Color(244, 67, 54));
-        lastNameErrorLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lastNameErrorLabel8.setText("⚠");
+        hourlyWageErrorLabel.setFont(new java.awt.Font("Open Sans", 0, 24)); // NOI18N
+        hourlyWageErrorLabel.setForeground(new java.awt.Color(244, 67, 54));
+        hourlyWageErrorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        hourlyWageErrorLabel.setText("⚠");
 
         jPanel12.setOpaque(false);
         jPanel12.setPreferredSize(new java.awt.Dimension(26, 2));
@@ -1757,7 +2085,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
         formatter24.setLayout(formatter24Layout);
         formatter24Layout.setHorizontalGroup(
             formatter24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lastNameErrorLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(hourlyWageErrorLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         formatter24Layout.setVerticalGroup(
@@ -1765,107 +2093,110 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
             .addGroup(formatter24Layout.createSequentialGroup()
                 .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(lastNameErrorLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(hourlyWageErrorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 2, 2))
         );
 
-        lastNameWrapper6.setBackground(new java.awt.Color(255, 252, 219));
-        lastNameWrapper6.setForeground(new java.awt.Color(0, 0, 0));
-        lastNameWrapper6.addMouseListener(new java.awt.event.MouseAdapter() {
+        hourlyWageWrapper.setBackground(new java.awt.Color(255, 252, 219));
+        hourlyWageWrapper.setForeground(new java.awt.Color(0, 0, 0));
+        hourlyWageWrapper.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lastNameWrapper6MouseExited(evt);
+                hourlyWageWrapperMouseExited(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lastNameWrapper6MouseEntered(evt);
+                hourlyWageWrapperMouseEntered(evt);
             }
         });
 
-        lastNameField6.setBackground(new java.awt.Color(255, 252, 219));
-        lastNameField6.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        lastNameField6.setForeground(new java.awt.Color(0, 0, 0));
-        lastNameField6.setBorder(null);
-        lastNameField6.setOpaque(false);
-        lastNameField6.setSelectedTextColor(new java.awt.Color(0, 0, 0));
-        lastNameField6.setSelectionColor(new java.awt.Color(0, 0, 0));
-        lastNameField6.addFocusListener(new java.awt.event.FocusAdapter() {
+        hourlyWageField.setBackground(new java.awt.Color(255, 252, 219));
+        hourlyWageField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        hourlyWageField.setForeground(new java.awt.Color(0, 0, 0));
+        hourlyWageField.setBorder(null);
+        hourlyWageField.setOpaque(false);
+        hourlyWageField.setSelectedTextColor(new java.awt.Color(0, 0, 0));
+        hourlyWageField.setSelectionColor(new java.awt.Color(0, 0, 0));
+        hourlyWageField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                lastNameField6FocusGained(evt);
+                hourlyWageFieldFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                lastNameField6FocusLost(evt);
+                hourlyWageFieldFocusLost(evt);
             }
         });
-        lastNameField6.addMouseListener(new java.awt.event.MouseAdapter() {
+        hourlyWageField.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lastNameField6MouseEntered(evt);
+                hourlyWageFieldMouseEntered(evt);
             }
         });
-        lastNameField6.addKeyListener(new java.awt.event.KeyAdapter() {
+        hourlyWageField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                hourlyWageFieldKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                lastNameField6KeyReleased(evt);
+                hourlyWageFieldKeyReleased(evt);
             }
         });
 
-        javax.swing.GroupLayout lastNameWrapper6Layout = new javax.swing.GroupLayout(lastNameWrapper6);
-        lastNameWrapper6.setLayout(lastNameWrapper6Layout);
-        lastNameWrapper6Layout.setHorizontalGroup(
-            lastNameWrapper6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lastNameWrapper6Layout.createSequentialGroup()
+        javax.swing.GroupLayout hourlyWageWrapperLayout = new javax.swing.GroupLayout(hourlyWageWrapper);
+        hourlyWageWrapper.setLayout(hourlyWageWrapperLayout);
+        hourlyWageWrapperLayout.setHorizontalGroup(
+            hourlyWageWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, hourlyWageWrapperLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addComponent(lastNameField6, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(hourlyWageField, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5))
         );
-        lastNameWrapper6Layout.setVerticalGroup(
-            lastNameWrapper6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(lastNameWrapper6Layout.createSequentialGroup()
+        hourlyWageWrapperLayout.setVerticalGroup(
+            hourlyWageWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(hourlyWageWrapperLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addComponent(lastNameField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(hourlyWageField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5))
         );
 
-        javax.swing.GroupLayout formatter23Layout = new javax.swing.GroupLayout(formatter23);
-        formatter23.setLayout(formatter23Layout);
-        formatter23Layout.setHorizontalGroup(
-            formatter23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(formatter23Layout.createSequentialGroup()
+        javax.swing.GroupLayout hourlyWageFormatterLayout = new javax.swing.GroupLayout(hourlyWageFormatter);
+        hourlyWageFormatter.setLayout(hourlyWageFormatterLayout);
+        hourlyWageFormatterLayout.setHorizontalGroup(
+            hourlyWageFormatterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(hourlyWageFormatterLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addComponent(hourlyWageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21)
-                .addComponent(lastNameWrapper6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(hourlyWageWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(formatter24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
         );
-        formatter23Layout.setVerticalGroup(
-            formatter23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formatter23Layout.createSequentialGroup()
+        hourlyWageFormatterLayout.setVerticalGroup(
+            hourlyWageFormatterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, hourlyWageFormatterLayout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addGroup(formatter23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lastNameWrapper6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(hourlyWageFormatterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(hourlyWageWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(hourlyWageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(formatter24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
-        formatter45.setFocusTraversalPolicyProvider(true);
-        formatter45.setOpaque(false);
+        weeksPerYearFormatter.setFocusTraversalPolicyProvider(true);
+        weeksPerYearFormatter.setOpaque(false);
 
-        lastNameLabel19.setBackground(new java.awt.Color(250, 250, 250));
-        lastNameLabel19.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        lastNameLabel19.setForeground(new java.awt.Color(0, 0, 0));
-        lastNameLabel19.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lastNameLabel19.setText("last:");
-        lastNameLabel19.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lastNameLabel19.setMaximumSize(new java.awt.Dimension(75, 30));
-        lastNameLabel19.setMinimumSize(new java.awt.Dimension(75, 30));
-        lastNameLabel19.setPreferredSize(new java.awt.Dimension(75, 30));
+        weeksPerYearLabel.setBackground(new java.awt.Color(250, 250, 250));
+        weeksPerYearLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        weeksPerYearLabel.setForeground(new java.awt.Color(0, 0, 0));
+        weeksPerYearLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        weeksPerYearLabel.setText("weeks:");
+        weeksPerYearLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        weeksPerYearLabel.setMaximumSize(new java.awt.Dimension(75, 30));
+        weeksPerYearLabel.setMinimumSize(new java.awt.Dimension(75, 30));
+        weeksPerYearLabel.setPreferredSize(new java.awt.Dimension(75, 30));
 
         formatter46.setOpaque(false);
 
-        lastNameErrorLabel19.setFont(new java.awt.Font("Open Sans", 0, 24)); // NOI18N
-        lastNameErrorLabel19.setForeground(new java.awt.Color(244, 67, 54));
-        lastNameErrorLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lastNameErrorLabel19.setText("⚠");
+        weeksPerYearErrorLabel.setFont(new java.awt.Font("Open Sans", 0, 24)); // NOI18N
+        weeksPerYearErrorLabel.setForeground(new java.awt.Color(244, 67, 54));
+        weeksPerYearErrorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        weeksPerYearErrorLabel.setText("⚠");
 
         jPanel23.setOpaque(false);
         jPanel23.setPreferredSize(new java.awt.Dimension(26, 2));
@@ -1886,7 +2217,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
         formatter46.setLayout(formatter46Layout);
         formatter46Layout.setHorizontalGroup(
             formatter46Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lastNameErrorLabel19, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(weeksPerYearErrorLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         formatter46Layout.setVerticalGroup(
@@ -1894,86 +2225,112 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
             .addGroup(formatter46Layout.createSequentialGroup()
                 .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(lastNameErrorLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(weeksPerYearErrorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 2, 2))
         );
 
-        lastNameWrapper7.setBackground(new java.awt.Color(255, 252, 219));
-        lastNameWrapper7.setForeground(new java.awt.Color(0, 0, 0));
-        lastNameWrapper7.addMouseListener(new java.awt.event.MouseAdapter() {
+        weeksPerYearWrapper.setBackground(new java.awt.Color(255, 252, 219));
+        weeksPerYearWrapper.setForeground(new java.awt.Color(0, 0, 0));
+        weeksPerYearWrapper.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lastNameWrapper7MouseExited(evt);
+                weeksPerYearWrapperMouseExited(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lastNameWrapper7MouseEntered(evt);
+                weeksPerYearWrapperMouseEntered(evt);
             }
         });
 
-        lastNameField7.setBackground(new java.awt.Color(255, 252, 219));
-        lastNameField7.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        lastNameField7.setForeground(new java.awt.Color(0, 0, 0));
-        lastNameField7.setBorder(null);
-        lastNameField7.setOpaque(false);
-        lastNameField7.setSelectedTextColor(new java.awt.Color(0, 0, 0));
-        lastNameField7.setSelectionColor(new java.awt.Color(0, 0, 0));
-        lastNameField7.addFocusListener(new java.awt.event.FocusAdapter() {
+        weeksPerYearField.setBackground(new java.awt.Color(255, 252, 219));
+        weeksPerYearField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        weeksPerYearField.setForeground(new java.awt.Color(0, 0, 0));
+        weeksPerYearField.setBorder(null);
+        weeksPerYearField.setOpaque(false);
+        weeksPerYearField.setSelectedTextColor(new java.awt.Color(0, 0, 0));
+        weeksPerYearField.setSelectionColor(new java.awt.Color(0, 0, 0));
+        weeksPerYearField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                lastNameField7FocusGained(evt);
+                weeksPerYearFieldFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                lastNameField7FocusLost(evt);
+                weeksPerYearFieldFocusLost(evt);
             }
         });
-        lastNameField7.addMouseListener(new java.awt.event.MouseAdapter() {
+        weeksPerYearField.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lastNameField7MouseEntered(evt);
+                weeksPerYearFieldMouseEntered(evt);
             }
         });
-        lastNameField7.addKeyListener(new java.awt.event.KeyAdapter() {
+        weeksPerYearField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                weeksPerYearFieldKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                lastNameField7KeyReleased(evt);
+                weeksPerYearFieldKeyReleased(evt);
             }
         });
 
-        javax.swing.GroupLayout lastNameWrapper7Layout = new javax.swing.GroupLayout(lastNameWrapper7);
-        lastNameWrapper7.setLayout(lastNameWrapper7Layout);
-        lastNameWrapper7Layout.setHorizontalGroup(
-            lastNameWrapper7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lastNameWrapper7Layout.createSequentialGroup()
+        javax.swing.GroupLayout weeksPerYearWrapperLayout = new javax.swing.GroupLayout(weeksPerYearWrapper);
+        weeksPerYearWrapper.setLayout(weeksPerYearWrapperLayout);
+        weeksPerYearWrapperLayout.setHorizontalGroup(
+            weeksPerYearWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, weeksPerYearWrapperLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addComponent(lastNameField7, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(weeksPerYearField, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5))
         );
-        lastNameWrapper7Layout.setVerticalGroup(
-            lastNameWrapper7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(lastNameWrapper7Layout.createSequentialGroup()
+        weeksPerYearWrapperLayout.setVerticalGroup(
+            weeksPerYearWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(weeksPerYearWrapperLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addComponent(lastNameField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(weeksPerYearField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5))
         );
 
-        javax.swing.GroupLayout formatter45Layout = new javax.swing.GroupLayout(formatter45);
-        formatter45.setLayout(formatter45Layout);
-        formatter45Layout.setHorizontalGroup(
-            formatter45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(formatter45Layout.createSequentialGroup()
+        javax.swing.GroupLayout weeksPerYearFormatterLayout = new javax.swing.GroupLayout(weeksPerYearFormatter);
+        weeksPerYearFormatter.setLayout(weeksPerYearFormatterLayout);
+        weeksPerYearFormatterLayout.setHorizontalGroup(
+            weeksPerYearFormatterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(weeksPerYearFormatterLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addComponent(lastNameLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(weeksPerYearLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21)
-                .addComponent(lastNameWrapper7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(weeksPerYearWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(formatter46, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
         );
-        formatter45Layout.setVerticalGroup(
-            formatter45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formatter45Layout.createSequentialGroup()
+        weeksPerYearFormatterLayout.setVerticalGroup(
+            weeksPerYearFormatterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, weeksPerYearFormatterLayout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addGroup(formatter45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lastNameWrapper7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lastNameLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(weeksPerYearFormatterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(weeksPerYearWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(weeksPerYearLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(formatter46, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 360, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(weeksPerYearFormatter, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(yearlySalaryFormatter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(hourlyWageFormatter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 180, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createSequentialGroup()
+                    .addComponent(yearlySalaryFormatter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(hourlyWageFormatter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(weeksPerYearFormatter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout addEmployeePanelLayout = new javax.swing.GroupLayout(addEmployeePanel);
@@ -1982,60 +2339,50 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
             addEmployeePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(formatter1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(addEmployeePanelLayout.createSequentialGroup()
-                .addContainerGap(50, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addEmployeePanelLayout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
                 .addGroup(addEmployeePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(addEmployeePanelLayout.createSequentialGroup()
-                        .addComponent(formatter21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(formatter23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(addEmployeePanelLayout.createSequentialGroup()
-                        .addGroup(addEmployeePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(formatter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(formatter3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(formatter5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(formatter7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(addEmployeePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(formatter9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(formatter15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(formatter17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(formatter19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(addEmployeePanelLayout.createSequentialGroup()
-                        .addGap(366, 366, 366)
-                        .addComponent(formatter45, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(32, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addEmployeePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(formatter3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(hoursPerWeekFormatter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(formatter17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(formatter, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(formatter9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(addEmployeePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(formatter5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(formatter7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(formatter15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         addEmployeePanelLayout.setVerticalGroup(
             addEmployeePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(addEmployeePanelLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(addEmployeePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(title)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(addEmployeePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(addEmployeePanelLayout.createSequentialGroup()
-                        .addGroup(addEmployeePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(addEmployeePanelLayout.createSequentialGroup()
-                                .addComponent(title)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(addEmployeePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(formatter3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(formatter9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(formatter5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(formatter15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(formatter3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(formatter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(formatter17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(addEmployeePanelLayout.createSequentialGroup()
+                        .addComponent(formatter5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(formatter7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(addEmployeePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(formatter7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(formatter19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(formatter15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(formatter9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(addEmployeePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(formatter21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(formatter23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(formatter45, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(addEmployeePanelLayout.createSequentialGroup()
+                        .addComponent(formatter17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(hoursPerWeekFormatter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addComponent(formatter1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -2044,13 +2391,13 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(addEmployeePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(addEmployeePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(addEmployeePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(addEmployeePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
 
@@ -2429,6 +2776,8 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
             
             checkGender();
             updateDisplay();
+            
+            employeeNumberField.requestFocus();
         }
     }//GEN-LAST:event_checkGenderMaleKeyPressed
 
@@ -2439,6 +2788,8 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
             
             checkGender();
             updateDisplay();
+            
+            employeeNumberField.requestFocus();
         }
     }//GEN-LAST:event_checkGenderFemaleKeyPressed
 
@@ -2449,6 +2800,8 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
             
             checkGender();
             updateDisplay();
+            
+            employeeNumberField.requestFocus();
         }
     }//GEN-LAST:event_checkGenderOtherKeyPressed
 
@@ -2484,173 +2837,425 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_resetButtonKeyPressed
 
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="employee number">
+    
     private void employeeNumberFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_employeeNumberFieldFocusGained
         // TODO add your handling code here:
+        employeeNumberWrapper.setBackground(colorSelector.text_field_focus);
+        employeeNumberField.setBackground(colorSelector.text_field_focus);
     }//GEN-LAST:event_employeeNumberFieldFocusGained
 
     private void employeeNumberFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_employeeNumberFieldFocusLost
         // TODO add your handling code here:
+        employeeNumberWrapper.setBackground(colorSelector.text_field_background);
+        employeeNumberField.setBackground(colorSelector.text_field_background);
     }//GEN-LAST:event_employeeNumberFieldFocusLost
 
     private void employeeNumberFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_employeeNumberFieldMouseEntered
         // TODO add your handling code here:
+        if (!employeeNumberField.hasFocus()) {
+            employeeNumberWrapper.setBackground(colorSelector.text_field_hover);
+            employeeNumberField.setBackground(colorSelector.text_field_hover);
+        }
     }//GEN-LAST:event_employeeNumberFieldMouseEntered
 
     private void employeeNumberFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_employeeNumberFieldKeyReleased
         // TODO add your handling code here:
+        if (evt.getKeyCode() != KeyEvent.VK_ENTER && evt.getKeyCode() != KeyEvent.VK_SHIFT) {
+            employeeNumber = employeeNumberField.getText();
+            checkEmployeeNumber();
+            updateDisplay();
+        }
     }//GEN-LAST:event_employeeNumberFieldKeyReleased
 
-    private void lastNameWrapper1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lastNameWrapper1MouseExited
+    private void employeeNumberWrapperMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_employeeNumberWrapperMouseExited
         // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameWrapper1MouseExited
+        if (!employeeNumberField.hasFocus()) {
+            employeeNumberWrapper.setBackground(colorSelector.text_field_background);
+            employeeNumberField.setBackground(colorSelector.text_field_background);
+        }
+    }//GEN-LAST:event_employeeNumberWrapperMouseExited
 
-    private void lastNameWrapper1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lastNameWrapper1MouseEntered
+    private void employeeNumberWrapperMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_employeeNumberWrapperMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameWrapper1MouseEntered
+        if (!employeeNumberField.hasFocus()) {
+            employeeNumberWrapper.setBackground(colorSelector.text_field_hover);
+            employeeNumberField.setBackground(colorSelector.text_field_hover);
+        }
+    }//GEN-LAST:event_employeeNumberWrapperMouseEntered
 
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="deductions rate">
+    
     private void deductionsRateFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_deductionsRateFieldFocusGained
         // TODO add your handling code here:
+        deductionsRateWrapper.setBackground(colorSelector.text_field_focus);
+        deductionsRateField.setBackground(colorSelector.text_field_focus);
     }//GEN-LAST:event_deductionsRateFieldFocusGained
 
     private void deductionsRateFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_deductionsRateFieldFocusLost
         // TODO add your handling code here:
+        deductionsRateWrapper.setBackground(colorSelector.text_field_background);
+        deductionsRateField.setBackground(colorSelector.text_field_background);
     }//GEN-LAST:event_deductionsRateFieldFocusLost
 
     private void deductionsRateFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deductionsRateFieldMouseEntered
         // TODO add your handling code here:
+        if (!deductionsRateField.hasFocus()) {
+            deductionsRateWrapper.setBackground(colorSelector.text_field_hover);
+            deductionsRateField.setBackground(colorSelector.text_field_hover);
+        }
     }//GEN-LAST:event_deductionsRateFieldMouseEntered
 
     private void deductionsRateFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_deductionsRateFieldKeyReleased
         // TODO add your handling code here:
+        if (evt.getKeyCode() != KeyEvent.VK_ENTER && evt.getKeyCode() != KeyEvent.VK_SHIFT) {
+            deductionsRate = deductionsRateField.getText();
+            checkDeductionsRate();
+            updateDisplay();
+        }
     }//GEN-LAST:event_deductionsRateFieldKeyReleased
 
-    private void lastNameWrapper2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lastNameWrapper2MouseExited
+    private void deductionsRateWrapperMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deductionsRateWrapperMouseExited
         // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameWrapper2MouseExited
+        if (!deductionsRateField.hasFocus()) {
+            deductionsRateWrapper.setBackground(colorSelector.text_field_background);
+            deductionsRateField.setBackground(colorSelector.text_field_background);
+        }
+    }//GEN-LAST:event_deductionsRateWrapperMouseExited
 
-    private void lastNameWrapper2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lastNameWrapper2MouseEntered
+    private void deductionsRateWrapperMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deductionsRateWrapperMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameWrapper2MouseEntered
+        if (!deductionsRateField.hasFocus()) {
+            deductionsRateWrapper.setBackground(colorSelector.text_field_hover);
+            deductionsRateField.setBackground(colorSelector.text_field_hover);
+        }
+    }//GEN-LAST:event_deductionsRateWrapperMouseEntered
 
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="work location">
+    
     private void workLocationFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_workLocationFieldFocusGained
         // TODO add your handling code here:
+        workLocationWrapper.setBackground(colorSelector.text_field_focus);
+        workLocationField.setBackground(colorSelector.text_field_focus);
     }//GEN-LAST:event_workLocationFieldFocusGained
 
     private void workLocationFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_workLocationFieldFocusLost
         // TODO add your handling code here:
+        workLocationWrapper.setBackground(colorSelector.text_field_background);
+        workLocationField.setBackground(colorSelector.text_field_background);
     }//GEN-LAST:event_workLocationFieldFocusLost
 
     private void workLocationFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_workLocationFieldMouseEntered
         // TODO add your handling code here:
+        if (!workLocationField.hasFocus()) {
+            workLocationWrapper.setBackground(colorSelector.text_field_hover);
+            workLocationField.setBackground(colorSelector.text_field_hover);
+        }
     }//GEN-LAST:event_workLocationFieldMouseEntered
 
     private void workLocationFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_workLocationFieldKeyReleased
         // TODO add your handling code here:
+        if (evt.getKeyCode() != KeyEvent.VK_ENTER && evt.getKeyCode() != KeyEvent.VK_SHIFT) {
+            workLocation = workLocationField.getText();
+            checkWorkLocation();
+            updateDisplay();
+        }
     }//GEN-LAST:event_workLocationFieldKeyReleased
 
-    private void lastNameWrapper3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lastNameWrapper3MouseExited
+    private void workLocationWrapperMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_workLocationWrapperMouseExited
         // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameWrapper3MouseExited
+        if (!workLocationField.hasFocus()) {
+            workLocationWrapper.setBackground(colorSelector.text_field_background);
+            workLocationField.setBackground(colorSelector.text_field_background);
+        }
+    }//GEN-LAST:event_workLocationWrapperMouseExited
 
-    private void lastNameWrapper3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lastNameWrapper3MouseEntered
+    private void workLocationWrapperMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_workLocationWrapperMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameWrapper3MouseEntered
+        if (!workLocationField.hasFocus()) {
+            workLocationWrapper.setBackground(colorSelector.text_field_hover);
+            workLocationField.setBackground(colorSelector.text_field_hover);
+        }
+    }//GEN-LAST:event_workLocationWrapperMouseEntered
 
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="yearly salary">
+    
     private void yearlySalaryFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_yearlySalaryFieldFocusGained
         // TODO add your handling code here:
+        yearlySalaryWrapper.setBackground(colorSelector.text_field_focus);
+        yearlySalaryField.setBackground(colorSelector.text_field_focus);
     }//GEN-LAST:event_yearlySalaryFieldFocusGained
 
     private void yearlySalaryFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_yearlySalaryFieldFocusLost
         // TODO add your handling code here:
+        yearlySalaryWrapper.setBackground(colorSelector.text_field_background);
+        yearlySalaryField.setBackground(colorSelector.text_field_background);
     }//GEN-LAST:event_yearlySalaryFieldFocusLost
 
     private void yearlySalaryFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_yearlySalaryFieldMouseEntered
         // TODO add your handling code here:
+        if (!yearlySalaryField.hasFocus()) {
+            yearlySalaryWrapper.setBackground(colorSelector.text_field_hover);
+            yearlySalaryField.setBackground(colorSelector.text_field_hover);
+        }
     }//GEN-LAST:event_yearlySalaryFieldMouseEntered
 
     private void yearlySalaryFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_yearlySalaryFieldKeyReleased
         // TODO add your handling code here:
+        if (evt.getKeyCode() != KeyEvent.VK_ENTER && evt.getKeyCode() != KeyEvent.VK_SHIFT) {
+            yearlySalary = yearlySalaryField.getText();
+            checkYearlySalary();
+            updateDisplay();
+        }
     }//GEN-LAST:event_yearlySalaryFieldKeyReleased
 
-    private void lastNameWrapper4MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lastNameWrapper4MouseExited
+    private void yearlySalaryWrapperMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_yearlySalaryWrapperMouseExited
         // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameWrapper4MouseExited
+        if (!yearlySalaryField.hasFocus()) {
+            yearlySalaryWrapper.setBackground(colorSelector.text_field_background);
+            yearlySalaryField.setBackground(colorSelector.text_field_background);
+        }
+    }//GEN-LAST:event_yearlySalaryWrapperMouseExited
 
-    private void lastNameWrapper4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lastNameWrapper4MouseEntered
+    private void yearlySalaryWrapperMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_yearlySalaryWrapperMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameWrapper4MouseEntered
+        if (!yearlySalaryField.hasFocus()) {
+            yearlySalaryWrapper.setBackground(colorSelector.text_field_hover);
+            yearlySalaryField.setBackground(colorSelector.text_field_hover);
+        }
+    }//GEN-LAST:event_yearlySalaryWrapperMouseEntered
 
-    private void lastNameField5FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lastNameField5FocusGained
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="hours per week">
+    
+    private void hoursPerWeekFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_hoursPerWeekFieldFocusGained
         // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameField5FocusGained
+        hoursPerWeekWrapper.setBackground(colorSelector.text_field_focus);
+        hoursPerWeekField.setBackground(colorSelector.text_field_focus);
+    }//GEN-LAST:event_hoursPerWeekFieldFocusGained
 
-    private void lastNameField5FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lastNameField5FocusLost
+    private void hoursPerWeekFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_hoursPerWeekFieldFocusLost
         // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameField5FocusLost
+        hoursPerWeekWrapper.setBackground(colorSelector.text_field_background);
+        hoursPerWeekField.setBackground(colorSelector.text_field_background);
+    }//GEN-LAST:event_hoursPerWeekFieldFocusLost
 
-    private void lastNameField5MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lastNameField5MouseEntered
+    private void hoursPerWeekFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hoursPerWeekFieldMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameField5MouseEntered
+        if (!hoursPerWeekField.hasFocus()) {
+            hoursPerWeekWrapper.setBackground(colorSelector.text_field_hover);
+            hoursPerWeekField.setBackground(colorSelector.text_field_hover);
+        }
+    }//GEN-LAST:event_hoursPerWeekFieldMouseEntered
 
-    private void lastNameField5KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lastNameField5KeyReleased
+    private void hoursPerWeekFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_hoursPerWeekFieldKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameField5KeyReleased
+        if (evt.getKeyCode() != KeyEvent.VK_ENTER && evt.getKeyCode() != KeyEvent.VK_SHIFT) {
+            hoursPerWeek = hoursPerWeekField.getText();
+            checkHoursPerWeek();
+            updateDisplay();
+        }
+    }//GEN-LAST:event_hoursPerWeekFieldKeyReleased
 
-    private void lastNameWrapper5MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lastNameWrapper5MouseExited
+    private void hoursPerWeekWrapperMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hoursPerWeekWrapperMouseExited
         // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameWrapper5MouseExited
+        if (!hoursPerWeekField.hasFocus()) {
+            hoursPerWeekWrapper.setBackground(colorSelector.text_field_background);
+            hoursPerWeekField.setBackground(colorSelector.text_field_background);
+        }
+    }//GEN-LAST:event_hoursPerWeekWrapperMouseExited
 
-    private void lastNameWrapper5MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lastNameWrapper5MouseEntered
+    private void hoursPerWeekWrapperMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hoursPerWeekWrapperMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameWrapper5MouseEntered
+        if (!hoursPerWeekField.hasFocus()) {
+            hoursPerWeekWrapper.setBackground(colorSelector.text_field_hover);
+            hoursPerWeekField.setBackground(colorSelector.text_field_hover);
+        }
+    }//GEN-LAST:event_hoursPerWeekWrapperMouseEntered
 
-    private void lastNameField6FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lastNameField6FocusGained
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="hourly wage">
+    
+    private void hourlyWageFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_hourlyWageFieldFocusGained
         // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameField6FocusGained
+        hourlyWageWrapper.setBackground(colorSelector.text_field_focus);
+        hourlyWageField.setBackground(colorSelector.text_field_focus);
+    }//GEN-LAST:event_hourlyWageFieldFocusGained
 
-    private void lastNameField6FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lastNameField6FocusLost
+    private void hourlyWageFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_hourlyWageFieldFocusLost
         // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameField6FocusLost
+        hourlyWageWrapper.setBackground(colorSelector.text_field_background);
+        hourlyWageField.setBackground(colorSelector.text_field_background);
+    }//GEN-LAST:event_hourlyWageFieldFocusLost
 
-    private void lastNameField6MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lastNameField6MouseEntered
+    private void hourlyWageFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hourlyWageFieldMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameField6MouseEntered
+        if (!hourlyWageField.hasFocus()) {
+            hourlyWageWrapper.setBackground(colorSelector.text_field_hover);
+            hourlyWageField.setBackground(colorSelector.text_field_hover);
+        }
+    }//GEN-LAST:event_hourlyWageFieldMouseEntered
 
-    private void lastNameField6KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lastNameField6KeyReleased
+    private void hourlyWageFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_hourlyWageFieldKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameField6KeyReleased
+        if (evt.getKeyCode() != KeyEvent.VK_ENTER && evt.getKeyCode() != KeyEvent.VK_SHIFT) {
+            hourlyWage = hourlyWageField.getText();
+            checkHourlyWage();
+            updateDisplay();
+        }
+    }//GEN-LAST:event_hourlyWageFieldKeyReleased
 
-    private void lastNameWrapper6MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lastNameWrapper6MouseExited
+    private void hourlyWageWrapperMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hourlyWageWrapperMouseExited
         // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameWrapper6MouseExited
+        if (!hourlyWageField.hasFocus()) {
+            hourlyWageWrapper.setBackground(colorSelector.text_field_background);
+            hourlyWageField.setBackground(colorSelector.text_field_background);
+        }
+    }//GEN-LAST:event_hourlyWageWrapperMouseExited
 
-    private void lastNameWrapper6MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lastNameWrapper6MouseEntered
+    private void hourlyWageWrapperMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hourlyWageWrapperMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameWrapper6MouseEntered
+        if (!hourlyWageField.hasFocus()) {
+            hourlyWageWrapper.setBackground(colorSelector.text_field_hover);
+            hourlyWageField.setBackground(colorSelector.text_field_hover);
+        }
+    }//GEN-LAST:event_hourlyWageWrapperMouseEntered
 
-    private void lastNameField7FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lastNameField7FocusGained
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="weeks per year">
+    
+    private void weeksPerYearFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_weeksPerYearFieldFocusGained
         // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameField7FocusGained
+        weeksPerYearWrapper.setBackground(colorSelector.text_field_focus);
+        weeksPerYearField.setBackground(colorSelector.text_field_focus);
+    }//GEN-LAST:event_weeksPerYearFieldFocusGained
 
-    private void lastNameField7FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lastNameField7FocusLost
+    private void weeksPerYearFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_weeksPerYearFieldFocusLost
         // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameField7FocusLost
+        weeksPerYearWrapper.setBackground(colorSelector.text_field_background);
+        weeksPerYearField.setBackground(colorSelector.text_field_background);
+    }//GEN-LAST:event_weeksPerYearFieldFocusLost
 
-    private void lastNameField7MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lastNameField7MouseEntered
+    private void weeksPerYearFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_weeksPerYearFieldMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameField7MouseEntered
+        if (!weeksPerYearField.hasFocus()) {
+            weeksPerYearWrapper.setBackground(colorSelector.text_field_hover);
+            weeksPerYearField.setBackground(colorSelector.text_field_hover);
+        }
+    }//GEN-LAST:event_weeksPerYearFieldMouseEntered
 
-    private void lastNameField7KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lastNameField7KeyReleased
+    private void weeksPerYearFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_weeksPerYearFieldKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameField7KeyReleased
+        if (evt.getKeyCode() != KeyEvent.VK_ENTER && evt.getKeyCode() != KeyEvent.VK_SHIFT) {
+            weeksPerYear = weeksPerYearField.getText();
+            checkEmployeeNumber();
+            updateDisplay();
+        }
+    }//GEN-LAST:event_weeksPerYearFieldKeyReleased
 
-    private void lastNameWrapper7MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lastNameWrapper7MouseExited
+    private void weeksPerYearWrapperMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_weeksPerYearWrapperMouseExited
         // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameWrapper7MouseExited
+        if (!weeksPerYearField.hasFocus()) {
+            weeksPerYearWrapper.setBackground(colorSelector.text_field_background);
+            weeksPerYearField.setBackground(colorSelector.text_field_background);
+        }
+    }//GEN-LAST:event_weeksPerYearWrapperMouseExited
 
-    private void lastNameWrapper7MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lastNameWrapper7MouseEntered
+    private void weeksPerYearWrapperMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_weeksPerYearWrapperMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameWrapper7MouseEntered
+        if (!weeksPerYearField.hasFocus()) {
+            weeksPerYearWrapper.setBackground(colorSelector.text_field_hover);
+            weeksPerYearField.setBackground(colorSelector.text_field_hover);
+        }
+    }//GEN-LAST:event_weeksPerYearWrapperMouseEntered
+
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="text field enter key movement">
+    
+    private void firstNameFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_firstNameFieldKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            lastNameField.requestFocus();
+        }
+    }//GEN-LAST:event_firstNameFieldKeyPressed
+
+    private void lastNameFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lastNameFieldKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            checkFullEmployeeTypeButton.requestFocus();
+        }
+    }//GEN-LAST:event_lastNameFieldKeyPressed
+
+    private void employeeNumberFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_employeeNumberFieldKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            deductionsRateField.requestFocus();
+        }
+    }//GEN-LAST:event_employeeNumberFieldKeyPressed
+
+    private void deductionsRateFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_deductionsRateFieldKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            workLocationField.requestFocus();
+        }
+    }//GEN-LAST:event_deductionsRateFieldKeyPressed
+
+    private void workLocationFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_workLocationFieldKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            switch (type) {
+                case 0:
+                    yearlySalaryField.requestFocus();
+                    break;
+                case 1:
+                    hourlyWageField.requestFocus();
+                    break;
+                default:
+                    confirmButton.requestFocus();
+                    break;
+            }
+        }
+    }//GEN-LAST:event_workLocationFieldKeyPressed
+
+    private void yearlySalaryFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_yearlySalaryFieldKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            confirmButton.requestFocus();
+        }
+    }//GEN-LAST:event_yearlySalaryFieldKeyPressed
+
+    private void hourlyWageFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_hourlyWageFieldKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            hoursPerWeekField.requestFocus();
+        }
+    }//GEN-LAST:event_hourlyWageFieldKeyPressed
+
+    private void hoursPerWeekFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_hoursPerWeekFieldKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            weeksPerYearField.requestFocus();
+        }
+    }//GEN-LAST:event_hoursPerWeekFieldKeyPressed
+
+    private void weeksPerYearFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_weeksPerYearFieldKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            confirmButton.requestFocus();
+        }
+    }//GEN-LAST:event_weeksPerYearFieldKeyPressed
 
     // </editor-fold>
     
@@ -2695,9 +3300,11 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     private javax.swing.JLabel deductionsRateErrorLabel;
     private javax.swing.JTextField deductionsRateField;
     public javax.swing.JLabel deductionsRateLabel;
+    private javax.swing.JPanel deductionsRateWrapper;
     private javax.swing.JLabel employeeNumberErrorLabel;
     private javax.swing.JTextField employeeNumberField;
     public javax.swing.JLabel employeeNumberLabel;
+    private javax.swing.JPanel employeeNumberWrapper;
     private javax.swing.JLabel firstNameErrorLabel;
     private javax.swing.JTextField firstNameField;
     public javax.swing.JLabel firstNameLabel;
@@ -2709,16 +3316,12 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     private javax.swing.JPanel formatter16;
     private javax.swing.JPanel formatter17;
     private javax.swing.JPanel formatter18;
-    private javax.swing.JPanel formatter19;
     private javax.swing.JPanel formatter2;
     private javax.swing.JPanel formatter20;
-    private javax.swing.JPanel formatter21;
     private javax.swing.JPanel formatter22;
-    private javax.swing.JPanel formatter23;
     private javax.swing.JPanel formatter24;
     private javax.swing.JPanel formatter3;
     private javax.swing.JPanel formatter4;
-    private javax.swing.JPanel formatter45;
     private javax.swing.JPanel formatter46;
     private javax.swing.JPanel formatter5;
     private javax.swing.JPanel formatter6;
@@ -2727,7 +3330,16 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     private javax.swing.JPanel formatter9;
     public javax.swing.JLabel genderLabel;
     public javax.swing.JButton ghostSubmit;
+    private javax.swing.JLabel hourlyWageErrorLabel;
+    private javax.swing.JTextField hourlyWageField;
+    private javax.swing.JPanel hourlyWageFormatter;
     public javax.swing.JLabel hourlyWageLabel;
+    private javax.swing.JPanel hourlyWageWrapper;
+    private javax.swing.JLabel hoursPerWeekErrorLabel;
+    private javax.swing.JTextField hoursPerWeekField;
+    private javax.swing.JPanel hoursPerWeekFormatter;
+    public javax.swing.JLabel hoursPerWeekLabel;
+    private javax.swing.JPanel hoursPerWeekWrapper;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -2737,36 +3349,30 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel lastNameErrorLabel;
-    private javax.swing.JLabel lastNameErrorLabel19;
-    private javax.swing.JLabel lastNameErrorLabel7;
-    private javax.swing.JLabel lastNameErrorLabel8;
     private javax.swing.JTextField lastNameField;
-    private javax.swing.JTextField lastNameField5;
-    private javax.swing.JTextField lastNameField6;
-    private javax.swing.JTextField lastNameField7;
     public javax.swing.JLabel lastNameLabel;
-    public javax.swing.JLabel lastNameLabel19;
-    public javax.swing.JLabel lastNameLabel7;
     private javax.swing.JPanel lastNameWrapper;
-    private javax.swing.JPanel lastNameWrapper1;
-    private javax.swing.JPanel lastNameWrapper2;
-    private javax.swing.JPanel lastNameWrapper3;
-    private javax.swing.JPanel lastNameWrapper4;
-    private javax.swing.JPanel lastNameWrapper5;
-    private javax.swing.JPanel lastNameWrapper6;
-    private javax.swing.JPanel lastNameWrapper7;
     public javax.swing.JLabel resetButton;
     private javax.swing.JLabel title;
     private javax.swing.JLabel typeErrorLabel;
     public javax.swing.JLabel typeLabel;
+    private javax.swing.JLabel weeksPerYearErrorLabel;
+    private javax.swing.JTextField weeksPerYearField;
+    private javax.swing.JPanel weeksPerYearFormatter;
+    public javax.swing.JLabel weeksPerYearLabel;
+    private javax.swing.JPanel weeksPerYearWrapper;
     private javax.swing.JLabel workLocationErrorLabel;
     private javax.swing.JTextField workLocationField;
     public javax.swing.JLabel workLocationLabel;
+    private javax.swing.JPanel workLocationWrapper;
     private javax.swing.JLabel yearlySalaryErrorLabel;
     private javax.swing.JTextField yearlySalaryField;
+    private javax.swing.JPanel yearlySalaryFormatter;
     public javax.swing.JLabel yearlySalaryLabel;
+    private javax.swing.JPanel yearlySalaryWrapper;
     // End of variables declaration//GEN-END:variables
 }
