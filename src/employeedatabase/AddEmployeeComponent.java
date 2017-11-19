@@ -43,6 +43,8 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="initialization">
+    
     /**
      * Creates new form AddEmployeeForm
      */
@@ -56,6 +58,8 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
      * initialize color service
      */
     private final ColorSelectorService colorSelector = new ColorSelectorService();
+    
+    // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="reset">
     
@@ -3287,6 +3291,8 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
     }
+    
+    // <editor-fold defaultstate="collapsed" desc="generated variables">
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JPanel addEmployeePanel;
@@ -3375,4 +3381,6 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     public javax.swing.JLabel yearlySalaryLabel;
     private javax.swing.JPanel yearlySalaryWrapper;
     // End of variables declaration//GEN-END:variables
+
+    // </editor-fold>
 }
