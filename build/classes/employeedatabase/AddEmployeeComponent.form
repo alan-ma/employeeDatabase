@@ -6,7 +6,7 @@
       <Color blue="fa" green="fa" red="fa" type="rgb"/>
     </Property>
     <Property name="bounds" type="java.awt.Rectangle" editor="org.netbeans.beaninfo.editors.RectangleEditor">
-      <Rectangle value="[720, 23, 0, 0]"/>
+      <Rectangle value="[900, 23, 0, 0]"/>
     </Property>
     <Property name="focusTraversalPolicy" type="java.awt.FocusTraversalPolicy" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
       <Connection code="new MyFocusTraversalPolicy()" type="code"/>

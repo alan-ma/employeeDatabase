@@ -656,7 +656,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
         weeksPerYearField = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(250, 250, 250));
-        setBounds(new java.awt.Rectangle(720, 23, 0, 0));
+        setBounds(new java.awt.Rectangle(900, 23, 0, 0));
         setFocusTraversalPolicy(new MyFocusTraversalPolicy());
         setSize(new java.awt.Dimension(370, 480));
 
