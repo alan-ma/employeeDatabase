@@ -6,6 +6,7 @@
 package employeedatabase;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -36,9 +37,10 @@ public class HashTable {
      * addEmployee: adds a new employee
      * returns true on successful addition
      * @param newEmployee the new employee object
+     * @return true after adding employee
      */
     public boolean addEmployee(EmployeeInfo newEmployee) {
-        int empNumber = newEmployee.getEmpNumber(); // gets employee number
+        String empNumber = newEmployee.getEmpNumber(); // gets employee number
         int bucket = hash(empNumber); // call the hash function
         buckets[bucket].add(newEmployee); // adds to the correct bucket
         numEmployees ++;
@@ -51,7 +53,7 @@ public class HashTable {
      * @param empNumber employee to remove
      * @return true for deleted, false for not found
      */
-    public boolean removeEmployee(int empNumber) {
+    public boolean removeEmployee(String empNumber) {
         int bucket = hash(empNumber); // call the hash function
         int index = searchInBucket(bucket, empNumber); // searches for employee by employee number
         if (index > -1) {
@@ -72,10 +74,10 @@ public class HashTable {
      * @param empNumber the employee number
      * @return index or -1 if not found
      */
-    public int searchInBucket(int bucket, int empNumber) {
+    public int searchInBucket(int bucket, String empNumber) {
         // loop through each item in the bucket
         for (int i = 0; i < buckets[bucket].size(); i++) {
-            if (buckets[bucket].get(i).getEmpNumber() == empNumber) {
+            if (buckets[bucket].get(i).getEmpNumber().equals(empNumber)) {
                 // found employee
                 return i;
             }
@@ -86,26 +88,23 @@ public class HashTable {
 
     /**
      * displays the data
-     * @return the display output
+     * @return the display output in an array
      */
-    public String display() {
-        String output = "";
+    public String[][] display() {
+        List<String[]> outputList = new ArrayList<>();
 
         // loop through buckets
         for (int i = 0; i < numBuckets; i++) {
             // loop through each bucket
             for (int j = 0; j < buckets[i].size(); j++) {
-                output += buckets[i].get(j).getEmpNumber();
-
-                // add commas
-                if (i != numBuckets - 1 || j != buckets[i].size() - 1) {
-                    output += ", ";
-                }
+                outputList.add(buckets[i].get(j).display());
             }
         }
 
-        System.out.println(output);
-        return output;
+        String[][] outputArray = new String[outputList.size()][];
+        outputArray = outputList.toArray(outputArray);
+        
+        return outputArray;
     }
     
     /**
@@ -129,7 +128,7 @@ public class HashTable {
      * modulo by number of buckets
      * @param key the key to hash by
      */
-    private int hash(int key) {
-        return key % numBuckets; // modulo by number of buckets
+    private int hash(String key) {
+        return Integer.valueOf(key) % numBuckets; // modulo by number of buckets
     }
 }

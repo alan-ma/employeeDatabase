@@ -24,7 +24,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     private boolean firstNameError;
     protected String lastName;
     private boolean lastNameError;
-    protected int gender; // 0 male, 1 female, 2 other
+    protected String gender;
     private boolean genderError;
     protected String employeeNumber;
     private boolean employeeNumberError;
@@ -75,7 +75,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
         firstNameError = false;
         lastName = "";
         lastNameError = false;
-        gender = -1;
+        gender = "";
         genderError = false;
         employeeNumber = "";
         employeeNumberError = false;
@@ -205,7 +205,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
      * @return false if gender is not selected
      */
     private boolean checkGender() {
-        if (gender == -1) {
+        if (gender.length() == 0) {
             genderError = true;
             return true;
         } else {
@@ -397,19 +397,19 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
         }
         
         switch (gender) {
-            case 0:
+            case "M":
                 // male is selected
                 checkGenderMale.setBackground(colorSelector.check_active_background);
                 checkGenderFemale.setBackground(colorSelector.check_inactive_background);
                 checkGenderOther.setBackground(colorSelector.check_inactive_background);
                 break;
-            case 1:
+            case "F":
                 // female is selected
                 checkGenderMale.setBackground(colorSelector.check_inactive_background);
                 checkGenderFemale.setBackground(colorSelector.check_active_background);
                 checkGenderOther.setBackground(colorSelector.check_inactive_background);
                 break;
-            case 2:
+            case "O":
                 // other is selected
                 checkGenderMale.setBackground(colorSelector.check_inactive_background);
                 checkGenderFemale.setBackground(colorSelector.check_inactive_background);
@@ -2602,14 +2602,14 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     
     private void checkGenderMaleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_checkGenderMaleMouseClicked
         // TODO add your handling code here:
-        gender = 0;
+        gender = "M";
         checkGender();
         updateDisplay();
     }//GEN-LAST:event_checkGenderMaleMouseClicked
 
     private void checkGenderMaleMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_checkGenderMaleMouseExited
         // TODO add your handling code here:
-        if (gender == 0) {
+        if (gender.equals("M")) {
             checkGenderMale.setBackground(colorSelector.check_active_background);
         } else {
             checkGenderMale.setBackground(colorSelector.check_inactive_background);
@@ -2618,21 +2618,21 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
 
     private void checkGenderMaleMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_checkGenderMaleMouseEntered
         // TODO add your handling code here:
-        if (gender != 0) {
+        if (!gender.equals("M")) {
             checkGenderMale.setBackground(colorSelector.check_hover);
         }
     }//GEN-LAST:event_checkGenderMaleMouseEntered
 
     private void checkGenderFemaleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_checkGenderFemaleMouseClicked
         // TODO add your handling code here:
-        gender = 1;
+        gender = "F";
         checkGender();
         updateDisplay();
     }//GEN-LAST:event_checkGenderFemaleMouseClicked
 
     private void checkGenderFemaleMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_checkGenderFemaleMouseExited
         // TODO add your handling code here:
-        if (gender == 1) {
+        if (gender.equals("F")) {
             checkGenderFemale.setBackground(colorSelector.check_active_background);
         } else {
             checkGenderFemale.setBackground(colorSelector.check_inactive_background);
@@ -2641,21 +2641,21 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
 
     private void checkGenderFemaleMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_checkGenderFemaleMouseEntered
         // TODO add your handling code here:
-        if (gender != 1) {
+        if (!gender.equals("F")) {
             checkGenderFemale.setBackground(colorSelector.check_hover);
         }
     }//GEN-LAST:event_checkGenderFemaleMouseEntered
 
     private void checkGenderOtherMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_checkGenderOtherMouseClicked
         // TODO add your handling code here:
-        gender = 2;
+        gender = "O";
         checkGender();
         updateDisplay();
     }//GEN-LAST:event_checkGenderOtherMouseClicked
 
     private void checkGenderOtherMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_checkGenderOtherMouseExited
         // TODO add your handling code here:
-        if (gender == 2) {
+        if (gender.equals("O")) {
             checkGenderOther.setBackground(colorSelector.check_active_background);
         } else {
             checkGenderOther.setBackground(colorSelector.check_inactive_background);
@@ -2664,7 +2664,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
 
     private void checkGenderOtherMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_checkGenderOtherMouseEntered
         // TODO add your handling code here:
-        if (gender != 2) {
+        if (!gender.equals("O")) {
             checkGenderOther.setBackground(colorSelector.check_hover);
         }
     }//GEN-LAST:event_checkGenderOtherMouseEntered
@@ -2776,7 +2776,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     private void checkGenderMaleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_checkGenderMaleKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            gender = 0;
+            gender = "M";
             
             checkGender();
             updateDisplay();
@@ -2788,7 +2788,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     private void checkGenderFemaleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_checkGenderFemaleKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            gender = 1;
+            gender = "F";
             
             checkGender();
             updateDisplay();
@@ -2800,7 +2800,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     private void checkGenderOtherKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_checkGenderOtherKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            gender = 2;
+            gender = "O";
             
             checkGender();
             updateDisplay();
@@ -3163,7 +3163,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (evt.getKeyCode() != KeyEvent.VK_ENTER && evt.getKeyCode() != KeyEvent.VK_SHIFT) {
             weeksPerYear = weeksPerYearField.getText();
-            checkEmployeeNumber();
+            checkWeeksPerYear();
             updateDisplay();
         }
     }//GEN-LAST:event_weeksPerYearFieldKeyReleased

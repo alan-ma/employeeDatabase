@@ -22,7 +22,7 @@ public class FullTimeEmployee extends EmployeeInfo {
      * @param deductionsRate the rate of deduction
      * @param yearlySalary the annual salary
      */
-    public FullTimeEmployee(int empNumber, String firstName, String lastName, int gender, int workLocation, double deductionsRate, double yearlySalary) {
+    public FullTimeEmployee(String empNumber, String firstName, String lastName, String gender, String workLocation, double deductionsRate, double yearlySalary) {
         super(empNumber, firstName, lastName, gender, workLocation, deductionsRate);
 
         this.yearlySalary = yearlySalary;
@@ -43,5 +43,23 @@ public class FullTimeEmployee extends EmployeeInfo {
      */
     public double calcAnnualNetIncome() {
         return yearlySalary * (1 - deductionsRate);
+    }
+    
+    /**
+     * returns the employee info for the dashboard table
+     * also decodes information
+     * @return 
+     */
+    public String[] display() {
+        String[] employeeInfo = {
+            empNumber,
+            firstName,
+            lastName,
+            gender,
+            workLocation,
+            "full time"
+        };
+        
+        return employeeInfo;
     }
 }

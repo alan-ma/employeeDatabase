@@ -26,7 +26,7 @@ public class PartTimeEmployee extends EmployeeInfo {
      * @param hoursPerWeek hours worked per week
      * @param weeksPerYear weeks worked per year
      */
-    public PartTimeEmployee(int empNumber, String firstName, String lastName, int gender, int workLocation, double deductionsRate, double hourlyWage, double hoursPerWeek, double weeksPerYear) {
+    public PartTimeEmployee(String empNumber, String firstName, String lastName, String gender, String workLocation, double deductionsRate, double hourlyWage, double hoursPerWeek, double weeksPerYear) {
         super(empNumber, firstName, lastName, gender, workLocation, deductionsRate);
 
         this.hourlyWage = hourlyWage;
@@ -61,5 +61,23 @@ public class PartTimeEmployee extends EmployeeInfo {
      */
     public double calcAnnualNetIncome() {
         return hourlyWage * hoursPerWeek * weeksPerYear * (1 - deductionsRate);
+    }
+    
+    /**
+     * returns the employee info for the dashboard table
+     * also decodes information
+     * @return 
+     */
+    public String[] display() {
+        String[] employeeInfo = {
+            empNumber,
+            firstName,
+            lastName,
+            gender,
+            workLocation,
+            "part time"
+        };
+        
+        return employeeInfo;
     }
 }

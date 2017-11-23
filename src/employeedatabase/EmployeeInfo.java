@@ -10,11 +10,11 @@ package employeedatabase;
  * @author alan
  */
 public class EmployeeInfo {
-    protected int empNumber;
+    protected String empNumber;
     protected String firstName;
     protected String lastName;
-    protected int gender; // 0 male, 1 female, 2 other
-    protected int workLocation; // 0 Mississauga, 1 Ottawa, 2 Chicago
+    protected String gender;
+    protected String workLocation;
     protected double deductionsRate;
 
     /**
@@ -26,7 +26,7 @@ public class EmployeeInfo {
      * @param workLocation work location encoded as integer (0 Mississauga, 1 Ottawa, 2 Chicago)
      * @param deductionsRate the rate of deduction
      */
-    public EmployeeInfo(int empNumber, String firstName, String lastName, int gender, int workLocation, double deductionsRate) {
+    public EmployeeInfo(String empNumber, String firstName, String lastName, String gender, String workLocation, double deductionsRate) {
         this.empNumber = empNumber;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -36,10 +36,10 @@ public class EmployeeInfo {
     }
 
     // getter and setter methods for each property
-    public int getEmpNumber() {
+    public String getEmpNumber() {
         return empNumber;
     }
-    public void setEmpNumber(int empNumber) {
+    public void setEmpNumber(String empNumber) {
         this.empNumber = empNumber;
     }
     public String getFirstName() {
@@ -54,16 +54,16 @@ public class EmployeeInfo {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    public int getGender() {
+    public String getGender() {
         return gender;
     }
-    public void setGender(int gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
-    public int getWorkLocation() {
+    public String getWorkLocation() {
         return workLocation;
     }
-    public void setWorkLocation(int workLocation) {
+    public void setWorkLocation(String workLocation) {
         this.workLocation = workLocation;
     }
     public double getDeductionsRate() {
@@ -71,5 +71,23 @@ public class EmployeeInfo {
     }
     public void setDeductionsRate(double deductionsRate) {
         this.deductionsRate = deductionsRate;
+    }
+    
+    /**
+     * returns the employee info for the dashboard table
+     * also decodes information
+     * @return 
+     */
+    public String[] display() {
+        String[] employeeInfo = {
+            empNumber,
+            firstName,
+            lastName,
+            gender,
+            workLocation,
+            ""
+        };
+        
+        return employeeInfo;
     }
 }
