@@ -7,6 +7,7 @@ package employeedatabase;
 
 import java.awt.event.KeyEvent;
 import java.awt.Dimension;
+import java.util.ArrayList;
 
 /**
  * employee database/management system
@@ -15,6 +16,8 @@ import java.awt.Dimension;
  * @author alan
  */
 public class MainComponent extends javax.swing.JFrame {
+    
+    // <editor-fold defaultstate="collapsed" desc="dashboard component init">
     /**
      * Creates new form DashboardComponent
      */
@@ -24,21 +27,37 @@ public class MainComponent extends javax.swing.JFrame {
         initializeComponents();
         updateDashboard();
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="global variables">
     /**
      * initializes global variables
      */
     private AddEmployeeComponent addEmployeeComponent;
     private ColorSelectorService colorSelector = new ColorSelectorService();
     private HashTable employeeDatabase = new HashTable(2);
+    private ArrayList<ViewEmployeeComponent> viewEmployeeComponents;
     
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="initialize database">
     /**
      * initialize database with employees
      */
     private void initializeDatabase() {
         // read from file
+        employeeDatabase.addEmployee(new FullTimeEmployee("123456", "bob", "the builder", "M", "here", 0.1, 100));
+        employeeDatabase.addEmployee(new FullTimeEmployee("123456", "bob", "the builder", "M", "here", 0.1, 100));
+        employeeDatabase.addEmployee(new FullTimeEmployee("123456", "bob", "the builder", "M", "here", 0.1, 100));
+        employeeDatabase.addEmployee(new FullTimeEmployee("123456", "bob", "the builder", "M", "here", 0.1, 100));
+        employeeDatabase.addEmployee(new FullTimeEmployee("123456", "bob", "the builder", "M", "here", 0.1, 100));
+        employeeDatabase.addEmployee(new FullTimeEmployee("123456", "bob", "the builder", "M", "here", 0.1, 100));
         
+        updateDashboard();
     }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="other init">
     
     /**
      * initializes other components
@@ -57,12 +76,16 @@ public class MainComponent extends javax.swing.JFrame {
         });
     }
     
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="dashboard view update">
+    
     /**
      * updates the dashboard view
      */
     private void updateDashboard() {
         // update the number of employees
-        if (employeeDatabase.getNumBuckets() == 1) {
+        if (employeeDatabase.getNumEmployees() == 1) {
             information.setText("there is currently 1 employee.");
         } else {
             information.setText("there are currently " + employeeDatabase.getNumEmployees() + " employees.");
@@ -77,6 +100,67 @@ public class MainComponent extends javax.swing.JFrame {
         { public boolean isCellEditable(int row, int column){return false;} }
         );
     }
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="check new employee">
+    
+    /**
+     * checks the new employee being added
+     */
+    private void checkNewEmployee() {
+        // add employee and reset fields
+        
+        boolean errorsExist = addEmployeeComponent.checkErrors();
+        EmployeeInfo newEmployee;
+        
+        if (!errorsExist) {
+            if (addEmployeeComponent.type == 0) {
+                // full time
+                newEmployee = new FullTimeEmployee(
+                        addEmployeeComponent.employeeNumber,
+                        addEmployeeComponent.firstName,
+                        addEmployeeComponent.lastName,
+                        addEmployeeComponent.gender,
+                        addEmployeeComponent.workLocation,
+                        Double.valueOf(addEmployeeComponent.deductionsRate),
+                        Double.valueOf(addEmployeeComponent.yearlySalary)
+                );
+            } else {
+                // part time
+                newEmployee = new PartTimeEmployee(
+                        addEmployeeComponent.employeeNumber,
+                        addEmployeeComponent.firstName,
+                        addEmployeeComponent.lastName,
+                        addEmployeeComponent.gender,
+                        addEmployeeComponent.workLocation,
+                        Double.valueOf(addEmployeeComponent.deductionsRate),
+                        Double.valueOf(addEmployeeComponent.hourlyWage),
+                        Double.valueOf(addEmployeeComponent.hoursPerWeek),
+                        Double.valueOf(addEmployeeComponent.weeksPerYear)
+                );
+            }
+            
+            employeeDatabase.addEmployee(newEmployee);
+            addEmployeeComponent.reset();
+        }
+        
+        addEmployeeComponent.updateDisplay();
+        updateDashboard();
+    }
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="open employee info panel">
+    
+    private void openEmployeeInfo(String employeeID) {
+        ViewEmployeeComponent test = new ViewEmployeeComponent(employeeDatabase.search(employeeID));
+        test.setVisible(true);
+    }
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -95,6 +179,7 @@ public class MainComponent extends javax.swing.JFrame {
         jPanel10 = new javax.swing.JPanel();
         databaseScrollPane = new javax.swing.JScrollPane();
         databaseScrollPane.getVerticalScrollBar().setPreferredSize (new Dimension(0,0));
+        databaseScrollPane.setBorder(null);
         databaseTable = new javax.swing.JTable();
         databaseHeader = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -137,6 +222,7 @@ public class MainComponent extends javax.swing.JFrame {
         addEmployeeButton.setForeground(new java.awt.Color(0, 0, 0));
         addEmployeeButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         addEmployeeButton.setText("add employee");
+        addEmployeeButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(230, 230, 230), 2));
         addEmployeeButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addEmployeeButton.setMaximumSize(new java.awt.Dimension(125, 35));
         addEmployeeButton.setMinimumSize(new java.awt.Dimension(125, 35));
@@ -208,13 +294,27 @@ public class MainComponent extends javax.swing.JFrame {
         {public boolean isCellEditable(int row, int column){return false;}}
     );
     databaseTable.setFillsViewportHeight(true);
+    databaseTable.setFocusable(false);
     databaseTable.setGridColor(new java.awt.Color(250, 250, 250));
     databaseTable.setRowHeight(48);
     databaseTable.setRowMargin(12);
-    databaseTable.setSelectionBackground(new java.awt.Color(187, 222, 251));
+    databaseTable.setSelectionBackground(new java.awt.Color(225, 245, 254));
     databaseTable.setSelectionForeground(new java.awt.Color(0, 0, 0));
     databaseTable.setShowGrid(false);
     databaseTable.setTableHeader(null);
+    databaseTable.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+        public void mouseMoved(java.awt.event.MouseEvent evt) {
+            databaseTableMouseMoved(evt);
+        }
+    });
+    databaseTable.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            databaseTableMouseClicked(evt);
+        }
+        public void mouseExited(java.awt.event.MouseEvent evt) {
+            databaseTableMouseExited(evt);
+        }
+    });
     databaseScrollPane.setViewportView(databaseTable);
 
     databaseHeader.setBackground(new java.awt.Color(250, 250, 250));
@@ -467,6 +567,10 @@ public class MainComponent extends javax.swing.JFrame {
     pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="add employee button">
+    
     private void addEmployeeButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addEmployeeButtonMouseEntered
         // TODO add your handling code here:
         addEmployeeButton.setBackground(colorSelector.button_hover);
@@ -493,6 +597,38 @@ public class MainComponent extends javax.swing.JFrame {
         // TODO add your handling code here:
         addEmployeeButton.setBackground(colorSelector.button_background);
     }//GEN-LAST:event_addEmployeeButtonMouseReleased
+
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="database table">
+    
+    private void databaseTableMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_databaseTableMouseMoved
+        // TODO add your handling code here:
+        int hoverRow = databaseTable.rowAtPoint(evt.getPoint());
+        if (hoverRow > -1) {
+            databaseTable.setRowSelectionInterval(hoverRow, hoverRow);
+        } else {
+            databaseTable.clearSelection();
+        }
+    }//GEN-LAST:event_databaseTableMouseMoved
+
+    private void databaseTableMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_databaseTableMouseExited
+        // TODO add your handling code here:
+        databaseTable.clearSelection();
+    }//GEN-LAST:event_databaseTableMouseExited
+
+    private void databaseTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_databaseTableMouseClicked
+        // TODO add your handling code here:
+        int selectedRow = databaseTable.rowAtPoint(evt.getPoint());
+        if (selectedRow > -1) {
+            String id = databaseTable.getValueAt(selectedRow, 0).toString();
+            openEmployeeInfo(id);
+        }
+    }//GEN-LAST:event_databaseTableMouseClicked
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="add employee events">
     
     private void addEmployeeConfirmButtonMouseClicked(java.awt.event.MouseEvent evt) {                                               
         // TODO add your handling code here:
@@ -504,48 +640,11 @@ public class MainComponent extends javax.swing.JFrame {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             checkNewEmployee();
         }
-    }                                         
-    
-    private void checkNewEmployee() {
-        // add employee and reset fields
-        
-        boolean errorsExist = addEmployeeComponent.checkErrors();
-        EmployeeInfo newEmployee;
-        
-        if (!errorsExist) {
-            if (addEmployeeComponent.type == 0) {
-                // full time
-                newEmployee = new FullTimeEmployee(
-                        addEmployeeComponent.employeeNumber,
-                        addEmployeeComponent.firstName,
-                        addEmployeeComponent.lastName,
-                        addEmployeeComponent.gender,
-                        addEmployeeComponent.workLocation,
-                        Double.valueOf(addEmployeeComponent.deductionsRate),
-                        Double.valueOf(addEmployeeComponent.yearlySalary)
-                );
-            } else {
-                // part time
-                newEmployee = new PartTimeEmployee(
-                        addEmployeeComponent.employeeNumber,
-                        addEmployeeComponent.firstName,
-                        addEmployeeComponent.lastName,
-                        addEmployeeComponent.gender,
-                        addEmployeeComponent.workLocation,
-                        Double.valueOf(addEmployeeComponent.deductionsRate),
-                        Double.valueOf(addEmployeeComponent.hourlyWage),
-                        Double.valueOf(addEmployeeComponent.hoursPerWeek),
-                        Double.valueOf(addEmployeeComponent.weeksPerYear)
-                );
-            }
-            
-            employeeDatabase.addEmployee(newEmployee);
-            addEmployeeComponent.reset();
-        }
-        
-        addEmployeeComponent.updateDisplay();
-        updateDashboard();
     }
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="other generated things">
     
     /**
      * @param args the command line arguments
@@ -605,4 +704,6 @@ public class MainComponent extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
+    
+    // </editor-fold>
 }

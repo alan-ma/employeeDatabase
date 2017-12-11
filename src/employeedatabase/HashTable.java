@@ -66,6 +66,23 @@ public class HashTable {
             return false;
         }
     }
+    
+    /**
+     * search: searches entire hash table for an employee number
+     * @param empNumber
+     * @return employee class or null if not found
+     */
+    public EmployeeInfo search(String empNumber) {
+        int bucketNum = hash(empNumber);
+        if (bucketNum > -1) {
+            int bucketIndex = searchInBucket(bucketNum, empNumber);
+            if (bucketIndex > -1) {
+                return buckets[bucketNum].get(bucketIndex);
+            }
+        }
+        
+        return null;
+    }
 
     /**
      * search: searches a bucket for an employee number
@@ -126,9 +143,19 @@ public class HashTable {
     /**
      * hash: hash function
      * modulo by number of buckets
-     * @param key the key to hash by
+     * @param key the key to hash by or -1 if not valid
      */
     private int hash(String key) {
-        return Integer.valueOf(key) % numBuckets; // modulo by number of buckets
+        try {
+            int empNum = Integer.parseInt(key);
+            if (empNum >= 0) {
+                return empNum % numBuckets; // modulo by number of buckets
+            } else {
+                return -1;
+            }
+        }
+        catch (NumberFormatException nfe) {
+            return -1;
+        }
     }
 }

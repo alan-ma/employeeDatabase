@@ -40,4 +40,7 @@ public class ColorSelectorService {
     public Color text_field_background = new Color(255, 252, 219);
     public Color text_field_hover = new Color(255, 249, 196);
     public Color text_field_focus = new Color(249, 242, 172);
+    public Color button_edit_background = new Color(255, 236, 179);
+    public Color button_edit_hover = new Color(255, 248, 225);
+    public Color button_edit_pressed = new Color(255, 224, 130);
 }

@@ -156,6 +156,79 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     
     // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="error message update">
+    
+    /**
+     * error message update method
+     * checks if error labels exist and displays messages
+     * @return boolean, true if errors exist, false otherwise
+     */
+    public boolean updateErrorMessage() {
+        boolean errorsExist = false;
+        String errorMessage = "";
+        
+        if (typeErrorLabel.isVisible()) {
+            errorsExist = true;
+            errorMessage = "Error: The employee type must be set.";
+        }
+        
+        if (checkGenderErrorLabel.isVisible()) {
+            errorsExist = true;
+            errorMessage = "Error: The gender must be set.";
+        }
+        
+        if (firstNameErrorLabel.isVisible()) {
+            errorsExist = true;
+            errorMessage = "Error: The first name must be at least two characters long.";
+        }
+        
+        if (lastNameErrorLabel.isVisible()) {
+            errorsExist = true;
+            errorMessage = "Error: The last name must be at least two characters long.";
+        }
+        
+        if (employeeNumberErrorLabel.isVisible()) {
+            errorsExist = true;
+            errorMessage = "Error: The employee number must be a six-digit integer.";
+        }
+        
+        if (deductionsRateErrorLabel.isVisible()) {
+            errorsExist = true;
+            errorMessage = "Error: The deductions rate must be a number between 0 and 1.";
+        }
+        
+        if (workLocationErrorLabel.isVisible()) {
+            errorsExist = true;
+            errorMessage = "Error: The work location must be set.";
+        }
+        
+        if (yearlySalaryErrorLabel.isVisible() && type == 0) {
+            errorsExist = true;
+            errorMessage = "Error: The yearly salary must be set as a number.";
+        }
+        
+        if (hourlyWageErrorLabel.isVisible() && type == 1) {
+            errorsExist = true;
+            errorMessage = "Error: The hourly wage must be set as a number";
+        }
+        
+        if (hoursPerWeekErrorLabel.isVisible() && type == 1) {
+            errorsExist = true;
+            errorMessage = "Error: The hours per week must be set as a number";
+        }
+        
+        if (weeksPerYearErrorLabel.isVisible() && type == 1) {
+            errorsExist = true;
+            errorMessage = "Error: The weeks per year must be set as a number";
+        }
+        
+        errorText.setText("<html>" + errorMessage + "</html>");
+        
+        return errorsExist;
+    }
+    
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="custom error checking">
     
     /**
@@ -497,6 +570,8 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
         } else {
             weeksPerYearErrorLabel.setVisible(false);
         }
+        
+        updateErrorMessage();
     }
     
     // </editor-fold>
@@ -571,31 +646,12 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
 
         addEmployeePanel = new javax.swing.JPanel();
         title = new javax.swing.JLabel();
-        formatter = new javax.swing.JPanel();
-        checkFullEmployeeTypeButton = new javax.swing.JLabel();
-        checkPartEmployeeTypeButton = new javax.swing.JLabel();
-        typeLabel = new javax.swing.JLabel();
-        formatter2 = new javax.swing.JPanel();
-        typeErrorLabel = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
         formatter1 = new javax.swing.JPanel();
         resetButton = new javax.swing.JLabel();
         confirmButton = new javax.swing.JLabel();
-        ghostSubmit = new javax.swing.JButton();
-        formatter3 = new javax.swing.JPanel();
-        firstNameLabel = new javax.swing.JLabel();
-        formatter4 = new javax.swing.JPanel();
-        firstNameErrorLabel = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        firstNameWrapper = new javax.swing.JPanel();
-        firstNameField = new javax.swing.JTextField();
-        formatter5 = new javax.swing.JPanel();
-        lastNameLabel = new javax.swing.JLabel();
-        formatter6 = new javax.swing.JPanel();
-        lastNameErrorLabel = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        lastNameWrapper = new javax.swing.JPanel();
-        lastNameField = new javax.swing.JTextField();
+        jPanel7 = new javax.swing.JPanel();
+        errorText = new javax.swing.JLabel();
+        jPanel13 = new javax.swing.JPanel();
         formatter7 = new javax.swing.JPanel();
         checkGenderMale = new javax.swing.JLabel();
         checkGenderFemale = new javax.swing.JLabel();
@@ -604,20 +660,6 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
         checkGenderErrorLabel = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         checkGenderOther = new javax.swing.JLabel();
-        formatter9 = new javax.swing.JPanel();
-        employeeNumberLabel = new javax.swing.JLabel();
-        formatter10 = new javax.swing.JPanel();
-        employeeNumberErrorLabel = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        employeeNumberWrapper = new javax.swing.JPanel();
-        employeeNumberField = new javax.swing.JTextField();
-        formatter15 = new javax.swing.JPanel();
-        deductionsRateLabel = new javax.swing.JLabel();
-        formatter16 = new javax.swing.JPanel();
-        deductionsRateErrorLabel = new javax.swing.JLabel();
-        jPanel8 = new javax.swing.JPanel();
-        deductionsRateWrapper = new javax.swing.JPanel();
-        deductionsRateField = new javax.swing.JTextField();
         formatter17 = new javax.swing.JPanel();
         workLocationLabel = new javax.swing.JLabel();
         formatter18 = new javax.swing.JPanel();
@@ -625,13 +667,13 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
         jPanel9 = new javax.swing.JPanel();
         workLocationWrapper = new javax.swing.JPanel();
         workLocationField = new javax.swing.JTextField();
-        hoursPerWeekFormatter = new javax.swing.JPanel();
-        hoursPerWeekLabel = new javax.swing.JLabel();
-        formatter22 = new javax.swing.JPanel();
-        hoursPerWeekErrorLabel = new javax.swing.JLabel();
-        jPanel11 = new javax.swing.JPanel();
-        hoursPerWeekWrapper = new javax.swing.JPanel();
-        hoursPerWeekField = new javax.swing.JTextField();
+        formatter3 = new javax.swing.JPanel();
+        firstNameLabel = new javax.swing.JLabel();
+        formatter4 = new javax.swing.JPanel();
+        firstNameErrorLabel = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        firstNameWrapper = new javax.swing.JPanel();
+        firstNameField = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         yearlySalaryFormatter = new javax.swing.JPanel();
         yearlySalaryLabel = new javax.swing.JLabel();
@@ -654,6 +696,41 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
         jPanel23 = new javax.swing.JPanel();
         weeksPerYearWrapper = new javax.swing.JPanel();
         weeksPerYearField = new javax.swing.JTextField();
+        formatter5 = new javax.swing.JPanel();
+        lastNameLabel = new javax.swing.JLabel();
+        formatter6 = new javax.swing.JPanel();
+        lastNameErrorLabel = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        lastNameWrapper = new javax.swing.JPanel();
+        lastNameField = new javax.swing.JTextField();
+        hoursPerWeekFormatter = new javax.swing.JPanel();
+        hoursPerWeekLabel = new javax.swing.JLabel();
+        formatter22 = new javax.swing.JPanel();
+        hoursPerWeekErrorLabel = new javax.swing.JLabel();
+        jPanel11 = new javax.swing.JPanel();
+        hoursPerWeekWrapper = new javax.swing.JPanel();
+        hoursPerWeekField = new javax.swing.JTextField();
+        formatter9 = new javax.swing.JPanel();
+        employeeNumberLabel = new javax.swing.JLabel();
+        formatter10 = new javax.swing.JPanel();
+        employeeNumberErrorLabel = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        employeeNumberWrapper = new javax.swing.JPanel();
+        employeeNumberField = new javax.swing.JTextField();
+        formatter15 = new javax.swing.JPanel();
+        deductionsRateLabel = new javax.swing.JLabel();
+        formatter16 = new javax.swing.JPanel();
+        deductionsRateErrorLabel = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        deductionsRateWrapper = new javax.swing.JPanel();
+        deductionsRateField = new javax.swing.JTextField();
+        formatter = new javax.swing.JPanel();
+        checkFullEmployeeTypeButton = new javax.swing.JLabel();
+        checkPartEmployeeTypeButton = new javax.swing.JLabel();
+        typeLabel = new javax.swing.JLabel();
+        formatter2 = new javax.swing.JPanel();
+        typeErrorLabel = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(250, 250, 250));
         setBounds(new java.awt.Rectangle(900, 23, 0, 0));
@@ -662,163 +739,14 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
 
         addEmployeePanel.setBackground(new java.awt.Color(250, 250, 250));
         addEmployeePanel.setForeground(new java.awt.Color(0, 0, 0));
-        addEmployeePanel.setSize(new java.awt.Dimension(370, 480));
+        addEmployeePanel.setPreferredSize(new java.awt.Dimension(738, 484));
+        addEmployeePanel.setSize(new java.awt.Dimension(738, 484));
 
         title.setBackground(new java.awt.Color(255, 255, 255));
         title.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
         title.setForeground(new java.awt.Color(0, 0, 0));
         title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         title.setText("add employee");
-
-        formatter.setOpaque(false);
-
-        checkFullEmployeeTypeButton.setBackground(new java.awt.Color(250, 250, 250));
-        checkFullEmployeeTypeButton.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        checkFullEmployeeTypeButton.setForeground(new java.awt.Color(0, 0, 0));
-        checkFullEmployeeTypeButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        checkFullEmployeeTypeButton.setText("full-time");
-        checkFullEmployeeTypeButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(144, 202, 249), 2));
-        checkFullEmployeeTypeButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        checkFullEmployeeTypeButton.setMaximumSize(new java.awt.Dimension(75, 30));
-        checkFullEmployeeTypeButton.setMinimumSize(new java.awt.Dimension(75, 30));
-        checkFullEmployeeTypeButton.setOpaque(true);
-        checkFullEmployeeTypeButton.setPreferredSize(new java.awt.Dimension(75, 30));
-        checkFullEmployeeTypeButton.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                checkFullEmployeeTypeButtonFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                checkFullEmployeeTypeButtonFocusLost(evt);
-            }
-        });
-        checkFullEmployeeTypeButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                checkFullEmployeeTypeButtonMouseClicked(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                checkFullEmployeeTypeButtonMouseExited(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                checkFullEmployeeTypeButtonMouseEntered(evt);
-            }
-        });
-        checkFullEmployeeTypeButton.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                checkFullEmployeeTypeButtonKeyPressed(evt);
-            }
-        });
-
-        checkPartEmployeeTypeButton.setBackground(new java.awt.Color(250, 250, 250));
-        checkPartEmployeeTypeButton.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        checkPartEmployeeTypeButton.setForeground(new java.awt.Color(0, 0, 0));
-        checkPartEmployeeTypeButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        checkPartEmployeeTypeButton.setText("part-time");
-        checkPartEmployeeTypeButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(144, 202, 249), 2));
-        checkPartEmployeeTypeButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        checkPartEmployeeTypeButton.setMaximumSize(new java.awt.Dimension(75, 30));
-        checkPartEmployeeTypeButton.setMinimumSize(new java.awt.Dimension(75, 30));
-        checkPartEmployeeTypeButton.setOpaque(true);
-        checkPartEmployeeTypeButton.setPreferredSize(new java.awt.Dimension(75, 30));
-        checkPartEmployeeTypeButton.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                checkPartEmployeeTypeButtonFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                checkPartEmployeeTypeButtonFocusLost(evt);
-            }
-        });
-        checkPartEmployeeTypeButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                checkPartEmployeeTypeButtonMouseClicked(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                checkPartEmployeeTypeButtonMouseExited(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                checkPartEmployeeTypeButtonMouseEntered(evt);
-            }
-        });
-        checkPartEmployeeTypeButton.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                checkPartEmployeeTypeButtonKeyPressed(evt);
-            }
-        });
-
-        typeLabel.setBackground(new java.awt.Color(250, 250, 250));
-        typeLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        typeLabel.setForeground(new java.awt.Color(0, 0, 0));
-        typeLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        typeLabel.setText("type:");
-        typeLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        typeLabel.setMaximumSize(new java.awt.Dimension(75, 30));
-        typeLabel.setMinimumSize(new java.awt.Dimension(75, 30));
-        typeLabel.setPreferredSize(new java.awt.Dimension(75, 30));
-
-        formatter2.setOpaque(false);
-
-        typeErrorLabel.setFont(new java.awt.Font("Open Sans", 0, 24)); // NOI18N
-        typeErrorLabel.setForeground(new java.awt.Color(244, 67, 54));
-        typeErrorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        typeErrorLabel.setText("⚠");
-
-        jPanel1.setOpaque(false);
-        jPanel1.setPreferredSize(new java.awt.Dimension(26, 2));
-        jPanel1.setSize(new java.awt.Dimension(26, 2));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 26, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 2, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout formatter2Layout = new javax.swing.GroupLayout(formatter2);
-        formatter2.setLayout(formatter2Layout);
-        formatter2Layout.setHorizontalGroup(
-            formatter2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(typeErrorLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        formatter2Layout.setVerticalGroup(
-            formatter2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(formatter2Layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(typeErrorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2))
-        );
-
-        javax.swing.GroupLayout formatterLayout = new javax.swing.GroupLayout(formatter);
-        formatter.setLayout(formatterLayout);
-        formatterLayout.setHorizontalGroup(
-            formatterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(formatterLayout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(typeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
-                .addComponent(checkFullEmployeeTypeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addComponent(checkPartEmployeeTypeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25)
-                .addComponent(formatter2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
-        );
-        formatterLayout.setVerticalGroup(
-            formatterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(formatterLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addGroup(formatterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(formatterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(typeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(checkFullEmployeeTypeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(checkPartEmployeeTypeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(formatter2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
 
         formatter1.setBackground(new java.awt.Color(250, 250, 250));
 
@@ -898,305 +826,55 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
             }
         });
 
-        ghostSubmit.setBackground(new java.awt.Color(250, 250, 250));
-        ghostSubmit.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        ghostSubmit.setForeground(new java.awt.Color(0, 0, 0));
-        ghostSubmit.setBorder(null);
-        ghostSubmit.setBorderPainted(false);
-        ghostSubmit.setContentAreaFilled(false);
-        ghostSubmit.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        ghostSubmit.setFocusPainted(false);
-        ghostSubmit.setPreferredSize(new java.awt.Dimension(50, 30));
-        ghostSubmit.setSize(new java.awt.Dimension(20, 30));
-
         javax.swing.GroupLayout formatter1Layout = new javax.swing.GroupLayout(formatter1);
         formatter1.setLayout(formatter1Layout);
         formatter1Layout.setHorizontalGroup(
             formatter1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(formatter1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(272, Short.MAX_VALUE)
                 .addComponent(resetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ghostSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(44, 44, 44)
                 .addComponent(confirmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(272, Short.MAX_VALUE))
         );
         formatter1Layout.setVerticalGroup(
             formatter1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(formatter1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(formatter1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(ghostSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(formatter1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(resetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(confirmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(formatter1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(resetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(confirmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(15, 15, 15))
         );
 
-        formatter3.setFocusTraversalPolicyProvider(true);
-        formatter3.setOpaque(false);
+        jPanel7.setBackground(new java.awt.Color(250, 250, 250));
+        jPanel7.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel7.setOpaque(false);
+        jPanel7.setPreferredSize(new java.awt.Dimension(121, 50));
 
-        firstNameLabel.setBackground(new java.awt.Color(250, 250, 250));
-        firstNameLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        firstNameLabel.setForeground(new java.awt.Color(0, 0, 0));
-        firstNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        firstNameLabel.setText("first:");
-        firstNameLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        firstNameLabel.setMaximumSize(new java.awt.Dimension(75, 30));
-        firstNameLabel.setMinimumSize(new java.awt.Dimension(75, 30));
-        firstNameLabel.setPreferredSize(new java.awt.Dimension(75, 30));
+        errorText.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        errorText.setForeground(new java.awt.Color(244, 67, 54));
+        errorText.setText("<html>error message</html>");
+        errorText.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
-        formatter4.setOpaque(false);
-
-        firstNameErrorLabel.setFont(new java.awt.Font("Open Sans", 0, 24)); // NOI18N
-        firstNameErrorLabel.setForeground(new java.awt.Color(244, 67, 54));
-        firstNameErrorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        firstNameErrorLabel.setText("⚠");
-
-        jPanel2.setOpaque(false);
-        jPanel2.setPreferredSize(new java.awt.Dimension(26, 2));
-        jPanel2.setSize(new java.awt.Dimension(26, 2));
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 26, Short.MAX_VALUE)
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(errorText, javax.swing.GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
+                .addGap(12, 12, 12))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 2, Short.MAX_VALUE)
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(errorText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12))
         );
 
-        javax.swing.GroupLayout formatter4Layout = new javax.swing.GroupLayout(formatter4);
-        formatter4.setLayout(formatter4Layout);
-        formatter4Layout.setHorizontalGroup(
-            formatter4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(firstNameErrorLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        formatter4Layout.setVerticalGroup(
-            formatter4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(formatter4Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(firstNameErrorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2))
-        );
-
-        firstNameWrapper.setBackground(new java.awt.Color(255, 252, 219));
-        firstNameWrapper.setForeground(new java.awt.Color(0, 0, 0));
-        firstNameWrapper.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                firstNameWrapperMouseExited(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                firstNameWrapperMouseEntered(evt);
-            }
-        });
-
-        firstNameField.setBackground(new java.awt.Color(255, 252, 219));
-        firstNameField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        firstNameField.setForeground(new java.awt.Color(0, 0, 0));
-        firstNameField.setBorder(null);
-        firstNameField.setOpaque(false);
-        firstNameField.setSelectedTextColor(new java.awt.Color(0, 0, 0));
-        firstNameField.setSelectionColor(new java.awt.Color(0, 0, 0));
-        firstNameField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                firstNameFieldFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                firstNameFieldFocusLost(evt);
-            }
-        });
-        firstNameField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                firstNameFieldMouseEntered(evt);
-            }
-        });
-        firstNameField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                firstNameFieldKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                firstNameFieldKeyReleased(evt);
-            }
-        });
-
-        javax.swing.GroupLayout firstNameWrapperLayout = new javax.swing.GroupLayout(firstNameWrapper);
-        firstNameWrapper.setLayout(firstNameWrapperLayout);
-        firstNameWrapperLayout.setHorizontalGroup(
-            firstNameWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, firstNameWrapperLayout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(firstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5))
-        );
-        firstNameWrapperLayout.setVerticalGroup(
-            firstNameWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(firstNameWrapperLayout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(firstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5))
-        );
-
-        javax.swing.GroupLayout formatter3Layout = new javax.swing.GroupLayout(formatter3);
-        formatter3.setLayout(formatter3Layout);
-        formatter3Layout.setHorizontalGroup(
-            formatter3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(formatter3Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(firstNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21)
-                .addComponent(firstNameWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(formatter4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
-        );
-        formatter3Layout.setVerticalGroup(
-            formatter3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formatter3Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addGroup(formatter3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(firstNameWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(firstNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(formatter4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-
-        formatter5.setFocusTraversalPolicyProvider(true);
-        formatter5.setOpaque(false);
-
-        lastNameLabel.setBackground(new java.awt.Color(250, 250, 250));
-        lastNameLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        lastNameLabel.setForeground(new java.awt.Color(0, 0, 0));
-        lastNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lastNameLabel.setText("last:");
-        lastNameLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lastNameLabel.setMaximumSize(new java.awt.Dimension(75, 30));
-        lastNameLabel.setMinimumSize(new java.awt.Dimension(75, 30));
-        lastNameLabel.setPreferredSize(new java.awt.Dimension(75, 30));
-
-        formatter6.setOpaque(false);
-
-        lastNameErrorLabel.setFont(new java.awt.Font("Open Sans", 0, 24)); // NOI18N
-        lastNameErrorLabel.setForeground(new java.awt.Color(244, 67, 54));
-        lastNameErrorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lastNameErrorLabel.setText("⚠");
-
-        jPanel3.setOpaque(false);
-        jPanel3.setPreferredSize(new java.awt.Dimension(26, 2));
-        jPanel3.setSize(new java.awt.Dimension(26, 2));
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 26, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 2, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout formatter6Layout = new javax.swing.GroupLayout(formatter6);
-        formatter6.setLayout(formatter6Layout);
-        formatter6Layout.setHorizontalGroup(
-            formatter6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lastNameErrorLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        formatter6Layout.setVerticalGroup(
-            formatter6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(formatter6Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(lastNameErrorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2))
-        );
-
-        lastNameWrapper.setBackground(new java.awt.Color(255, 252, 219));
-        lastNameWrapper.setForeground(new java.awt.Color(0, 0, 0));
-        lastNameWrapper.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lastNameWrapperMouseExited(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lastNameWrapperMouseEntered(evt);
-            }
-        });
-
-        lastNameField.setBackground(new java.awt.Color(255, 252, 219));
-        lastNameField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        lastNameField.setForeground(new java.awt.Color(0, 0, 0));
-        lastNameField.setBorder(null);
-        lastNameField.setOpaque(false);
-        lastNameField.setSelectedTextColor(new java.awt.Color(0, 0, 0));
-        lastNameField.setSelectionColor(new java.awt.Color(0, 0, 0));
-        lastNameField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                lastNameFieldFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                lastNameFieldFocusLost(evt);
-            }
-        });
-        lastNameField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lastNameFieldMouseEntered(evt);
-            }
-        });
-        lastNameField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                lastNameFieldKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                lastNameFieldKeyReleased(evt);
-            }
-        });
-
-        javax.swing.GroupLayout lastNameWrapperLayout = new javax.swing.GroupLayout(lastNameWrapper);
-        lastNameWrapper.setLayout(lastNameWrapperLayout);
-        lastNameWrapperLayout.setHorizontalGroup(
-            lastNameWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lastNameWrapperLayout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(lastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5))
-        );
-        lastNameWrapperLayout.setVerticalGroup(
-            lastNameWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(lastNameWrapperLayout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(lastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5))
-        );
-
-        javax.swing.GroupLayout formatter5Layout = new javax.swing.GroupLayout(formatter5);
-        formatter5.setLayout(formatter5Layout);
-        formatter5Layout.setHorizontalGroup(
-            formatter5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(formatter5Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(lastNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21)
-                .addComponent(lastNameWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(formatter6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
-        );
-        formatter5Layout.setVerticalGroup(
-            formatter5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formatter5Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addGroup(formatter5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lastNameWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lastNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(formatter6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
+        jPanel13.setOpaque(false);
 
         formatter7.setOpaque(false);
 
@@ -1277,7 +955,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
         genderLabel.setForeground(new java.awt.Color(0, 0, 0));
         genderLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         genderLabel.setText("gender:");
-        genderLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        genderLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         genderLabel.setMaximumSize(new java.awt.Dimension(75, 30));
         genderLabel.setMinimumSize(new java.awt.Dimension(75, 30));
         genderLabel.setPreferredSize(new java.awt.Dimension(75, 30));
@@ -1387,270 +1065,6 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        formatter9.setFocusTraversalPolicyProvider(true);
-        formatter9.setOpaque(false);
-
-        employeeNumberLabel.setBackground(new java.awt.Color(250, 250, 250));
-        employeeNumberLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        employeeNumberLabel.setForeground(new java.awt.Color(0, 0, 0));
-        employeeNumberLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        employeeNumberLabel.setText("emp. #:");
-        employeeNumberLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        employeeNumberLabel.setMaximumSize(new java.awt.Dimension(75, 30));
-        employeeNumberLabel.setMinimumSize(new java.awt.Dimension(75, 30));
-        employeeNumberLabel.setPreferredSize(new java.awt.Dimension(75, 30));
-
-        formatter10.setOpaque(false);
-
-        employeeNumberErrorLabel.setFont(new java.awt.Font("Open Sans", 0, 24)); // NOI18N
-        employeeNumberErrorLabel.setForeground(new java.awt.Color(244, 67, 54));
-        employeeNumberErrorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        employeeNumberErrorLabel.setText("⚠");
-
-        jPanel5.setOpaque(false);
-        jPanel5.setPreferredSize(new java.awt.Dimension(26, 2));
-        jPanel5.setSize(new java.awt.Dimension(26, 2));
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 26, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 2, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout formatter10Layout = new javax.swing.GroupLayout(formatter10);
-        formatter10.setLayout(formatter10Layout);
-        formatter10Layout.setHorizontalGroup(
-            formatter10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(employeeNumberErrorLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        formatter10Layout.setVerticalGroup(
-            formatter10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(formatter10Layout.createSequentialGroup()
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(employeeNumberErrorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2))
-        );
-
-        employeeNumberWrapper.setBackground(new java.awt.Color(255, 252, 219));
-        employeeNumberWrapper.setForeground(new java.awt.Color(0, 0, 0));
-        employeeNumberWrapper.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                employeeNumberWrapperMouseExited(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                employeeNumberWrapperMouseEntered(evt);
-            }
-        });
-
-        employeeNumberField.setBackground(new java.awt.Color(255, 252, 219));
-        employeeNumberField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        employeeNumberField.setForeground(new java.awt.Color(0, 0, 0));
-        employeeNumberField.setBorder(null);
-        employeeNumberField.setOpaque(false);
-        employeeNumberField.setSelectedTextColor(new java.awt.Color(0, 0, 0));
-        employeeNumberField.setSelectionColor(new java.awt.Color(0, 0, 0));
-        employeeNumberField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                employeeNumberFieldFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                employeeNumberFieldFocusLost(evt);
-            }
-        });
-        employeeNumberField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                employeeNumberFieldMouseEntered(evt);
-            }
-        });
-        employeeNumberField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                employeeNumberFieldKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                employeeNumberFieldKeyReleased(evt);
-            }
-        });
-
-        javax.swing.GroupLayout employeeNumberWrapperLayout = new javax.swing.GroupLayout(employeeNumberWrapper);
-        employeeNumberWrapper.setLayout(employeeNumberWrapperLayout);
-        employeeNumberWrapperLayout.setHorizontalGroup(
-            employeeNumberWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, employeeNumberWrapperLayout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(employeeNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5))
-        );
-        employeeNumberWrapperLayout.setVerticalGroup(
-            employeeNumberWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(employeeNumberWrapperLayout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(employeeNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5))
-        );
-
-        javax.swing.GroupLayout formatter9Layout = new javax.swing.GroupLayout(formatter9);
-        formatter9.setLayout(formatter9Layout);
-        formatter9Layout.setHorizontalGroup(
-            formatter9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(formatter9Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(employeeNumberLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21)
-                .addComponent(employeeNumberWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(formatter10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
-        );
-        formatter9Layout.setVerticalGroup(
-            formatter9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formatter9Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addGroup(formatter9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(employeeNumberWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(employeeNumberLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(formatter10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-
-        formatter15.setFocusTraversalPolicyProvider(true);
-        formatter15.setOpaque(false);
-
-        deductionsRateLabel.setBackground(new java.awt.Color(250, 250, 250));
-        deductionsRateLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        deductionsRateLabel.setForeground(new java.awt.Color(0, 0, 0));
-        deductionsRateLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        deductionsRateLabel.setText("ded. rate:");
-        deductionsRateLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        deductionsRateLabel.setMaximumSize(new java.awt.Dimension(75, 30));
-        deductionsRateLabel.setMinimumSize(new java.awt.Dimension(75, 30));
-        deductionsRateLabel.setPreferredSize(new java.awt.Dimension(75, 30));
-
-        formatter16.setOpaque(false);
-
-        deductionsRateErrorLabel.setFont(new java.awt.Font("Open Sans", 0, 24)); // NOI18N
-        deductionsRateErrorLabel.setForeground(new java.awt.Color(244, 67, 54));
-        deductionsRateErrorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        deductionsRateErrorLabel.setText("⚠");
-
-        jPanel8.setOpaque(false);
-        jPanel8.setPreferredSize(new java.awt.Dimension(26, 2));
-        jPanel8.setSize(new java.awt.Dimension(26, 2));
-
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 26, Short.MAX_VALUE)
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 2, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout formatter16Layout = new javax.swing.GroupLayout(formatter16);
-        formatter16.setLayout(formatter16Layout);
-        formatter16Layout.setHorizontalGroup(
-            formatter16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(deductionsRateErrorLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        formatter16Layout.setVerticalGroup(
-            formatter16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(formatter16Layout.createSequentialGroup()
-                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(deductionsRateErrorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2))
-        );
-
-        deductionsRateWrapper.setBackground(new java.awt.Color(255, 252, 219));
-        deductionsRateWrapper.setForeground(new java.awt.Color(0, 0, 0));
-        deductionsRateWrapper.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                deductionsRateWrapperMouseExited(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                deductionsRateWrapperMouseEntered(evt);
-            }
-        });
-
-        deductionsRateField.setBackground(new java.awt.Color(255, 252, 219));
-        deductionsRateField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        deductionsRateField.setForeground(new java.awt.Color(0, 0, 0));
-        deductionsRateField.setBorder(null);
-        deductionsRateField.setOpaque(false);
-        deductionsRateField.setSelectedTextColor(new java.awt.Color(0, 0, 0));
-        deductionsRateField.setSelectionColor(new java.awt.Color(0, 0, 0));
-        deductionsRateField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                deductionsRateFieldFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                deductionsRateFieldFocusLost(evt);
-            }
-        });
-        deductionsRateField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                deductionsRateFieldMouseEntered(evt);
-            }
-        });
-        deductionsRateField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                deductionsRateFieldKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                deductionsRateFieldKeyReleased(evt);
-            }
-        });
-
-        javax.swing.GroupLayout deductionsRateWrapperLayout = new javax.swing.GroupLayout(deductionsRateWrapper);
-        deductionsRateWrapper.setLayout(deductionsRateWrapperLayout);
-        deductionsRateWrapperLayout.setHorizontalGroup(
-            deductionsRateWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, deductionsRateWrapperLayout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(deductionsRateField, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5))
-        );
-        deductionsRateWrapperLayout.setVerticalGroup(
-            deductionsRateWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(deductionsRateWrapperLayout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(deductionsRateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5))
-        );
-
-        javax.swing.GroupLayout formatter15Layout = new javax.swing.GroupLayout(formatter15);
-        formatter15.setLayout(formatter15Layout);
-        formatter15Layout.setHorizontalGroup(
-            formatter15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(formatter15Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(deductionsRateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21)
-                .addComponent(deductionsRateWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(formatter16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
-        );
-        formatter15Layout.setVerticalGroup(
-            formatter15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formatter15Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addGroup(formatter15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(deductionsRateWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deductionsRateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(formatter16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-
         formatter17.setFocusTraversalPolicyProvider(true);
         formatter17.setOpaque(false);
 
@@ -1659,7 +1073,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
         workLocationLabel.setForeground(new java.awt.Color(0, 0, 0));
         workLocationLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         workLocationLabel.setText("location:");
-        workLocationLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        workLocationLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         workLocationLabel.setMaximumSize(new java.awt.Dimension(75, 30));
         workLocationLabel.setMinimumSize(new java.awt.Dimension(75, 30));
         workLocationLabel.setPreferredSize(new java.awt.Dimension(75, 30));
@@ -1783,135 +1197,135 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        hoursPerWeekFormatter.setFocusTraversalPolicyProvider(true);
-        hoursPerWeekFormatter.setOpaque(false);
+        formatter3.setFocusTraversalPolicyProvider(true);
+        formatter3.setOpaque(false);
 
-        hoursPerWeekLabel.setBackground(new java.awt.Color(250, 250, 250));
-        hoursPerWeekLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        hoursPerWeekLabel.setForeground(new java.awt.Color(0, 0, 0));
-        hoursPerWeekLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        hoursPerWeekLabel.setText("hours:");
-        hoursPerWeekLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        hoursPerWeekLabel.setMaximumSize(new java.awt.Dimension(75, 30));
-        hoursPerWeekLabel.setMinimumSize(new java.awt.Dimension(75, 30));
-        hoursPerWeekLabel.setPreferredSize(new java.awt.Dimension(75, 30));
+        firstNameLabel.setBackground(new java.awt.Color(250, 250, 250));
+        firstNameLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        firstNameLabel.setForeground(new java.awt.Color(0, 0, 0));
+        firstNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        firstNameLabel.setText("first:");
+        firstNameLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        firstNameLabel.setMaximumSize(new java.awt.Dimension(75, 30));
+        firstNameLabel.setMinimumSize(new java.awt.Dimension(75, 30));
+        firstNameLabel.setPreferredSize(new java.awt.Dimension(75, 30));
 
-        formatter22.setOpaque(false);
+        formatter4.setOpaque(false);
 
-        hoursPerWeekErrorLabel.setFont(new java.awt.Font("Open Sans", 0, 24)); // NOI18N
-        hoursPerWeekErrorLabel.setForeground(new java.awt.Color(244, 67, 54));
-        hoursPerWeekErrorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        hoursPerWeekErrorLabel.setText("⚠");
+        firstNameErrorLabel.setFont(new java.awt.Font("Open Sans", 0, 24)); // NOI18N
+        firstNameErrorLabel.setForeground(new java.awt.Color(244, 67, 54));
+        firstNameErrorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        firstNameErrorLabel.setText("⚠");
 
-        jPanel11.setOpaque(false);
-        jPanel11.setPreferredSize(new java.awt.Dimension(26, 2));
-        jPanel11.setSize(new java.awt.Dimension(26, 2));
+        jPanel2.setOpaque(false);
+        jPanel2.setPreferredSize(new java.awt.Dimension(26, 2));
+        jPanel2.setSize(new java.awt.Dimension(26, 2));
 
-        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
-        jPanel11.setLayout(jPanel11Layout);
-        jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 26, Short.MAX_VALUE)
         );
-        jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 2, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout formatter22Layout = new javax.swing.GroupLayout(formatter22);
-        formatter22.setLayout(formatter22Layout);
-        formatter22Layout.setHorizontalGroup(
-            formatter22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(hoursPerWeekErrorLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        javax.swing.GroupLayout formatter4Layout = new javax.swing.GroupLayout(formatter4);
+        formatter4.setLayout(formatter4Layout);
+        formatter4Layout.setHorizontalGroup(
+            formatter4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(firstNameErrorLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
-        formatter22Layout.setVerticalGroup(
-            formatter22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(formatter22Layout.createSequentialGroup()
-                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        formatter4Layout.setVerticalGroup(
+            formatter4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(formatter4Layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(hoursPerWeekErrorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(firstNameErrorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 2, 2))
         );
 
-        hoursPerWeekWrapper.setBackground(new java.awt.Color(255, 252, 219));
-        hoursPerWeekWrapper.setForeground(new java.awt.Color(0, 0, 0));
-        hoursPerWeekWrapper.addMouseListener(new java.awt.event.MouseAdapter() {
+        firstNameWrapper.setBackground(new java.awt.Color(255, 252, 219));
+        firstNameWrapper.setForeground(new java.awt.Color(0, 0, 0));
+        firstNameWrapper.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                hoursPerWeekWrapperMouseExited(evt);
+                firstNameWrapperMouseExited(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                hoursPerWeekWrapperMouseEntered(evt);
+                firstNameWrapperMouseEntered(evt);
             }
         });
 
-        hoursPerWeekField.setBackground(new java.awt.Color(255, 252, 219));
-        hoursPerWeekField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        hoursPerWeekField.setForeground(new java.awt.Color(0, 0, 0));
-        hoursPerWeekField.setBorder(null);
-        hoursPerWeekField.setOpaque(false);
-        hoursPerWeekField.setSelectedTextColor(new java.awt.Color(0, 0, 0));
-        hoursPerWeekField.setSelectionColor(new java.awt.Color(0, 0, 0));
-        hoursPerWeekField.addFocusListener(new java.awt.event.FocusAdapter() {
+        firstNameField.setBackground(new java.awt.Color(255, 252, 219));
+        firstNameField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        firstNameField.setForeground(new java.awt.Color(0, 0, 0));
+        firstNameField.setBorder(null);
+        firstNameField.setOpaque(false);
+        firstNameField.setSelectedTextColor(new java.awt.Color(0, 0, 0));
+        firstNameField.setSelectionColor(new java.awt.Color(0, 0, 0));
+        firstNameField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                hoursPerWeekFieldFocusGained(evt);
+                firstNameFieldFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                hoursPerWeekFieldFocusLost(evt);
+                firstNameFieldFocusLost(evt);
             }
         });
-        hoursPerWeekField.addMouseListener(new java.awt.event.MouseAdapter() {
+        firstNameField.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                hoursPerWeekFieldMouseEntered(evt);
+                firstNameFieldMouseEntered(evt);
             }
         });
-        hoursPerWeekField.addKeyListener(new java.awt.event.KeyAdapter() {
+        firstNameField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                hoursPerWeekFieldKeyPressed(evt);
+                firstNameFieldKeyPressed(evt);
             }
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                hoursPerWeekFieldKeyReleased(evt);
+                firstNameFieldKeyReleased(evt);
             }
         });
 
-        javax.swing.GroupLayout hoursPerWeekWrapperLayout = new javax.swing.GroupLayout(hoursPerWeekWrapper);
-        hoursPerWeekWrapper.setLayout(hoursPerWeekWrapperLayout);
-        hoursPerWeekWrapperLayout.setHorizontalGroup(
-            hoursPerWeekWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, hoursPerWeekWrapperLayout.createSequentialGroup()
+        javax.swing.GroupLayout firstNameWrapperLayout = new javax.swing.GroupLayout(firstNameWrapper);
+        firstNameWrapper.setLayout(firstNameWrapperLayout);
+        firstNameWrapperLayout.setHorizontalGroup(
+            firstNameWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, firstNameWrapperLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addComponent(hoursPerWeekField, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(firstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5))
         );
-        hoursPerWeekWrapperLayout.setVerticalGroup(
-            hoursPerWeekWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(hoursPerWeekWrapperLayout.createSequentialGroup()
+        firstNameWrapperLayout.setVerticalGroup(
+            firstNameWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(firstNameWrapperLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addComponent(hoursPerWeekField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(firstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5))
         );
 
-        javax.swing.GroupLayout hoursPerWeekFormatterLayout = new javax.swing.GroupLayout(hoursPerWeekFormatter);
-        hoursPerWeekFormatter.setLayout(hoursPerWeekFormatterLayout);
-        hoursPerWeekFormatterLayout.setHorizontalGroup(
-            hoursPerWeekFormatterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(hoursPerWeekFormatterLayout.createSequentialGroup()
+        javax.swing.GroupLayout formatter3Layout = new javax.swing.GroupLayout(formatter3);
+        formatter3.setLayout(formatter3Layout);
+        formatter3Layout.setHorizontalGroup(
+            formatter3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(formatter3Layout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addComponent(hoursPerWeekLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(firstNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21)
-                .addComponent(hoursPerWeekWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(firstNameWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(formatter22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(formatter4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
         );
-        hoursPerWeekFormatterLayout.setVerticalGroup(
-            hoursPerWeekFormatterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, hoursPerWeekFormatterLayout.createSequentialGroup()
+        formatter3Layout.setVerticalGroup(
+            formatter3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formatter3Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addGroup(hoursPerWeekFormatterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(hoursPerWeekWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(hoursPerWeekLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(formatter22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(formatter3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(firstNameWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(firstNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(formatter4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -1926,7 +1340,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
         yearlySalaryLabel.setForeground(new java.awt.Color(0, 0, 0));
         yearlySalaryLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         yearlySalaryLabel.setText("salary:");
-        yearlySalaryLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        yearlySalaryLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         yearlySalaryLabel.setMaximumSize(new java.awt.Dimension(75, 30));
         yearlySalaryLabel.setMinimumSize(new java.awt.Dimension(75, 30));
         yearlySalaryLabel.setPreferredSize(new java.awt.Dimension(75, 30));
@@ -2058,7 +1472,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
         hourlyWageLabel.setForeground(new java.awt.Color(0, 0, 0));
         hourlyWageLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         hourlyWageLabel.setText("wage:");
-        hourlyWageLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        hourlyWageLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         hourlyWageLabel.setMaximumSize(new java.awt.Dimension(75, 30));
         hourlyWageLabel.setMinimumSize(new java.awt.Dimension(75, 30));
         hourlyWageLabel.setPreferredSize(new java.awt.Dimension(75, 30));
@@ -2190,7 +1604,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
         weeksPerYearLabel.setForeground(new java.awt.Color(0, 0, 0));
         weeksPerYearLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         weeksPerYearLabel.setText("weeks:");
-        weeksPerYearLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        weeksPerYearLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         weeksPerYearLabel.setMaximumSize(new java.awt.Dimension(75, 30));
         weeksPerYearLabel.setMinimumSize(new java.awt.Dimension(75, 30));
         weeksPerYearLabel.setPreferredSize(new java.awt.Dimension(75, 30));
@@ -2318,7 +1732,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 360, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
             .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(weeksPerYearFormatter, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(yearlySalaryFormatter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -2337,28 +1751,742 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
+        formatter5.setFocusTraversalPolicyProvider(true);
+        formatter5.setOpaque(false);
+
+        lastNameLabel.setBackground(new java.awt.Color(250, 250, 250));
+        lastNameLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        lastNameLabel.setForeground(new java.awt.Color(0, 0, 0));
+        lastNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lastNameLabel.setText("last:");
+        lastNameLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        lastNameLabel.setMaximumSize(new java.awt.Dimension(75, 30));
+        lastNameLabel.setMinimumSize(new java.awt.Dimension(75, 30));
+        lastNameLabel.setPreferredSize(new java.awt.Dimension(75, 30));
+
+        formatter6.setOpaque(false);
+
+        lastNameErrorLabel.setFont(new java.awt.Font("Open Sans", 0, 24)); // NOI18N
+        lastNameErrorLabel.setForeground(new java.awt.Color(244, 67, 54));
+        lastNameErrorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lastNameErrorLabel.setText("⚠");
+
+        jPanel3.setOpaque(false);
+        jPanel3.setPreferredSize(new java.awt.Dimension(26, 2));
+        jPanel3.setSize(new java.awt.Dimension(26, 2));
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 26, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 2, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout formatter6Layout = new javax.swing.GroupLayout(formatter6);
+        formatter6.setLayout(formatter6Layout);
+        formatter6Layout.setHorizontalGroup(
+            formatter6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lastNameErrorLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        formatter6Layout.setVerticalGroup(
+            formatter6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(formatter6Layout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(lastNameErrorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2))
+        );
+
+        lastNameWrapper.setBackground(new java.awt.Color(255, 252, 219));
+        lastNameWrapper.setForeground(new java.awt.Color(0, 0, 0));
+        lastNameWrapper.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lastNameWrapperMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lastNameWrapperMouseEntered(evt);
+            }
+        });
+
+        lastNameField.setBackground(new java.awt.Color(255, 252, 219));
+        lastNameField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        lastNameField.setForeground(new java.awt.Color(0, 0, 0));
+        lastNameField.setBorder(null);
+        lastNameField.setOpaque(false);
+        lastNameField.setSelectedTextColor(new java.awt.Color(0, 0, 0));
+        lastNameField.setSelectionColor(new java.awt.Color(0, 0, 0));
+        lastNameField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                lastNameFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                lastNameFieldFocusLost(evt);
+            }
+        });
+        lastNameField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lastNameFieldMouseEntered(evt);
+            }
+        });
+        lastNameField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                lastNameFieldKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                lastNameFieldKeyReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout lastNameWrapperLayout = new javax.swing.GroupLayout(lastNameWrapper);
+        lastNameWrapper.setLayout(lastNameWrapperLayout);
+        lastNameWrapperLayout.setHorizontalGroup(
+            lastNameWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lastNameWrapperLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(lastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5))
+        );
+        lastNameWrapperLayout.setVerticalGroup(
+            lastNameWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(lastNameWrapperLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(lastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5))
+        );
+
+        javax.swing.GroupLayout formatter5Layout = new javax.swing.GroupLayout(formatter5);
+        formatter5.setLayout(formatter5Layout);
+        formatter5Layout.setHorizontalGroup(
+            formatter5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(formatter5Layout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(lastNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21)
+                .addComponent(lastNameWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(formatter6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
+        );
+        formatter5Layout.setVerticalGroup(
+            formatter5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formatter5Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(formatter5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lastNameWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lastNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(formatter6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        hoursPerWeekFormatter.setFocusTraversalPolicyProvider(true);
+        hoursPerWeekFormatter.setOpaque(false);
+
+        hoursPerWeekLabel.setBackground(new java.awt.Color(250, 250, 250));
+        hoursPerWeekLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        hoursPerWeekLabel.setForeground(new java.awt.Color(0, 0, 0));
+        hoursPerWeekLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        hoursPerWeekLabel.setText("hours:");
+        hoursPerWeekLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        hoursPerWeekLabel.setMaximumSize(new java.awt.Dimension(75, 30));
+        hoursPerWeekLabel.setMinimumSize(new java.awt.Dimension(75, 30));
+        hoursPerWeekLabel.setPreferredSize(new java.awt.Dimension(75, 30));
+
+        formatter22.setOpaque(false);
+
+        hoursPerWeekErrorLabel.setFont(new java.awt.Font("Open Sans", 0, 24)); // NOI18N
+        hoursPerWeekErrorLabel.setForeground(new java.awt.Color(244, 67, 54));
+        hoursPerWeekErrorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        hoursPerWeekErrorLabel.setText("⚠");
+
+        jPanel11.setOpaque(false);
+        jPanel11.setPreferredSize(new java.awt.Dimension(26, 2));
+        jPanel11.setSize(new java.awt.Dimension(26, 2));
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 26, Short.MAX_VALUE)
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 2, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout formatter22Layout = new javax.swing.GroupLayout(formatter22);
+        formatter22.setLayout(formatter22Layout);
+        formatter22Layout.setHorizontalGroup(
+            formatter22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(hoursPerWeekErrorLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        formatter22Layout.setVerticalGroup(
+            formatter22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(formatter22Layout.createSequentialGroup()
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(hoursPerWeekErrorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2))
+        );
+
+        hoursPerWeekWrapper.setBackground(new java.awt.Color(255, 252, 219));
+        hoursPerWeekWrapper.setForeground(new java.awt.Color(0, 0, 0));
+        hoursPerWeekWrapper.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                hoursPerWeekWrapperMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                hoursPerWeekWrapperMouseEntered(evt);
+            }
+        });
+
+        hoursPerWeekField.setBackground(new java.awt.Color(255, 252, 219));
+        hoursPerWeekField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        hoursPerWeekField.setForeground(new java.awt.Color(0, 0, 0));
+        hoursPerWeekField.setBorder(null);
+        hoursPerWeekField.setOpaque(false);
+        hoursPerWeekField.setSelectedTextColor(new java.awt.Color(0, 0, 0));
+        hoursPerWeekField.setSelectionColor(new java.awt.Color(0, 0, 0));
+        hoursPerWeekField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                hoursPerWeekFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                hoursPerWeekFieldFocusLost(evt);
+            }
+        });
+        hoursPerWeekField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                hoursPerWeekFieldMouseEntered(evt);
+            }
+        });
+        hoursPerWeekField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                hoursPerWeekFieldKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                hoursPerWeekFieldKeyReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout hoursPerWeekWrapperLayout = new javax.swing.GroupLayout(hoursPerWeekWrapper);
+        hoursPerWeekWrapper.setLayout(hoursPerWeekWrapperLayout);
+        hoursPerWeekWrapperLayout.setHorizontalGroup(
+            hoursPerWeekWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, hoursPerWeekWrapperLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(hoursPerWeekField, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5))
+        );
+        hoursPerWeekWrapperLayout.setVerticalGroup(
+            hoursPerWeekWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(hoursPerWeekWrapperLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(hoursPerWeekField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5))
+        );
+
+        javax.swing.GroupLayout hoursPerWeekFormatterLayout = new javax.swing.GroupLayout(hoursPerWeekFormatter);
+        hoursPerWeekFormatter.setLayout(hoursPerWeekFormatterLayout);
+        hoursPerWeekFormatterLayout.setHorizontalGroup(
+            hoursPerWeekFormatterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(hoursPerWeekFormatterLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(hoursPerWeekLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21)
+                .addComponent(hoursPerWeekWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(formatter22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
+        );
+        hoursPerWeekFormatterLayout.setVerticalGroup(
+            hoursPerWeekFormatterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, hoursPerWeekFormatterLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(hoursPerWeekFormatterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(hoursPerWeekWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(hoursPerWeekLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(formatter22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        formatter9.setFocusTraversalPolicyProvider(true);
+        formatter9.setOpaque(false);
+
+        employeeNumberLabel.setBackground(new java.awt.Color(250, 250, 250));
+        employeeNumberLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        employeeNumberLabel.setForeground(new java.awt.Color(0, 0, 0));
+        employeeNumberLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        employeeNumberLabel.setText("emp. #:");
+        employeeNumberLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        employeeNumberLabel.setMaximumSize(new java.awt.Dimension(75, 30));
+        employeeNumberLabel.setMinimumSize(new java.awt.Dimension(75, 30));
+        employeeNumberLabel.setPreferredSize(new java.awt.Dimension(75, 30));
+
+        formatter10.setOpaque(false);
+
+        employeeNumberErrorLabel.setFont(new java.awt.Font("Open Sans", 0, 24)); // NOI18N
+        employeeNumberErrorLabel.setForeground(new java.awt.Color(244, 67, 54));
+        employeeNumberErrorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        employeeNumberErrorLabel.setText("⚠");
+
+        jPanel5.setOpaque(false);
+        jPanel5.setPreferredSize(new java.awt.Dimension(26, 2));
+        jPanel5.setSize(new java.awt.Dimension(26, 2));
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 26, Short.MAX_VALUE)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 2, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout formatter10Layout = new javax.swing.GroupLayout(formatter10);
+        formatter10.setLayout(formatter10Layout);
+        formatter10Layout.setHorizontalGroup(
+            formatter10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(employeeNumberErrorLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        formatter10Layout.setVerticalGroup(
+            formatter10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(formatter10Layout.createSequentialGroup()
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(employeeNumberErrorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2))
+        );
+
+        employeeNumberWrapper.setBackground(new java.awt.Color(255, 252, 219));
+        employeeNumberWrapper.setForeground(new java.awt.Color(0, 0, 0));
+        employeeNumberWrapper.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                employeeNumberWrapperMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                employeeNumberWrapperMouseEntered(evt);
+            }
+        });
+
+        employeeNumberField.setBackground(new java.awt.Color(255, 252, 219));
+        employeeNumberField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        employeeNumberField.setForeground(new java.awt.Color(0, 0, 0));
+        employeeNumberField.setBorder(null);
+        employeeNumberField.setOpaque(false);
+        employeeNumberField.setSelectedTextColor(new java.awt.Color(0, 0, 0));
+        employeeNumberField.setSelectionColor(new java.awt.Color(0, 0, 0));
+        employeeNumberField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                employeeNumberFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                employeeNumberFieldFocusLost(evt);
+            }
+        });
+        employeeNumberField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                employeeNumberFieldMouseEntered(evt);
+            }
+        });
+        employeeNumberField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                employeeNumberFieldKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                employeeNumberFieldKeyReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout employeeNumberWrapperLayout = new javax.swing.GroupLayout(employeeNumberWrapper);
+        employeeNumberWrapper.setLayout(employeeNumberWrapperLayout);
+        employeeNumberWrapperLayout.setHorizontalGroup(
+            employeeNumberWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, employeeNumberWrapperLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(employeeNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5))
+        );
+        employeeNumberWrapperLayout.setVerticalGroup(
+            employeeNumberWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(employeeNumberWrapperLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(employeeNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5))
+        );
+
+        javax.swing.GroupLayout formatter9Layout = new javax.swing.GroupLayout(formatter9);
+        formatter9.setLayout(formatter9Layout);
+        formatter9Layout.setHorizontalGroup(
+            formatter9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(formatter9Layout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(employeeNumberLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21)
+                .addComponent(employeeNumberWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(formatter10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
+        );
+        formatter9Layout.setVerticalGroup(
+            formatter9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formatter9Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(formatter9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(employeeNumberWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(employeeNumberLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(formatter10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        formatter15.setFocusTraversalPolicyProvider(true);
+        formatter15.setOpaque(false);
+
+        deductionsRateLabel.setBackground(new java.awt.Color(250, 250, 250));
+        deductionsRateLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        deductionsRateLabel.setForeground(new java.awt.Color(0, 0, 0));
+        deductionsRateLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        deductionsRateLabel.setText("ded. rate:");
+        deductionsRateLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        deductionsRateLabel.setMaximumSize(new java.awt.Dimension(75, 30));
+        deductionsRateLabel.setMinimumSize(new java.awt.Dimension(75, 30));
+        deductionsRateLabel.setPreferredSize(new java.awt.Dimension(75, 30));
+
+        formatter16.setOpaque(false);
+
+        deductionsRateErrorLabel.setFont(new java.awt.Font("Open Sans", 0, 24)); // NOI18N
+        deductionsRateErrorLabel.setForeground(new java.awt.Color(244, 67, 54));
+        deductionsRateErrorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        deductionsRateErrorLabel.setText("⚠");
+
+        jPanel8.setOpaque(false);
+        jPanel8.setPreferredSize(new java.awt.Dimension(26, 2));
+        jPanel8.setSize(new java.awt.Dimension(26, 2));
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 26, Short.MAX_VALUE)
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 2, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout formatter16Layout = new javax.swing.GroupLayout(formatter16);
+        formatter16.setLayout(formatter16Layout);
+        formatter16Layout.setHorizontalGroup(
+            formatter16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(deductionsRateErrorLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        formatter16Layout.setVerticalGroup(
+            formatter16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(formatter16Layout.createSequentialGroup()
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(deductionsRateErrorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2))
+        );
+
+        deductionsRateWrapper.setBackground(new java.awt.Color(255, 252, 219));
+        deductionsRateWrapper.setForeground(new java.awt.Color(0, 0, 0));
+        deductionsRateWrapper.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                deductionsRateWrapperMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                deductionsRateWrapperMouseEntered(evt);
+            }
+        });
+
+        deductionsRateField.setBackground(new java.awt.Color(255, 252, 219));
+        deductionsRateField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        deductionsRateField.setForeground(new java.awt.Color(0, 0, 0));
+        deductionsRateField.setBorder(null);
+        deductionsRateField.setOpaque(false);
+        deductionsRateField.setSelectedTextColor(new java.awt.Color(0, 0, 0));
+        deductionsRateField.setSelectionColor(new java.awt.Color(0, 0, 0));
+        deductionsRateField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                deductionsRateFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                deductionsRateFieldFocusLost(evt);
+            }
+        });
+        deductionsRateField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                deductionsRateFieldMouseEntered(evt);
+            }
+        });
+        deductionsRateField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                deductionsRateFieldKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                deductionsRateFieldKeyReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout deductionsRateWrapperLayout = new javax.swing.GroupLayout(deductionsRateWrapper);
+        deductionsRateWrapper.setLayout(deductionsRateWrapperLayout);
+        deductionsRateWrapperLayout.setHorizontalGroup(
+            deductionsRateWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, deductionsRateWrapperLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(deductionsRateField, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5))
+        );
+        deductionsRateWrapperLayout.setVerticalGroup(
+            deductionsRateWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(deductionsRateWrapperLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(deductionsRateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5))
+        );
+
+        javax.swing.GroupLayout formatter15Layout = new javax.swing.GroupLayout(formatter15);
+        formatter15.setLayout(formatter15Layout);
+        formatter15Layout.setHorizontalGroup(
+            formatter15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(formatter15Layout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(deductionsRateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21)
+                .addComponent(deductionsRateWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(formatter16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
+        );
+        formatter15Layout.setVerticalGroup(
+            formatter15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formatter15Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(formatter15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(deductionsRateWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deductionsRateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(formatter16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        formatter.setOpaque(false);
+
+        checkFullEmployeeTypeButton.setBackground(new java.awt.Color(250, 250, 250));
+        checkFullEmployeeTypeButton.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        checkFullEmployeeTypeButton.setForeground(new java.awt.Color(0, 0, 0));
+        checkFullEmployeeTypeButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        checkFullEmployeeTypeButton.setText("full-time");
+        checkFullEmployeeTypeButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(144, 202, 249), 2));
+        checkFullEmployeeTypeButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        checkFullEmployeeTypeButton.setMaximumSize(new java.awt.Dimension(75, 30));
+        checkFullEmployeeTypeButton.setMinimumSize(new java.awt.Dimension(75, 30));
+        checkFullEmployeeTypeButton.setOpaque(true);
+        checkFullEmployeeTypeButton.setPreferredSize(new java.awt.Dimension(75, 30));
+        checkFullEmployeeTypeButton.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                checkFullEmployeeTypeButtonFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                checkFullEmployeeTypeButtonFocusLost(evt);
+            }
+        });
+        checkFullEmployeeTypeButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                checkFullEmployeeTypeButtonMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                checkFullEmployeeTypeButtonMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                checkFullEmployeeTypeButtonMouseEntered(evt);
+            }
+        });
+        checkFullEmployeeTypeButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                checkFullEmployeeTypeButtonKeyPressed(evt);
+            }
+        });
+
+        checkPartEmployeeTypeButton.setBackground(new java.awt.Color(250, 250, 250));
+        checkPartEmployeeTypeButton.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        checkPartEmployeeTypeButton.setForeground(new java.awt.Color(0, 0, 0));
+        checkPartEmployeeTypeButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        checkPartEmployeeTypeButton.setText("part-time");
+        checkPartEmployeeTypeButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(144, 202, 249), 2));
+        checkPartEmployeeTypeButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        checkPartEmployeeTypeButton.setMaximumSize(new java.awt.Dimension(75, 30));
+        checkPartEmployeeTypeButton.setMinimumSize(new java.awt.Dimension(75, 30));
+        checkPartEmployeeTypeButton.setOpaque(true);
+        checkPartEmployeeTypeButton.setPreferredSize(new java.awt.Dimension(75, 30));
+        checkPartEmployeeTypeButton.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                checkPartEmployeeTypeButtonFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                checkPartEmployeeTypeButtonFocusLost(evt);
+            }
+        });
+        checkPartEmployeeTypeButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                checkPartEmployeeTypeButtonMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                checkPartEmployeeTypeButtonMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                checkPartEmployeeTypeButtonMouseEntered(evt);
+            }
+        });
+        checkPartEmployeeTypeButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                checkPartEmployeeTypeButtonKeyPressed(evt);
+            }
+        });
+
+        typeLabel.setBackground(new java.awt.Color(250, 250, 250));
+        typeLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        typeLabel.setForeground(new java.awt.Color(0, 0, 0));
+        typeLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        typeLabel.setText("type:");
+        typeLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        typeLabel.setMaximumSize(new java.awt.Dimension(75, 30));
+        typeLabel.setMinimumSize(new java.awt.Dimension(75, 30));
+        typeLabel.setPreferredSize(new java.awt.Dimension(75, 30));
+
+        formatter2.setOpaque(false);
+
+        typeErrorLabel.setFont(new java.awt.Font("Open Sans", 0, 24)); // NOI18N
+        typeErrorLabel.setForeground(new java.awt.Color(244, 67, 54));
+        typeErrorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        typeErrorLabel.setText("⚠");
+
+        jPanel1.setOpaque(false);
+        jPanel1.setPreferredSize(new java.awt.Dimension(26, 2));
+        jPanel1.setSize(new java.awt.Dimension(26, 2));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 26, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 2, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout formatter2Layout = new javax.swing.GroupLayout(formatter2);
+        formatter2.setLayout(formatter2Layout);
+        formatter2Layout.setHorizontalGroup(
+            formatter2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(typeErrorLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        formatter2Layout.setVerticalGroup(
+            formatter2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(formatter2Layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(typeErrorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2))
+        );
+
+        javax.swing.GroupLayout formatterLayout = new javax.swing.GroupLayout(formatter);
+        formatter.setLayout(formatterLayout);
+        formatterLayout.setHorizontalGroup(
+            formatterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(formatterLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(typeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24)
+                .addComponent(checkFullEmployeeTypeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(checkPartEmployeeTypeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25)
+                .addComponent(formatter2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
+        );
+        formatterLayout.setVerticalGroup(
+            formatterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(formatterLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(formatterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(formatterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(typeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(checkFullEmployeeTypeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(checkPartEmployeeTypeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(formatter2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(formatter3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(hoursPerWeekFormatter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(formatter17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(formatter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(formatter9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(formatter5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(formatter7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(formatter15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addComponent(formatter3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(formatter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addComponent(formatter5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(formatter7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(formatter15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(formatter9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addComponent(formatter17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(hoursPerWeekFormatter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+        );
+
         javax.swing.GroupLayout addEmployeePanelLayout = new javax.swing.GroupLayout(addEmployeePanel);
         addEmployeePanel.setLayout(addEmployeePanelLayout);
         addEmployeePanelLayout.setHorizontalGroup(
             addEmployeePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(formatter1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addEmployeePanelLayout.createSequentialGroup()
-                .addContainerGap(20, Short.MAX_VALUE)
+            .addGroup(addEmployeePanelLayout.createSequentialGroup()
+                .addContainerGap(18, Short.MAX_VALUE)
                 .addGroup(addEmployeePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addEmployeePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(formatter3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(hoursPerWeekFormatter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(formatter17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(formatter, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(formatter9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(addEmployeePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(formatter5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(formatter7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(formatter15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(20, Short.MAX_VALUE))
+                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 702, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         addEmployeePanelLayout.setVerticalGroup(
             addEmployeePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2366,42 +2494,24 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(title)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(addEmployeePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(addEmployeePanelLayout.createSequentialGroup()
-                        .addComponent(formatter3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(formatter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(addEmployeePanelLayout.createSequentialGroup()
-                        .addComponent(formatter5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(formatter7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(addEmployeePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(formatter15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(formatter9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(addEmployeePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(addEmployeePanelLayout.createSequentialGroup()
-                        .addComponent(formatter17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(hoursPerWeekFormatter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                .addComponent(formatter1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(formatter1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(addEmployeePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+            .addComponent(addEmployeePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(addEmployeePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(addEmployeePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
 
@@ -3311,6 +3421,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     private javax.swing.JTextField employeeNumberField;
     public javax.swing.JLabel employeeNumberLabel;
     private javax.swing.JPanel employeeNumberWrapper;
+    private javax.swing.JLabel errorText;
     private javax.swing.JLabel firstNameErrorLabel;
     private javax.swing.JTextField firstNameField;
     public javax.swing.JLabel firstNameLabel;
@@ -3335,7 +3446,6 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     private javax.swing.JPanel formatter8;
     private javax.swing.JPanel formatter9;
     public javax.swing.JLabel genderLabel;
-    public javax.swing.JButton ghostSubmit;
     private javax.swing.JLabel hourlyWageErrorLabel;
     private javax.swing.JTextField hourlyWageField;
     private javax.swing.JPanel hourlyWageFormatter;
@@ -3350,12 +3460,14 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel lastNameErrorLabel;
