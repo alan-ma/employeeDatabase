@@ -5,9 +5,14 @@
  */
 package employeedatabase;
 
-import java.awt.event.KeyEvent;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FocusTraversalPolicy;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
 
 /**
  * employee database/management system
@@ -24,7 +29,6 @@ public class MainComponent extends javax.swing.JFrame {
     public MainComponent() {
         initComponents();
         initializeDatabase();
-        initializeComponents();
         updateDashboard();
     }
     // </editor-fold>
@@ -33,9 +37,9 @@ public class MainComponent extends javax.swing.JFrame {
     /**
      * initializes global variables
      */
-    private AddEmployeeComponent addEmployeeComponent;
+    private AddEmployeeComponent addEmployeeComponent = new AddEmployeeComponent();
     private ColorSelectorService colorSelector = new ColorSelectorService();
-    private HashTable employeeDatabase = new HashTable(2);
+    public static HashTable employeeDatabase = new HashTable(2);
     private ArrayList<ViewEmployeeComponent> viewEmployeeComponents;
     
     // </editor-fold>
@@ -47,35 +51,10 @@ public class MainComponent extends javax.swing.JFrame {
     private void initializeDatabase() {
         // read from file
         employeeDatabase.addEmployee(new FullTimeEmployee("123456", "bob", "the builder", "M", "here", 0.1, 100));
-        employeeDatabase.addEmployee(new FullTimeEmployee("123456", "bob", "the builder", "M", "here", 0.1, 100));
-        employeeDatabase.addEmployee(new FullTimeEmployee("123456", "bob", "the builder", "M", "here", 0.1, 100));
-        employeeDatabase.addEmployee(new FullTimeEmployee("123456", "bob", "the builder", "M", "here", 0.1, 100));
-        employeeDatabase.addEmployee(new FullTimeEmployee("123456", "bob", "the builder", "M", "here", 0.1, 100));
-        employeeDatabase.addEmployee(new FullTimeEmployee("123456", "bob", "the builder", "M", "here", 0.1, 100));
+        employeeDatabase.addEmployee(new FullTimeEmployee("123457", "bobber", "building", "F", "somewhere", 0.05, 50));
         
         updateDashboard();
     }
-    // </editor-fold>
-    
-    // <editor-fold defaultstate="collapsed" desc="other init">
-    
-    /**
-     * initializes other components
-     */
-    private void initializeComponents() {
-        addEmployeeComponent = new AddEmployeeComponent();
-        addEmployeeComponent.confirmButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                addEmployeeConfirmButtonMouseClicked(evt);
-            }
-        });
-        addEmployeeComponent.confirmButton.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                confirmButtonKeyPressed(evt);
-            }
-        });
-    }
-    
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="dashboard view update">
@@ -83,7 +62,7 @@ public class MainComponent extends javax.swing.JFrame {
     /**
      * updates the dashboard view
      */
-    private void updateDashboard() {
+    public static void updateDashboard() {
         // update the number of employees
         if (employeeDatabase.getNumEmployees() == 1) {
             information.setText("there is currently 1 employee.");
@@ -101,52 +80,26 @@ public class MainComponent extends javax.swing.JFrame {
         );
     }
     
-    // </editor-fold>
-    
-    // <editor-fold defaultstate="collapsed" desc="check new employee">
-    
     /**
-     * checks the new employee being added
+     * updates the dashboard view with a filter
+     * @param filterKey the key
      */
-    private void checkNewEmployee() {
-        // add employee and reset fields
-        
-        boolean errorsExist = addEmployeeComponent.checkErrors();
-        EmployeeInfo newEmployee;
-        
-        if (!errorsExist) {
-            if (addEmployeeComponent.type == 0) {
-                // full time
-                newEmployee = new FullTimeEmployee(
-                        addEmployeeComponent.employeeNumber,
-                        addEmployeeComponent.firstName,
-                        addEmployeeComponent.lastName,
-                        addEmployeeComponent.gender,
-                        addEmployeeComponent.workLocation,
-                        Double.valueOf(addEmployeeComponent.deductionsRate),
-                        Double.valueOf(addEmployeeComponent.yearlySalary)
-                );
-            } else {
-                // part time
-                newEmployee = new PartTimeEmployee(
-                        addEmployeeComponent.employeeNumber,
-                        addEmployeeComponent.firstName,
-                        addEmployeeComponent.lastName,
-                        addEmployeeComponent.gender,
-                        addEmployeeComponent.workLocation,
-                        Double.valueOf(addEmployeeComponent.deductionsRate),
-                        Double.valueOf(addEmployeeComponent.hourlyWage),
-                        Double.valueOf(addEmployeeComponent.hoursPerWeek),
-                        Double.valueOf(addEmployeeComponent.weeksPerYear)
-                );
-            }
-            
-            employeeDatabase.addEmployee(newEmployee);
-            addEmployeeComponent.reset();
+    public static void updateDashboard(String filterKey) {
+        // update the number of employees
+        if (employeeDatabase.getNumEmployees() == 1) {
+            information.setText("there is currently 1 employee.");
+        } else {
+            information.setText("there are currently " + employeeDatabase.getNumEmployees() + " employees.");
         }
         
-        addEmployeeComponent.updateDisplay();
-        updateDashboard();
+        databaseTable.setModel(new javax.swing.table.DefaultTableModel(
+            employeeDatabase.display(filterKey),
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6"
+            }
+        )
+        { public boolean isCellEditable(int row, int column){return false;} }
+        );
     }
     
     // </editor-fold>
@@ -156,6 +109,34 @@ public class MainComponent extends javax.swing.JFrame {
     private void openEmployeeInfo(String employeeID) {
         ViewEmployeeComponent test = new ViewEmployeeComponent(employeeDatabase.search(employeeID));
         test.setVisible(true);
+    }
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="traversal policy">
+    
+    public class MyFocusTraversalPolicy extends FocusTraversalPolicy {
+        public Component getComponentAfter(Container focusCycleRoot, Component aComponent) {
+            if (aComponent.equals(addEmployeeButton)) return employeeNumberField;
+            else return addEmployeeButton;
+        }
+      
+        public Component getComponentBefore(Container focusCycleRoot, Component aComponent) {
+            if (aComponent.equals(employeeNumberField)) return addEmployeeButton;
+            else return employeeNumberField;
+        }
+
+        public Component getDefaultComponent(Container focusCycleRoot) {
+            return null;
+        }
+
+        public Component getFirstComponent(Container focusCycleRoot) {
+            return addEmployeeButton;
+        }
+
+        public Component getLastComponent(Container focusCycleRoot) {
+            return employeeNumberField;
+        }
     }
     
     // </editor-fold>
@@ -194,9 +175,13 @@ public class MainComponent extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        employeeNumberWrapper = new javax.swing.JPanel();
+        employeeNumberField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
+        setFocusTraversalPolicy(new MyFocusTraversalPolicy());
 
         dashboardPanel.setBackground(new java.awt.Color(250, 250, 250));
         dashboardPanel.setForeground(new java.awt.Color(0, 0, 0));
@@ -228,6 +213,14 @@ public class MainComponent extends javax.swing.JFrame {
         addEmployeeButton.setMinimumSize(new java.awt.Dimension(125, 35));
         addEmployeeButton.setOpaque(true);
         addEmployeeButton.setPreferredSize(new java.awt.Dimension(125, 35));
+        addEmployeeButton.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                addEmployeeButtonFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                addEmployeeButtonFocusLost(evt);
+            }
+        });
         addEmployeeButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 addEmployeeButtonMousePressed(evt);
@@ -243,6 +236,11 @@ public class MainComponent extends javax.swing.JFrame {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 addEmployeeButtonMouseEntered(evt);
+            }
+        });
+        addEmployeeButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                addEmployeeButtonKeyPressed(evt);
             }
         });
 
@@ -524,19 +522,95 @@ public class MainComponent extends javax.swing.JFrame {
             .addContainerGap()
             .addComponent(databaseHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(0, 0, 0)
-            .addComponent(databaseScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+            .addComponent(databaseScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
             .addContainerGap())
+    );
+
+    jPanel1.setOpaque(false);
+
+    employeeNumberWrapper.setBackground(new java.awt.Color(245, 245, 245));
+    employeeNumberWrapper.setBorder(BorderFactory.createMatteBorder(0, 2, 0, 0, Color.BLACK));
+    employeeNumberWrapper.setForeground(new java.awt.Color(0, 0, 0));
+    employeeNumberWrapper.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseExited(java.awt.event.MouseEvent evt) {
+            employeeNumberWrapperMouseExited(evt);
+        }
+        public void mouseEntered(java.awt.event.MouseEvent evt) {
+            employeeNumberWrapperMouseEntered(evt);
+        }
+    });
+
+    employeeNumberField.setBackground(new java.awt.Color(245, 245, 245));
+    employeeNumberField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+    employeeNumberField.setForeground(new java.awt.Color(0, 0, 0));
+    employeeNumberField.setText("search by employee number...");
+    employeeNumberField.setBorder(null);
+    employeeNumberField.setOpaque(false);
+    employeeNumberField.setSelectedTextColor(new java.awt.Color(0, 0, 0));
+    employeeNumberField.setSelectionColor(new java.awt.Color(0, 0, 0));
+    employeeNumberField.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            employeeNumberFieldFocusGained(evt);
+        }
+        public void focusLost(java.awt.event.FocusEvent evt) {
+            employeeNumberFieldFocusLost(evt);
+        }
+    });
+    employeeNumberField.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseEntered(java.awt.event.MouseEvent evt) {
+            employeeNumberFieldMouseEntered(evt);
+        }
+    });
+    employeeNumberField.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyPressed(java.awt.event.KeyEvent evt) {
+            employeeNumberFieldKeyPressed(evt);
+        }
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            employeeNumberFieldKeyReleased(evt);
+        }
+    });
+
+    javax.swing.GroupLayout employeeNumberWrapperLayout = new javax.swing.GroupLayout(employeeNumberWrapper);
+    employeeNumberWrapper.setLayout(employeeNumberWrapperLayout);
+    employeeNumberWrapperLayout.setHorizontalGroup(
+        employeeNumberWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, employeeNumberWrapperLayout.createSequentialGroup()
+            .addGap(5, 5, 5)
+            .addComponent(employeeNumberField, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+            .addGap(5, 5, 5))
+    );
+    employeeNumberWrapperLayout.setVerticalGroup(
+        employeeNumberWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(employeeNumberWrapperLayout.createSequentialGroup()
+            .addGap(5, 5, 5)
+            .addComponent(employeeNumberField, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+            .addGap(5, 5, 5))
+    );
+
+    javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+    jPanel1.setLayout(jPanel1Layout);
+    jPanel1Layout.setHorizontalGroup(
+        jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(jPanel1Layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(employeeNumberWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+    );
+    jPanel1Layout.setVerticalGroup(
+        jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addComponent(employeeNumberWrapper, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
     );
 
     javax.swing.GroupLayout dashboardPanelLayout = new javax.swing.GroupLayout(dashboardPanel);
     dashboardPanel.setLayout(dashboardPanelLayout);
     dashboardPanelLayout.setHorizontalGroup(
         dashboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(dashboardPanelLayout.createSequentialGroup()
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dashboardPanelLayout.createSequentialGroup()
             .addGap(40, 40, 40)
-            .addGroup(dashboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(dashboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGap(40, 40, 40))
     );
     dashboardPanelLayout.setVerticalGroup(
@@ -544,6 +618,8 @@ public class MainComponent extends javax.swing.JFrame {
         .addGroup(dashboardPanelLayout.createSequentialGroup()
             .addGap(40, 40, 40)
             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGap(20, 20, 20))
@@ -554,7 +630,7 @@ public class MainComponent extends javax.swing.JFrame {
     layout.setHorizontalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(layout.createSequentialGroup()
-            .addComponent(dashboardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(dashboardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 830, Short.MAX_VALUE)
             .addGap(0, 0, 0))
     );
     layout.setVerticalGroup(
@@ -625,22 +701,105 @@ public class MainComponent extends javax.swing.JFrame {
             openEmployeeInfo(id);
         }
     }//GEN-LAST:event_databaseTableMouseClicked
-    
+
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="add employee events">
+    // <editor-fold defaultstate="collapsed" desc="filter display events">
     
-    private void addEmployeeConfirmButtonMouseClicked(java.awt.event.MouseEvent evt) {                                               
+    private void employeeNumberFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_employeeNumberFieldFocusGained
         // TODO add your handling code here:
-        checkNewEmployee();
-    }
+        employeeNumberWrapper.setBackground(colorSelector.filter_field_focus);
+        employeeNumberField.setBackground(colorSelector.filter_field_focus);
+        
+        if (employeeNumberField.getText().equals("search by employee number...")) {
+            employeeNumberField.setText("");
+        }
+    }//GEN-LAST:event_employeeNumberFieldFocusGained
+
+    private void employeeNumberFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_employeeNumberFieldFocusLost
+        // TODO add your handling code here:
+        employeeNumberWrapper.setBackground(colorSelector.filter_field_background);
+        employeeNumberField.setBackground(colorSelector.filter_field_background);
+        
+        if (employeeNumberField.getText().isEmpty()) {
+            employeeNumberField.setText("search by employee number...");
+        }
+    }//GEN-LAST:event_employeeNumberFieldFocusLost
+
+    private void employeeNumberFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_employeeNumberFieldMouseEntered
+        // TODO add your handling code here:
+        if (!employeeNumberField.hasFocus()) {
+            employeeNumberWrapper.setBackground(colorSelector.filter_field_hover);
+            employeeNumberField.setBackground(colorSelector.filter_field_hover);
+        }
+    }//GEN-LAST:event_employeeNumberFieldMouseEntered
+
+    private void employeeNumberWrapperMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_employeeNumberWrapperMouseExited
+        // TODO add your handling code here:
+        if (!employeeNumberField.hasFocus()) {
+            employeeNumberWrapper.setBackground(colorSelector.filter_field_background);
+            employeeNumberField.setBackground(colorSelector.filter_field_background);
+        }
+    }//GEN-LAST:event_employeeNumberWrapperMouseExited
+
+    private void employeeNumberWrapperMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_employeeNumberWrapperMouseEntered
+        // TODO add your handling code here:
+        if (!employeeNumberField.hasFocus()) {
+            employeeNumberWrapper.setBackground(colorSelector.filter_field_hover);
+            employeeNumberField.setBackground(colorSelector.filter_field_hover);
+        }
+    }//GEN-LAST:event_employeeNumberWrapperMouseEntered
+
+    // </editor-fold>
     
-    private void confirmButtonKeyPressed(java.awt.event.KeyEvent evt) {
+    // <editor-fold defaultstate="collapsed" desc="add employee button focus">
+    
+    private void addEmployeeButtonFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_addEmployeeButtonFocusGained
+        // TODO add your handling code here:
+        addEmployeeButton.setBackground(colorSelector.button_hover);
+    }//GEN-LAST:event_addEmployeeButtonFocusGained
+
+    private void addEmployeeButtonFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_addEmployeeButtonFocusLost
+        // TODO add your handling code here:
+        addEmployeeButton.setBackground(colorSelector.button_background);
+    }//GEN-LAST:event_addEmployeeButtonFocusLost
+
+    private void addEmployeeButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_addEmployeeButtonKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            checkNewEmployee();
+            addEmployeeComponent.reset();
+            addEmployeeComponent.updateDisplay();
+            addEmployeeComponent.setVisible(true);
         }
-    }
+    }//GEN-LAST:event_addEmployeeButtonKeyPressed
+
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="filter events">
+    
+    private void employeeNumberFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_employeeNumberFieldKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() != KeyEvent.VK_ENTER && evt.getKeyCode() != KeyEvent.VK_SHIFT) {
+            String filterKey = employeeNumberField.getText();
+            if (filterKey.isEmpty()) {
+                updateDashboard();
+            } else {
+                updateDashboard(employeeNumberField.getText());
+            }
+        }
+    }//GEN-LAST:event_employeeNumberFieldKeyPressed
+
+    private void employeeNumberFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_employeeNumberFieldKeyReleased
+        // TODO add your handling code here:
+        if (evt.getKeyCode() != KeyEvent.VK_ENTER && evt.getKeyCode() != KeyEvent.VK_SHIFT) {
+            String filterKey = employeeNumberField.getText();
+            if (filterKey.isEmpty()) {
+                updateDashboard();
+            } else {
+                updateDashboard(employeeNumberField.getText());
+            }
+        }
+    }//GEN-LAST:event_employeeNumberFieldKeyReleased
     
     // </editor-fold>
     
@@ -686,14 +845,17 @@ public class MainComponent extends javax.swing.JFrame {
     private javax.swing.JPanel dashboardPanel;
     private javax.swing.JPanel databaseHeader;
     private javax.swing.JScrollPane databaseScrollPane;
-    private javax.swing.JTable databaseTable;
-    private javax.swing.JLabel information;
+    private static javax.swing.JTable databaseTable;
+    private javax.swing.JTextField employeeNumberField;
+    private javax.swing.JPanel employeeNumberWrapper;
+    private static javax.swing.JLabel information;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

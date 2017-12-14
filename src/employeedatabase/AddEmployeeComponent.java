@@ -40,6 +40,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     private boolean hoursPerWeekError;
     protected String weeksPerYear;
     private boolean weeksPerYearError;
+    private boolean employeeUniqueError;
     
     // </editor-fold>
 
@@ -91,6 +92,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
         hoursPerWeekError = false;
         weeksPerYear = "";
         weeksPerYearError = false;
+        employeeUniqueError = false;
 
         firstNameField.requestFocus();
     }
@@ -189,7 +191,11 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
         
         if (employeeNumberErrorLabel.isVisible()) {
             errorsExist = true;
-            errorMessage = "Error: The employee number must be a six-digit integer.";
+            if (employeeUniqueError) {
+                errorMessage = "Error: The employee number is not unique.";
+            } else {
+                errorMessage = "Error: The employee number must be a six-digit integer.";
+            }
         }
         
         if (deductionsRateErrorLabel.isVisible()) {
@@ -233,7 +239,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     
     /**
      * check employee type method
-     * @return false if employee type is not selected
+     * @return true if employee type is not selected
      */
     private boolean checkType() {
         if (type == -1) {
@@ -247,7 +253,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     
     /**
      * check first name method
-     * @return false if first name is not at least 2 character long
+     * @return true if first name is not at least 2 character long
      */
     private boolean checkFirstName() {
         if (firstName.length() <= 1) {
@@ -261,7 +267,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     
     /**
      * check last name method
-     * @return false if last name is not at least 2 character long
+     * @return true if last name is not at least 2 character long
      */
     private boolean checkLastName() {
         if (lastName.length() <= 1) {
@@ -275,7 +281,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     
     /**
      * check gender method
-     * @return false if gender is not selected
+     * @return true if gender is not selected
      */
     private boolean checkGender() {
         if (gender.length() == 0) {
@@ -289,33 +295,50 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     
     /**
      * check employee number method
-     * @return false if employee number is not a 6 digit number
+     * @return true if employee number is not a 6 digit number
      */
     private boolean checkEmployeeNumber() {
         if (employeeNumber.length() == 6) {
             try {
                 int empNum = Integer.parseInt(employeeNumber);
                 if (empNum >= 0) {
-                    employeeNumberError = false;
+                    if (checkEmployeeNumberUnique()) {
+                        employeeUniqueError = true;
+                        employeeNumberError = true;
+                    } else {
+                        employeeUniqueError = false;
+                        employeeNumberError = false;
+                    }
                     return false;
                 } else {
                     employeeNumberError = true;
+                    employeeUniqueError = false;
                     return true;
                 }
             }
             catch (NumberFormatException nfe) {
                 employeeNumberError = true;
+                employeeUniqueError = false;
                 return true;
             }
         } else {
             employeeNumberError = true;
+            employeeUniqueError = false;
             return true;
         }
     }
     
     /**
+     * check employee number unique method
+     * @return true if employee number is not unique
+     */
+    private boolean checkEmployeeNumberUnique() {
+        return MainComponent.employeeDatabase.search(employeeNumber) != null;
+    }
+    
+    /**
      * check deductions rate method
-     * @return false if deductions rate is not between 0 and 1
+     * @return true if deductions rate is not between 0 and 1
      */
     private boolean checkDeductionsRate() {
         try {
@@ -336,7 +359,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     
     /**
      * check work location method
-     * @return false if work location is empty
+     * @return true if work location is empty
      */
     private boolean checkWorkLocation() {
         if (workLocation.length() > 0) {
@@ -350,7 +373,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     
     /**
      * check yearly salary method
-     * @return false if yearly salary is invalid
+     * @return true if yearly salary is invalid
      */
     private boolean checkYearlySalary() {
         try {
@@ -371,7 +394,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     
     /**
      * check hourly wage method
-     * @return false if hourly wage is invalid
+     * @return true if hourly wage is invalid
      */
     private boolean checkHourlyWage() {
         try {
@@ -392,7 +415,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     
     /**
      * check hours per week method
-     * @return false if hours per week is invalid
+     * @return true if hours per week is invalid
      */
     private boolean checkHoursPerWeek() {
         try {
@@ -413,7 +436,7 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     
     /**
      * check weeks per year method
-     * @return false if weeks per year is invalid
+     * @return true if weeks per year is invalid
      */
     private boolean checkWeeksPerYear() {
         try {
@@ -634,6 +657,54 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
     }
     
     // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="check new employee">
+    
+    /**
+     * checks the new employee being added
+     */
+    private void checkNewEmployee() {
+        // add employee and reset fields
+        
+        boolean errorsExist = checkErrors();
+        EmployeeInfo newEmployee;
+        
+        if (!errorsExist) {
+            if (type == 0) {
+                // full time
+                newEmployee = new FullTimeEmployee(
+                        employeeNumber,
+                        firstName,
+                        lastName,
+                        gender,
+                        workLocation,
+                        Double.valueOf(deductionsRate),
+                        Double.valueOf(yearlySalary)
+                );
+            } else {
+                // part time
+                newEmployee = new PartTimeEmployee(
+                        employeeNumber,
+                        firstName,
+                        lastName,
+                        gender,
+                        workLocation,
+                        Double.valueOf(deductionsRate),
+                        Double.valueOf(hourlyWage),
+                        Double.valueOf(hoursPerWeek),
+                        Double.valueOf(weeksPerYear)
+                );
+            }
+            
+            MainComponent.employeeDatabase.addEmployee(newEmployee);
+            reset();
+            MainComponent.updateDashboard();
+        }
+        
+        updateDisplay();
+    }
+    
+    // </editor-fold>
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -818,11 +889,19 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 confirmButtonMouseReleased(evt);
             }
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                confirmButtonMouseClicked(evt);
+            }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 confirmButtonMouseExited(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 confirmButtonMouseEntered(evt);
+            }
+        });
+        confirmButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                confirmButtonKeyPressed(evt);
             }
         });
 
@@ -3370,6 +3449,22 @@ public class AddEmployeeComponent extends javax.swing.JFrame {
             confirmButton.requestFocus();
         }
     }//GEN-LAST:event_weeksPerYearFieldKeyPressed
+
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="add button">
+    
+    private void confirmButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirmButtonMouseClicked
+        // TODO add your handling code here:
+        checkNewEmployee();
+    }//GEN-LAST:event_confirmButtonMouseClicked
+
+    private void confirmButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_confirmButtonKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            checkNewEmployee();
+        }
+    }//GEN-LAST:event_confirmButtonKeyPressed
 
     // </editor-fold>
     

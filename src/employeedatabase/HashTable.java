@@ -125,6 +125,29 @@ public class HashTable {
     }
     
     /**
+     * displays the data with a filter on employee number
+     * @return the display output in an array
+     */
+    public String[][] display(String filterKey) {
+        List<String[]> outputList = new ArrayList<>();
+
+        // loop through buckets
+        for (int i = 0; i < numBuckets; i++) {
+            // loop through each bucket
+            for (int j = 0; j < buckets[i].size(); j++) {
+                if (buckets[i].get(j).getEmpNumber().contains(filterKey)) {
+                    outputList.add(buckets[i].get(j).display());
+                }
+            }
+        }
+
+        String[][] outputArray = new String[outputList.size()][];
+        outputArray = outputList.toArray(outputArray);
+        
+        return outputArray;
+    }
+    
+    /**
      * getter for number of employees
      * @return number of employees
      */

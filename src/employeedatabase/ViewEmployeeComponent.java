@@ -46,6 +46,7 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
     private boolean hoursPerWeekError;
     protected String weeksPerYear;
     private boolean weeksPerYearError;
+    private boolean employeeUniqueError;
     
     // </editor-fold>
 
@@ -133,32 +134,44 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
      */
     public final void reset() {
         // RESET ALL FIELDS
-        type = -1;
+        
         typeError = false;
-        firstName = "";
+        firstName = employee.getFirstName();
         firstNameError = false;
-        lastName = "";
+        lastName = employee.getLastName();
         lastNameError = false;
-        gender = "";
+        gender = employee.getGender();
         genderError = false;
-        employeeNumber = "";
+        employeeNumber = employee.getEmpNumber();
         employeeNumberError = false;
-        deductionsRate = "";
+        deductionsRate = Double.toString(employee.getDeductionsRate());
         deductionsRateError = false;
-        workLocation = "";
+        workLocation = employee.getWorkLocation();
         workLocationError = false;
-        yearlySalary = "";
+        
+        if (employee instanceof FullTimeEmployee) {
+            FullTimeEmployee fullTimeEmployee = (FullTimeEmployee) employee;
+            type = 0;
+            yearlySalary = Double.toString(fullTimeEmployee.getYearlySalary());
+            hourlyWage = "";
+            hoursPerWeek = "";
+            weeksPerYear = "";
+        } else if (employee instanceof PartTimeEmployee) {
+            PartTimeEmployee partTimeEmployee = (PartTimeEmployee) employee;
+            type = 1;
+            hourlyWage = Double.toString(partTimeEmployee.getHourlyWage());
+            hoursPerWeek = Double.toString(partTimeEmployee.getHoursPerWeek());
+            weeksPerYear = Double.toString(partTimeEmployee.getWeeksPerYear());
+            yearlySalary = "";
+        }
+        
         yearlySalaryError = false;
-        hourlyWage = "";
         hourlyWageError = false;
-        hoursPerWeek = "";
         hoursPerWeekError = false;
-        weeksPerYear = "";
         weeksPerYearError = false;
+        employeeUniqueError = false;
 
         firstNameField.requestFocus();
-        
-        editing = false;
     }
     
     // </editor-fold>
@@ -255,7 +268,11 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
         
         if (employeeNumberErrorLabel.isVisible()) {
             errorsExist = true;
-            errorMessage = "Error: The employee number must be a six-digit integer.";
+            if (employeeUniqueError) {
+                errorMessage = "Error: The employee number is not unique.";
+            } else {
+                errorMessage = "Error: The employee number must be a six-digit integer.";
+            }
         }
         
         if (deductionsRateErrorLabel.isVisible()) {
@@ -299,7 +316,7 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
     
     /**
      * check employee type method
-     * @return false if employee type is not selected
+     * @return true if employee type is not selected
      */
     private boolean checkType() {
         if (type == -1) {
@@ -313,7 +330,7 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
     
     /**
      * check first name method
-     * @return false if first name is not at least 2 character long
+     * @return true if first name is not at least 2 character long
      */
     private boolean checkFirstName() {
         if (firstName.length() <= 1) {
@@ -327,7 +344,7 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
     
     /**
      * check last name method
-     * @return false if last name is not at least 2 character long
+     * @return true if last name is not at least 2 character long
      */
     private boolean checkLastName() {
         if (lastName.length() <= 1) {
@@ -341,7 +358,7 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
     
     /**
      * check gender method
-     * @return false if gender is not selected
+     * @return true if gender is not selected
      */
     private boolean checkGender() {
         if (gender.length() == 0) {
@@ -355,33 +372,50 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
     
     /**
      * check employee number method
-     * @return false if employee number is not a 6 digit number
+     * @return true if employee number is not a 6 digit number
      */
     private boolean checkEmployeeNumber() {
         if (employeeNumber.length() == 6) {
             try {
                 int empNum = Integer.parseInt(employeeNumber);
                 if (empNum >= 0) {
-                    employeeNumberError = false;
+                    if (checkEmployeeNumberUnique()) {
+                        employeeUniqueError = true;
+                        employeeNumberError = true;
+                    } else {
+                        employeeUniqueError = false;
+                        employeeNumberError = false;
+                    }
                     return false;
                 } else {
                     employeeNumberError = true;
+                    employeeUniqueError = false;
                     return true;
                 }
             }
             catch (NumberFormatException nfe) {
                 employeeNumberError = true;
+                employeeUniqueError = false;
                 return true;
             }
         } else {
             employeeNumberError = true;
+            employeeUniqueError = false;
             return true;
         }
     }
     
     /**
+     * check employee number unique method
+     * @return true if employee number is not unique
+     */
+    private boolean checkEmployeeNumberUnique() {
+        return MainComponent.employeeDatabase.search(employeeNumber) != null && !employeeNumber.equals(employee.getEmpNumber());
+    }
+    
+    /**
      * check deductions rate method
-     * @return false if deductions rate is not between 0 and 1
+     * @return true if deductions rate is not between 0 and 1
      */
     private boolean checkDeductionsRate() {
         try {
@@ -402,7 +436,7 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
     
     /**
      * check work location method
-     * @return false if work location is empty
+     * @return true if work location is empty
      */
     private boolean checkWorkLocation() {
         if (workLocation.length() > 0) {
@@ -416,7 +450,7 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
     
     /**
      * check yearly salary method
-     * @return false if yearly salary is invalid
+     * @return true if yearly salary is invalid
      */
     private boolean checkYearlySalary() {
         try {
@@ -437,7 +471,7 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
     
     /**
      * check hourly wage method
-     * @return false if hourly wage is invalid
+     * @return true if hourly wage is invalid
      */
     private boolean checkHourlyWage() {
         try {
@@ -458,7 +492,7 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
     
     /**
      * check hours per week method
-     * @return false if hours per week is invalid
+     * @return true if hours per week is invalid
      */
     private boolean checkHoursPerWeek() {
         try {
@@ -479,7 +513,7 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
     
     /**
      * check weeks per year method
-     * @return false if weeks per year is invalid
+     * @return true if weeks per year is invalid
      */
     private boolean checkWeeksPerYear() {
         try {
@@ -646,57 +680,133 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
     
     public class MyFocusTraversalPolicy extends FocusTraversalPolicy {
         public Component getComponentAfter(Container focusCycleRoot, Component aComponent) {
-            if (aComponent.equals(firstNameField)) return lastNameField;
-            else if (aComponent.equals(lastNameField)) return checkFullEmployeeTypeButton;
-            else if (aComponent.equals(checkFullEmployeeTypeButton)) return checkPartEmployeeTypeButton;
-            else if (aComponent.equals(checkPartEmployeeTypeButton)) return checkGenderMale;
-            else if (aComponent.equals(checkGenderMale)) return checkGenderFemale;
-            else if (aComponent.equals(checkGenderFemale)) return checkGenderOther;
-            else if (aComponent.equals(checkGenderOther)) return employeeNumberField;
-            else if (aComponent.equals(employeeNumberField)) return deductionsRateField;
-            else if (aComponent.equals(deductionsRateField)) return workLocationField;
-            else if (aComponent.equals(workLocationField) && type == -1) return confirmButton;
-            else if (aComponent.equals(workLocationField) && type == 0) return yearlySalaryField;
-            else if (aComponent.equals(workLocationField) && type == 1) return hourlyWageField;
-            else if (aComponent.equals(hourlyWageField)) return hoursPerWeekField;
-            else if (aComponent.equals(hoursPerWeekField)) return weeksPerYearField;
-            else if (aComponent.equals(yearlySalaryField)) return confirmButton;
-            else if (aComponent.equals(weeksPerYearField)) return confirmButton;
-            else return firstNameField;
+            if (editing) {
+                if (aComponent.equals(firstNameField)) return lastNameField;
+                else if (aComponent.equals(lastNameField)) return checkFullEmployeeTypeButton;
+                else if (aComponent.equals(checkFullEmployeeTypeButton)) return checkPartEmployeeTypeButton;
+                else if (aComponent.equals(checkPartEmployeeTypeButton)) return checkGenderMale;
+                else if (aComponent.equals(checkGenderMale)) return checkGenderFemale;
+                else if (aComponent.equals(checkGenderFemale)) return checkGenderOther;
+                else if (aComponent.equals(checkGenderOther)) return employeeNumberField;
+                else if (aComponent.equals(employeeNumberField)) return deductionsRateField;
+                else if (aComponent.equals(deductionsRateField)) return workLocationField;
+                else if (aComponent.equals(workLocationField) && type == -1) return confirmButton;
+                else if (aComponent.equals(workLocationField) && type == 0) return yearlySalaryField;
+                else if (aComponent.equals(workLocationField) && type == 1) return hourlyWageField;
+                else if (aComponent.equals(hourlyWageField)) return hoursPerWeekField;
+                else if (aComponent.equals(hoursPerWeekField)) return weeksPerYearField;
+                else if (aComponent.equals(yearlySalaryField)) return confirmButton;
+                else if (aComponent.equals(weeksPerYearField)) return confirmButton;
+                else return firstNameField;
+            } else {
+                if (aComponent.equals(editButton)) return deleteButton;
+                else return editButton;
+            }
         }
       
         public Component getComponentBefore(Container focusCycleRoot, Component aComponent) {
-            if (aComponent.equals(resetButton)) return confirmButton;
-            else if (aComponent.equals(confirmButton) && type == -1) return workLocationField;
-            else if (aComponent.equals(confirmButton) && type == 0) return yearlySalaryField;
-            else if (aComponent.equals(confirmButton) && type == 1) return weeksPerYearField;
-            else if (aComponent.equals(weeksPerYearField)) return hoursPerWeekField;
-            else if (aComponent.equals(hoursPerWeekField)) return hourlyWageField;
-            else if (aComponent.equals(hourlyWageField)) return workLocationField;
-            else if (aComponent.equals(yearlySalaryField)) return workLocationField;
-            else if (aComponent.equals(workLocationField)) return deductionsRateField;
-            else if (aComponent.equals(deductionsRateField)) return employeeNumberField;
-            else if (aComponent.equals(employeeNumberField)) return checkGenderOther;
-            else if (aComponent.equals(checkGenderOther)) return checkGenderFemale;
-            else if (aComponent.equals(checkGenderFemale)) return checkGenderMale;
-            else if (aComponent.equals(checkGenderMale)) return checkPartEmployeeTypeButton;
-            else if (aComponent.equals(checkPartEmployeeTypeButton)) return checkFullEmployeeTypeButton;
-            else if (aComponent.equals(checkFullEmployeeTypeButton)) return lastNameField;
-            else if (aComponent.equals(lastNameField)) return firstNameField;
-            else return resetButton;
+            if (editing) {
+                if (aComponent.equals(resetButton)) return confirmButton;
+                else if (aComponent.equals(confirmButton) && type == -1) return workLocationField;
+                else if (aComponent.equals(confirmButton) && type == 0) return yearlySalaryField;
+                else if (aComponent.equals(confirmButton) && type == 1) return weeksPerYearField;
+                else if (aComponent.equals(weeksPerYearField)) return hoursPerWeekField;
+                else if (aComponent.equals(hoursPerWeekField)) return hourlyWageField;
+                else if (aComponent.equals(hourlyWageField)) return workLocationField;
+                else if (aComponent.equals(yearlySalaryField)) return workLocationField;
+                else if (aComponent.equals(workLocationField)) return deductionsRateField;
+                else if (aComponent.equals(deductionsRateField)) return employeeNumberField;
+                else if (aComponent.equals(employeeNumberField)) return checkGenderOther;
+                else if (aComponent.equals(checkGenderOther)) return checkGenderFemale;
+                else if (aComponent.equals(checkGenderFemale)) return checkGenderMale;
+                else if (aComponent.equals(checkGenderMale)) return checkPartEmployeeTypeButton;
+                else if (aComponent.equals(checkPartEmployeeTypeButton)) return checkFullEmployeeTypeButton;
+                else if (aComponent.equals(checkFullEmployeeTypeButton)) return lastNameField;
+                else if (aComponent.equals(lastNameField)) return firstNameField;
+                else return resetButton;
+            } else {
+                if (aComponent.equals(deleteButton)) return editButton;
+                else return deleteButton;
+            }
+            
         }
 
         public Component getDefaultComponent(Container focusCycleRoot) {
-            return firstNameField;
+            if (editing) {
+                return firstNameField;
+            } else {
+                return editButton;
+            }
         }
 
         public Component getFirstComponent(Container focusCycleRoot) {
-            return firstNameField;
+            if (editing) {
+                return firstNameField;
+            } else {
+                return editButton;
+            }          
         }
 
         public Component getLastComponent(Container focusCycleRoot) {
-            return resetButton;
+            if (editing) {
+                return resetButton;
+            } else {
+                return deleteButton;
+            }
         }
+    }
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="check new employee">
+    
+    /**
+     * checks the new employee being added
+     */
+    private void checkNewEmployee() {
+        // add employee and reset fields
+        
+        boolean errorsExist = checkErrors();
+        EmployeeInfo newEmployee;
+        
+        if (!errorsExist) {
+            if (type == 0) {
+                // full time
+                newEmployee = new FullTimeEmployee(
+                        employeeNumber,
+                        firstName,
+                        lastName,
+                        gender,
+                        workLocation,
+                        Double.valueOf(deductionsRate),
+                        Double.valueOf(yearlySalary)
+                );
+            } else {
+                // part time
+                newEmployee = new PartTimeEmployee(
+                        employeeNumber,
+                        firstName,
+                        lastName,
+                        gender,
+                        workLocation,
+                        Double.valueOf(deductionsRate),
+                        Double.valueOf(hourlyWage),
+                        Double.valueOf(hoursPerWeek),
+                        Double.valueOf(weeksPerYear)
+                );
+            }
+            
+            MainComponent.employeeDatabase.removeEmployee(employee.getEmpNumber());
+            MainComponent.employeeDatabase.addEmployee(newEmployee);
+            
+            employee = MainComponent.employeeDatabase.search(newEmployee.getEmpNumber());
+            reset();
+            editing = false;
+            updateViewDisplay();
+            MainComponent.updateDashboard();
+        }
+        
+        updateEditDisplay();
     }
     
     // </editor-fold>
@@ -1689,11 +1799,19 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 confirmButtonMouseReleased(evt);
             }
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                confirmButtonMouseClicked(evt);
+            }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 confirmButtonMouseExited(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 confirmButtonMouseEntered(evt);
+            }
+        });
+        confirmButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                confirmButtonKeyPressed(evt);
             }
         });
 
@@ -3378,7 +3496,7 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    // <editor-fold defaultstate="collapsed" desc="confirm reset event handling">
+    // <editor-fold defaultstate="collapsed" desc="confirm cancel event handling">
     
     private void confirmButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirmButtonMousePressed
         // TODO add your handling code here:
@@ -3482,8 +3600,8 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
     
     private void resetButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resetButtonMouseClicked
         // TODO add your handling code here:
-        reset();
-        updateEditDisplay();
+        editing = false;
+        updateViewDisplay();
     }//GEN-LAST:event_resetButtonMouseClicked
 
     // </editor-fold>
@@ -3781,7 +3899,7 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
 
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="confirm reset custom focus">
+    // <editor-fold defaultstate="collapsed" desc="confirm cancel custom focus">
     
     private void confirmButtonFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_confirmButtonFocusGained
         // TODO add your handling code here:
@@ -3806,8 +3924,8 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
     private void resetButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_resetButtonKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            reset();
-            updateEditDisplay();
+            editing = false;
+            updateViewDisplay();
         }
     }//GEN-LAST:event_resetButtonKeyPressed
 
@@ -4233,6 +4351,8 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
 
     // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="delete button">
+    
     private void deleteButtonFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_deleteButtonFocusGained
         // TODO add your handling code here:
         deleteButton.setBackground(colorSelector.button_cancel_hover);
@@ -4255,7 +4375,10 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
 
     private void deleteButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteButtonMouseClicked
         // TODO add your handling code here:
-        
+        if (MainComponent.employeeDatabase.removeEmployee(employee.empNumber)) {
+            MainComponent.updateDashboard();
+            this.dispose();
+        }
     }//GEN-LAST:event_deleteButtonMouseClicked
 
     private void deleteButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteButtonMouseExited
@@ -4270,9 +4393,18 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
 
     private void deleteButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_deleteButtonKeyPressed
         // TODO add your handling code here:
-        
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (MainComponent.employeeDatabase.removeEmployee(employee.empNumber)) {
+                MainComponent.updateDashboard();
+                this.dispose();
+            }
+        }
     }//GEN-LAST:event_deleteButtonKeyPressed
 
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="edit button">
+    
     private void editButtonFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_editButtonFocusGained
         // TODO add your handling code here:
         editButton.setBackground(colorSelector.button_edit_hover);
@@ -4305,13 +4437,37 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
 
     private void editButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editButtonMouseClicked
         // TODO add your handling code here:
-        
+        reset();
+        editing = true;
+        updateEditDisplay();
+        updateViewDisplay();
     }//GEN-LAST:event_editButtonMouseClicked
 
     private void editButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_editButtonKeyPressed
         // TODO add your handling code here:
-        
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            reset();
+            editing = true;
+            updateEditDisplay();
+            updateViewDisplay();
+        }
     }//GEN-LAST:event_editButtonKeyPressed
+
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="save button">
+    
+    private void confirmButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirmButtonMouseClicked
+        // TODO add your handling code here:
+        checkNewEmployee();
+    }//GEN-LAST:event_confirmButtonMouseClicked
+
+    private void confirmButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_confirmButtonKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            checkNewEmployee();
+        }
+    }//GEN-LAST:event_confirmButtonKeyPressed
 
     // </editor-fold>
     
