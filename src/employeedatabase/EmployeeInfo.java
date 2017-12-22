@@ -90,4 +90,22 @@ public class EmployeeInfo {
         
         return employeeInfo;
     }
+    
+    /**
+     * returns the employee info for the save file
+     * also decodes information
+     * @return 
+     */
+    public String[] displaySaveInfo() {
+        String[] employeeInfo = {
+            empNumber,
+            firstName,
+            lastName,
+            gender,
+            workLocation,
+            ""
+        };
+        
+        return employeeInfo;
+    }
 }

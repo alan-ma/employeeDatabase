@@ -5,8 +5,14 @@
  */
 package employeedatabase;
 
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -18,6 +24,7 @@ public class HashTable {
     private ArrayList<EmployeeInfo>[] buckets; // the buckets to sort to
     private int numBuckets; // the number of buckets
     private int numEmployees; // number of employees
+    private String csvFile = "employeeDatabase.csv";
 
     /**
      * constructor: creates a new hash table with k buckets
@@ -44,6 +51,21 @@ public class HashTable {
         int bucket = hash(empNumber); // call the hash function
         buckets[bucket].add(newEmployee); // adds to the correct bucket
         numEmployees ++;
+        saveDatabase();
+        return true;
+    }
+    
+    /**
+     * addEmployee: adds a new employee without writing data
+     * returns true on successful addition
+     * @param newEmployee the new employee object
+     * @return true after adding employee
+     */
+    public boolean addEmployee(EmployeeInfo newEmployee, boolean noSave) {
+        String empNumber = newEmployee.getEmpNumber(); // gets employee number
+        int bucket = hash(empNumber); // call the hash function
+        buckets[bucket].add(newEmployee); // adds to the correct bucket
+        numEmployees ++;
         return true;
     }
 
@@ -60,10 +82,48 @@ public class HashTable {
             // employee was found
             buckets[bucket].remove(index);
             numEmployees --;
+            saveDatabase();
             return true;
         } else {
             // employee was not found
             return false;
+        }
+    }
+    
+    /**
+     * saveDatabase: saves the employees to a file
+     * @return false if save fails
+     */
+    public boolean saveDatabase() {
+        BufferedWriter bw = null;
+        try {
+            bw = new BufferedWriter(new FileWriter(csvFile));
+            String[][] databaseSave;
+            databaseSave = displaySaveData();
+            for (int row = 0; row < databaseSave.length; row++) {
+                for (int col = 0; col < databaseSave[row].length; col++) {
+                    bw.write(databaseSave[row][col]);
+                    if (col < databaseSave[row].length - 1) {
+                        bw.write(",");
+                    }
+                }
+                bw.newLine();
+            }
+            return true;
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(HashTable.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } catch (IOException ex) {
+            Logger.getLogger(HashTable.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } finally {
+            if (bw != null) {
+                try {
+                    bw.close();
+                } catch (IOException e) {
+                    return false;
+                }
+            }
         }
     }
     
@@ -126,6 +186,7 @@ public class HashTable {
     
     /**
      * displays the data with a filter on employee number
+     * @param filterKey the key to filter by
      * @return the display output in an array
      */
     public String[][] display(String filterKey) {
@@ -138,6 +199,27 @@ public class HashTable {
                 if (buckets[i].get(j).getEmpNumber().contains(filterKey)) {
                     outputList.add(buckets[i].get(j).display());
                 }
+            }
+        }
+
+        String[][] outputArray = new String[outputList.size()][];
+        outputArray = outputList.toArray(outputArray);
+        
+        return outputArray;
+    }
+    
+        /**
+     * displays the data for the save file
+     * @return the display output in an array
+     */
+    public String[][] displaySaveData() {
+        List<String[]> outputList = new ArrayList<>();
+
+        // loop through buckets
+        for (int i = 0; i < numBuckets; i++) {
+            // loop through each bucket
+            for (int j = 0; j < buckets[i].size(); j++) {
+                outputList.add(buckets[i].get(j).displaySaveInfo());
             }
         }
 

@@ -97,6 +97,7 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
         
         if (employee instanceof FullTimeEmployee) {
             FullTimeEmployee fullTimeEmployee = (FullTimeEmployee) employee;
+            employeeType.setText("full-time");
             employeeYearlySalary.setText("$" + String.format("%.2f", fullTimeEmployee.getYearlySalary()));
             employeeAnnualIncome.setText("$" + String.format("%.2f", fullTimeEmployee.calcAnnualNetIncome()));
             
@@ -107,6 +108,7 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
 
         } else if (employee instanceof PartTimeEmployee) {
             PartTimeEmployee partTimeEmployee = (PartTimeEmployee) employee;
+            employeeType.setText("part-time");
             employeeHourlyWage.setText("$" + String.format("%.2f", partTimeEmployee.getHourlyWage()));
             employeeHoursPerWeek.setText(String.format("%.2f", partTimeEmployee.getHoursPerWeek()));
             employeeWeeksPerYear.setText(String.format("%.2f", partTimeEmployee.getWeeksPerYear()));

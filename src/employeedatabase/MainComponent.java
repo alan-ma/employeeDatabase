@@ -11,7 +11,14 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FocusTraversalPolicy;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 
 /**
@@ -28,7 +35,11 @@ public class MainComponent extends javax.swing.JFrame {
      */
     public MainComponent() {
         initComponents();
-        initializeDatabase();
+        try {
+            initializeDatabase();
+        } catch (IOException ex) {
+            Logger.getLogger(MainComponent.class.getName()).log(Level.SEVERE, null, ex);
+        }
         updateDashboard();
     }
     // </editor-fold>
@@ -40,7 +51,7 @@ public class MainComponent extends javax.swing.JFrame {
     private AddEmployeeComponent addEmployeeComponent = new AddEmployeeComponent();
     private ColorSelectorService colorSelector = new ColorSelectorService();
     public static HashTable employeeDatabase = new HashTable(2);
-    private ArrayList<ViewEmployeeComponent> viewEmployeeComponents;
+    private String csvFile = "employeeDatabase.csv";
     
     // </editor-fold>
     
@@ -48,10 +59,15 @@ public class MainComponent extends javax.swing.JFrame {
     /**
      * initialize database with employees
      */
-    private void initializeDatabase() {
+    private void initializeDatabase() throws IOException {
         // read from file
-        employeeDatabase.addEmployee(new FullTimeEmployee("123456", "bob", "the builder", "M", "here", 0.1, 100));
-        employeeDatabase.addEmployee(new FullTimeEmployee("123457", "bobber", "building", "F", "somewhere", 0.05, 50));
+        File databaseFile = new File(csvFile);
+        databaseFile.createNewFile(); // if file already exists will do nothing
+        
+        if (!inputDatabase()) {
+            Logger.getLogger(MainComponent.class.getName()).log(Level.SEVERE, null, "IOError");
+            employeeDatabase = new HashTable(2); // reset database
+        }
         
         updateDashboard();
     }
@@ -136,6 +152,364 @@ public class MainComponent extends javax.swing.JFrame {
 
         public Component getLastComponent(Container focusCycleRoot) {
             return employeeNumberField;
+        }
+    }
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="input database">
+    
+    /**
+     * input database
+     * @return boolean true if successful
+     */
+    private boolean inputDatabase() {
+        BufferedReader br = null;
+        String line = "";
+        String cvsSplitBy = ",";
+
+        try {
+            br = new BufferedReader(new FileReader(csvFile));
+            while ((line = br.readLine()) != null) {
+                // use comma as separator
+                String[] newEmployeeData = line.split(cvsSplitBy);
+
+                if (!inputNewEmployeeData(newEmployeeData)) {
+                    return false;
+                }
+            }
+            return true;
+        } catch (FileNotFoundException e) {
+            return false;
+        } catch (IOException e) {
+            return false;
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    return false;
+                }
+            }
+        }
+     }
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="inputNewEmployeeData">
+    /**
+     * method input new employee data
+     * @param newEmployeeData
+     * @return true if successfully added new employee
+     */
+    private boolean inputNewEmployeeData(String[] newEmployeeData) {
+        if (newEmployeeData[0].equals("0") && newEmployeeData.length == 8) {
+            // new full time employee
+            if (checkFullTimeInputErrors(newEmployeeData[1], newEmployeeData[2], newEmployeeData[3], newEmployeeData[4], newEmployeeData[5], newEmployeeData[6], newEmployeeData[7])) {
+                // errors
+                return false;
+            } else {
+                // good to go
+                FullTimeEmployee newEmployee = new FullTimeEmployee(
+                        newEmployeeData[1],
+                        newEmployeeData[2],
+                        newEmployeeData[3],
+                        newEmployeeData[4],
+                        newEmployeeData[5],
+                        Double.valueOf(newEmployeeData[6]),
+                        Double.valueOf(newEmployeeData[7])
+                );
+                employeeDatabase.addEmployee(newEmployee, false); // don't write to file
+                return true;
+            }
+        } else if (newEmployeeData[0].equals("1") && newEmployeeData.length == 10) {
+            // new part time employee
+            if (checkPartTimeInputErrors(newEmployeeData[1], newEmployeeData[2], newEmployeeData[3], newEmployeeData[4], newEmployeeData[5], newEmployeeData[6], newEmployeeData[7], newEmployeeData[8], newEmployeeData[9])) {
+                // errors
+                return false;
+            } else {
+                // good to go
+                PartTimeEmployee newEmployee = new PartTimeEmployee(
+                        newEmployeeData[1],
+                        newEmployeeData[2],
+                        newEmployeeData[3],
+                        newEmployeeData[4],
+                        newEmployeeData[5],
+                        Double.valueOf(newEmployeeData[6]),
+                        Double.valueOf(newEmployeeData[7]),
+                        Double.valueOf(newEmployeeData[8]),
+                        Double.valueOf(newEmployeeData[9])
+                );
+                employeeDatabase.addEmployee(newEmployee, false); // don't write to file
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="error check full time">
+    
+    /**
+     * error check method for full time employee
+     * checks for errors and returns true if error is found
+     * @param employeeNumber
+     * @param firstName
+     * @param lastName
+     * @param gender
+     * @param workLocation
+     * @param yearlySalary
+     * @param deductionsRate
+     * @return boolean, true if errors exist, false otherwise
+     */
+    public boolean checkFullTimeInputErrors(String employeeNumber, String firstName, String lastName, String gender, String workLocation, String deductionsRate, String yearlySalary) {
+        boolean errorsExist = false;
+        
+        if (checkGender(gender)) {
+            errorsExist = true;
+        }
+        
+        if (checkFirstName(firstName)) {
+            errorsExist = true;
+        }
+        
+        if (checkLastName(lastName)) {
+            errorsExist = true;
+        }
+        
+        if (checkEmployeeNumber(employeeNumber)) {
+            errorsExist = true;
+        } else {
+            if (checkEmployeeNumberUnique(employeeNumber)) {
+                errorsExist = true;
+            }
+        }
+        
+        if (checkDeductionsRate(deductionsRate)) {
+            errorsExist = true;
+        }
+        
+        if (checkWorkLocation(workLocation)) {
+            errorsExist = true;
+        }
+        
+        if (checkYearlySalary(yearlySalary)) {
+            errorsExist = true;
+        }
+        
+        return errorsExist;
+    }
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="error check part time employee">
+    
+    /**
+     * error check method for part time employee
+     * checks for errors and returns true if error is found
+     * @param employeeNumber
+     * @param firstName
+     * @param lastName
+     * @param gender
+     * @param workLocation
+     * @param weeksPerYear
+     * @param deductionsRate
+     * @param hoursPerWeek
+     * @param hourlyWage
+     * @return boolean, true if errors exist, false otherwise
+     */
+    public boolean checkPartTimeInputErrors(String employeeNumber, String firstName, String lastName, String gender, String workLocation, String deductionsRate, String hourlyWage, String hoursPerWeek, String weeksPerYear) {
+        boolean errorsExist = false;
+        
+        if (checkGender(gender)) {
+            errorsExist = true;
+        }
+        
+        if (checkFirstName(firstName)) {
+            errorsExist = true;
+        }
+        
+        if (checkLastName(lastName)) {
+            errorsExist = true;
+        }
+        
+        if (checkEmployeeNumber(employeeNumber)) {
+            errorsExist = true;
+        } else {
+            if (checkEmployeeNumberUnique(employeeNumber)) {
+                errorsExist = true;
+            }
+        }
+        
+        if (checkDeductionsRate(deductionsRate)) {
+            errorsExist = true;
+        }
+        
+        if (checkWorkLocation(workLocation)) {
+            errorsExist = true;
+        }
+        
+        if (checkHourlyWage(hourlyWage)) {
+            errorsExist = true;
+        }
+        
+        if (checkHoursPerWeek(hoursPerWeek)) {
+            errorsExist = true;
+        }
+        
+        if (checkWeeksPerYear(weeksPerYear)) {
+            errorsExist = true;
+        }
+        
+        return errorsExist;
+    }
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="custom error checking">
+    
+    /**
+     * check first name method
+     * @param firstName
+     * @return true if first name is not at least 2 character long
+     */
+    private boolean checkFirstName(String firstName) {
+        return firstName.length() <= 1;
+    }
+    
+    /**
+     * check last name method
+     * @param lastName
+     * @return true if last name is not at least 2 character long
+     */
+    private boolean checkLastName(String lastName) {
+        return lastName.length() <= 1;
+    }
+    
+    /**
+     * check gender method
+     * @param gender
+     * @return true if gender is not selected
+     */
+    private boolean checkGender(String gender) {
+        return gender.length() == 0;
+    }
+    
+    /**
+     * check employee number method
+     * @param employeeNumber
+     * @return true if employee number is not a 6 digit number
+     */
+    private boolean checkEmployeeNumber(String employeeNumber) {
+        if (employeeNumber.length() == 6) {
+            try {
+                int empNum = Integer.parseInt(employeeNumber);
+                if (empNum >= 0) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+            catch (NumberFormatException nfe) {
+                return true;
+            }
+        } else {
+            return true;
+        }
+    }
+    
+    /**
+     * check employee number unique method
+     * @param employeeNumber
+     * @return true if employee number is not unique
+     */
+    private boolean checkEmployeeNumberUnique(String employeeNumber) {
+        return MainComponent.employeeDatabase.search(employeeNumber) != null;
+    }
+    
+    /**
+     * check deductions rate method
+     * @param deductionsRate
+     * @return true if deductions rate is not between 0 and 1
+     */
+    private boolean checkDeductionsRate(String deductionsRate) {
+        try {
+            double dedRate = Double.parseDouble(deductionsRate);
+            return !(dedRate >= 0 && dedRate <= 1);
+        }
+        catch (NumberFormatException nfe) {
+            return true;
+        }
+    }
+    
+    /**
+     * check work location method
+     * @param workLocation
+     * @return true if work location is empty
+     */
+    private boolean checkWorkLocation(String workLocation) {
+        return workLocation.length() <= 0;
+    }
+    
+    /**
+     * check yearly salary method
+     * @param yearlySalary
+     * @return true if yearly salary is invalid
+     */
+    private boolean checkYearlySalary(String yearlySalary) {
+        try {
+            double yearlySal = Double.parseDouble(yearlySalary);
+            return yearlySal < 0;
+        }
+        catch (NumberFormatException nfe) {
+            return true;
+        }
+    }
+    
+    /**
+     * check hourly wage method
+     * @param hourlyWage
+     * @return true if hourly wage is invalid
+     */
+    private boolean checkHourlyWage(String hourlyWage) {
+        try {
+            double hourWage = Double.parseDouble(hourlyWage);
+            return hourWage < 0;
+        }
+        catch (NumberFormatException nfe) {
+            return true;
+        }
+    }
+    
+    /**
+     * check hours per week method
+     * @param hoursPerWeek
+     * @return true if hours per week is invalid
+     */
+    private boolean checkHoursPerWeek(String hoursPerWeek) {
+        try {
+            double hoursWeek = Double.parseDouble(hoursPerWeek);
+            return hoursWeek < 0;
+        }
+        catch (NumberFormatException nfe) {
+            return true;
+        }
+    }
+    
+    /**
+     * check weeks per year method
+     * @param weeksPerYear
+     * @return true if weeks per year is invalid
+     */
+    private boolean checkWeeksPerYear(String weeksPerYear) {
+        try {
+            double weeksYear = Double.parseDouble(weeksPerYear);
+            return weeksYear <= 0;
+        }
+        catch (NumberFormatException nfe) {
+            return true;
         }
     }
     

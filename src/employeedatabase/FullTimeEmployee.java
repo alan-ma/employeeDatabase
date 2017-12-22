@@ -50,6 +50,7 @@ public class FullTimeEmployee extends EmployeeInfo {
      * also decodes information
      * @return 
      */
+    @Override
     public String[] display() {
         String[] employeeInfo = {
             empNumber,
@@ -58,6 +59,27 @@ public class FullTimeEmployee extends EmployeeInfo {
             gender,
             workLocation,
             "full time"
+        };
+        
+        return employeeInfo;
+    }
+    
+    /**
+     * returns the employee info for the save file
+     * also decodes information
+     * @return 
+     */
+    @Override
+    public String[] displaySaveInfo() {
+        String[] employeeInfo = {
+            "0",
+            empNumber,
+            firstName,
+            lastName,
+            gender,
+            workLocation,
+            Double.toString(deductionsRate),
+            Double.toString(yearlySalary)
         };
         
         return employeeInfo;
