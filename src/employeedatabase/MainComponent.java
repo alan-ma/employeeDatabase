@@ -14,7 +14,6 @@ import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -52,6 +51,7 @@ public class MainComponent extends javax.swing.JFrame {
     private ColorSelectorService colorSelector = new ColorSelectorService();
     public static HashTable employeeDatabase = new HashTable(2);
     private String csvFile = "employeeDatabase.csv";
+    private ViewEmployeeComponent viewEmployeeInfo;
     
     // </editor-fold>
     
@@ -123,8 +123,12 @@ public class MainComponent extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="open employee info panel">
     
     private void openEmployeeInfo(String employeeID) {
-        ViewEmployeeComponent test = new ViewEmployeeComponent(employeeDatabase.search(employeeID));
-        test.setVisible(true);
+        if (viewEmployeeInfo != null) {
+            viewEmployeeInfo.setVisible(false);
+        }
+        
+        viewEmployeeInfo = new ViewEmployeeComponent(employeeDatabase.search(employeeID));
+        viewEmployeeInfo.setVisible(true);
     }
     
     // </editor-fold>
