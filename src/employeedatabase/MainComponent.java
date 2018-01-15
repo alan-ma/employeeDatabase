@@ -66,6 +66,8 @@ public class MainComponent extends javax.swing.JFrame {
         
         if (!inputDatabase()) {
             Logger.getLogger(MainComponent.class.getName()).log(Level.SEVERE, null, "IOError");
+            ErrorFrame errorMessageComponent = new ErrorFrame(employeeDatabase.getNumEmployees() + 1);
+            errorMessageComponent.setVisible(true);
             employeeDatabase = new HashTable(2); // reset database
         }
         
