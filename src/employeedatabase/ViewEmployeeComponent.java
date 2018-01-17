@@ -279,7 +279,7 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
         
         if (deductionsRateErrorLabel.isVisible()) {
             errorsExist = true;
-            errorMessage = "Error: The deductions rate must be a number between 0 and 1.";
+            errorMessage = "Error: The deductions rate must be a number between 0 and 1 inclusive.";
         }
         
         if (workLocationErrorLabel.isVisible()) {
@@ -289,22 +289,22 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
         
         if (yearlySalaryErrorLabel.isVisible() && type == 0) {
             errorsExist = true;
-            errorMessage = "Error: The yearly salary must be set as a number.";
+            errorMessage = "Error: The yearly salary must be set as a number greater than or equal to 0.";
         }
         
         if (hourlyWageErrorLabel.isVisible() && type == 1) {
             errorsExist = true;
-            errorMessage = "Error: The hourly wage must be set as a number";
+            errorMessage = "Error: The hourly wage must be set as a number greater than or equal to 0.";
         }
         
         if (hoursPerWeekErrorLabel.isVisible() && type == 1) {
             errorsExist = true;
-            errorMessage = "Error: The hours per week must be set as a number";
+            errorMessage = "Error: The hours per week must be set as a number between 0 and 168 inclusive.";
         }
         
         if (weeksPerYearErrorLabel.isVisible() && type == 1) {
             errorsExist = true;
-            errorMessage = "Error: The weeks per year must be set as a number";
+            errorMessage = "Error: The weeks per year must be set as a number between 0 and 52 inclusive.";
         }
         
         errorText.setText("<html>" + errorMessage + "</html>");
@@ -499,7 +499,7 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
     private boolean checkHoursPerWeek() {
         try {
             double hoursWeek = Double.parseDouble(hoursPerWeek);
-            if (hoursWeek >= 0) {
+            if (hoursWeek >= 0 && hoursWeek <= 168) {
                 hoursPerWeekError = false;
                 return false;
             } else {
@@ -520,7 +520,7 @@ public class ViewEmployeeComponent extends javax.swing.JFrame {
     private boolean checkWeeksPerYear() {
         try {
             double weeksYear = Double.parseDouble(weeksPerYear);
-            if (weeksYear > 0) {
+            if (weeksYear >= 0 && weeksYear <= 52) {
                 weeksPerYearError = false;
                 return false;
             } else {
