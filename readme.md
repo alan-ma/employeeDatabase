@@ -1,4 +1,4 @@
-employee database: user manual
+# employee database: user manual
 
 The purpose of the employee database is for a human resources manager to
 manage employee information in a company. The functions allowed in this
@@ -11,13 +11,12 @@ There are two types of employees -- part-time and full-time. There will
 be different methods of calculating income for these different
 employees.
 
-1\. startup
+## 1\. startup
 
 Upon opening a new instance of the employee database, the following will
 be seen:
 
-![](media/image1.png){width="3.937007874015748in"
-height="1.4549267279090115in"}
+![](media/image1.png)
 
 *The first time opening the employee database.*
 
@@ -29,13 +28,12 @@ Underneath this button is an input to search for employees by employee
 number; further below is a table displaying the current employees in the
 system (currently empty).
 
-2\. adding employees
+## 2\. adding employees
 
 Clicking on the "add employee" button will bring up a new panel: the
 employee information editor. It looks something like this:
 
-![](media/image2.png){width="3.9368055555555554in"
-height="2.8519028871391074in"}
+![](media/image2.png)
 
 *The initial view of the employee information editor.*
 
@@ -55,7 +53,7 @@ reset. The new information will automatically be saved in the save file.
 
 The reset button will reset all the information in the editor.
 
-2.1 navigation in the editor panel
+## 2.1 navigation in the editor panel
 
 Although clicking on different fields to select them will work, keyboard
 shortcuts are often much faster for data entry. The cursor will be
@@ -71,8 +69,7 @@ press "enter" to continue. The enter key will also select the
 highlighted button on selection fields (before moving on to the next
 field), such as the employee type and gender.
 
-![](media/image3.png){width="3.937007874015748in"
-height="0.36131233595800527in"}
+![](media/image3.png)
 
 *"part-time" is in focus (highlighted); pressing enter will select the
 part-time employee. Pressing enter will move the focus to "M" of the
@@ -82,8 +79,7 @@ Using keyboard shortcuts and moving the focus will allow the user to
 progress until the focus reaches the "confirm" button. Pressing enter at
 this point will add the new employee to the system.
 
-![](media/image4.png){width="3.937007874015748in"
-height="2.8871391076115485in"}
+![](media/image4.png)
 
 *A completed full-time employee. The focus is on the confirm button.*
 
@@ -93,7 +89,7 @@ pressing "shift + tab" on the first name field will bring the focus to
 the last element, the reset button. This is intentional to prevent
 accidentally erasing information.
 
-3\. errors
+## 3\. errors
 
 There may be error notifications when adding a new employee. Caution
 signs will appear beside erroneous inputs and an error message will
@@ -102,68 +98,66 @@ fixed, the error messages will change to reflect the updates.
 
 The employee will not be added if there are errors in the inputs.
 
-![](media/image5.png){width="3.937007874015748in"
-height="2.873688757655293in"}
+![](media/image5.png)
 
 *Errors in the inputs. The deductions error is currently being
 explained.*
 
-3.1 requirements for first name
+### 3.1 requirements for first name
 
 The first name of the employee must be at least 2 characters long.
 
-3.2 requirements for last name
+### 3.2 requirements for last name
 
 The last name of the employee must be at least 2 characters long.
 
-3.3 requirements for employee type
+### 3.3 requirements for employee type
 
 The employee type must be selected, either full-time or part-time.
 
-3.4 requirements for employee gender
+### 3.4 requirements for employee gender
 
 The employee's gender must be selected, either male (M), female (F), or
 other (O).
 
-3.5 requirements for employee number
+### 3.5 requirements for employee number
 
 An employee number must be provided as a 6-digit integer; it must also
 be unique. A separate error message will appear if the employee number
 exists already.
 
-3.6 requirements for deductions rate
+### 3.6 requirements for deductions rate
 
 The deductions rate must be a decimal between 0 and 1 (inclusive).
 
-3.7 requirements for work location
+### 3.7 requirements for work location
 
 The work location must be entered.
 
-3.8 requirements for yearly salary (full-time employee)
+### 3.8 requirements for yearly salary (full-time employee)
 
 The yearly salary must be a non-negative number.
 
-3.9 requirements for hourly wage (part-time employee)
+### 3.9 requirements for hourly wage (part-time employee)
 
 The hourly wage must be a non-negative number.
 
-3.10 requirements for hours per week (part-time employee)
+### 3.10 requirements for hours per week (part-time employee)
 
 The hours per week worked by the employee must be between 0 and 168
 inclusive.
 
-3.11 requirements for weeks per year (part-time employee)
+### 3.11 requirements for weeks per year (part-time employee)
 
 The weeks per year worked by the employee must be between 0 and 52
 inclusive.
 
-4\. viewing employees in the table
+## 4\. viewing employees in the table
 
 With employees in the database, the main table will now display one
 employee per row:
 
-![](media/image6.png){width="3.937007874015748in"
-height="2.5481189851268593in"}
+![](media/image6.png)
 
 *Test users are shown in the table.*
 
@@ -174,13 +168,12 @@ To show more detailed information about each employee, as well as edit
 current information and delete entries, click on the row of the desired
 employee.
 
-![](media/image7.png){width="3.9362587489063867in"
-height="1.5707130358705161in"}
+![](media/image7.png)
 
 *Hovering over a row will highlight the entire row. Click to open up the
 employee information panel.*
 
-5\. employee information panel
+## 5\. employee information panel
 
 After clicking on an employee in the table, an employee information
 panel will appear. This will display all the attributes of that specific
@@ -188,11 +181,11 @@ employee; the net income will also be calculated.
 
 For full-time employees, the calculation is:
 
-$net\ income = yearly\ salary\  \times \ (1 - deductions\ rate)$
+*net income = yearly salary  * (1 - deductions rate)*
 
 For part-time employees, the calculation is:
 
-$$net\ income = hourly\ wage\  \times \ hours\ per\ week\  \times \ weeks\ per\ year\  \times \ (1 - deductions\ rate)$$
+*net income = hourly wage * hours per week * weeks per year * (1 - deductions rate)*
 
 Pressing the delete button will delete the employee and remove it from
 the save file.
@@ -205,14 +198,12 @@ Cancelling the edits will return the user to the employee information
 panel without saving any edits; pressing save will save the changes and
 return to the information panel (if there are no errors present).
 
-![](media/image8.png){width="3.937007874015748in"
-height="2.6175218722659666in"}
+![](media/image8.png)
 
 *The employee information panel; all information for a\
 specific employee can be seen here.*
 
-![](media/image9.png){width="3.937007874015748in"
-height="2.572515310586177in"}
+![](media/image9.png)
 
 *The edit view for an existing employee. Existing information
 prepopulates the input boxes; any edits are not saved until the save
@@ -221,7 +212,7 @@ button is pressed.*
 Any changes to the employee database will automatically be saved in the
 save file, whether it be a deletion or edit.
 
-6\. the save file
+## 6\. the save file
 
 A key feature of the employee database is the ability to save
 information in a separate file for loading existing employees. All
@@ -235,8 +226,7 @@ format for storing the employee information -- if there are any
 discrepancies in formatting, the program will return a warning message
 and the database will be empty.
 
-![](media/image10.png){width="3.937007874015748in"
-height="2.0103871391076114in"}
+![](media/image10.png)
 
 *A warning message for a faulty save file. Note that the database is
 empty, regardless of the contents of the faulty save file.*
@@ -246,9 +236,9 @@ Attempting to add new employees will overwrite the faulty save file.
 The warning message also shows which line in the save file is causing
 the error, allowing a manual fix for incorrectly formatted save files.
 
-6.1 save file formatting
+### 6.1 save file formatting
 
-![](media/image11.png){width="6.5in" height="1.5215277777777778in"}
+![](media/image11.png)
 
 *Layout examples for the save file employeeDatabase.csv*
 
@@ -258,7 +248,7 @@ program, the commas will be gone and each field will be in its own cell.
 Editing information in the save file directly is perfectly fine, as long
 as no errors are made when editing data.
 
-7\. filtering by employee number
+## 7\. filtering by employee number
 
 When viewing employees in the main dashboard, it is a common requirement
 to search for an employee by their employee number. By entering numbers
@@ -268,8 +258,7 @@ edited as usual.
 
 To return to the list of all the employees, just clear the search field.
 
-![](media/image12.png){width="3.937007874015748in"
-height="2.537182852143482in"}
+![](media/image12.png)
 
 *Filtering a database of 8 employees down to 2 with a filter key of
 "12".*
